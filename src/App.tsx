@@ -1,30 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { Button } from 'reactstrap';
+import PandasListView from './views/PandasListView';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <p>
-          <Button color="danger">Danger !</Button>
-        </p>
-      </header>
-    </div>
-  );
+  return <PandasListView />;
 }
 
 export default App;
