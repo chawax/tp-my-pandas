@@ -23,7 +23,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "json-server": "./node_modules/.bin/json-server --watch ./json-server/db.json --port 3004 --id key"
   },
   "eslintConfig": {
     "extends": [
@@ -51,6 +52,7 @@
     "@storybook/preset-create-react-app": "^3.1.5",
     "@storybook/react": "^6.1.10",
     "@types/reactstrap": "^8.7.2",
+    "json-server": "^0.16.3",
     "prettier": "^2.2.1",
     "typescript": "^4.1.2"
   }
