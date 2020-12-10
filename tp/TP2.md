@@ -31,3 +31,13 @@ npm run json-server
 ```
 http://localhost:3004/pandas
 ```
+
+## Utilisation des hooks avec Axios
+
+- Installer la librairie `axios`
+
+  ```
+  npm install axios
+  ```
+
+- Modifier le composant `PandasListView` et utilise les hooks `useState` et `useEffect` pour appeler le service `http://localhost:3004/pandas`. Il faut afficher un spinner (composant `Spinner` de Reactstrap) pendant le chargement des données et afficher un message d'erreur en cas d'échec de l'appel.
