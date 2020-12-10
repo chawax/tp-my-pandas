@@ -22,26 +22,6 @@ Gestion d’une liste de pandas
 
 [TP 2 - Chargement de données avec Axios et React Query](TP2.md)
 
-## Chargement des données avec Axios
-
-TP1 Bis – Chargement des données avec Axios
-Initialiser « json-server »
-• Installer « npm install -D json-server »
-• Ajouter le script suivant :
-• "json-server": "./node_modules/.bin/json-server --watch ./json-server/db.json --port 3004 --id key"
-• Créer un fichier « json-server/db.json »
-• Y créer une collection « pandas » avec la liste des pandas
-• Démarrer le serveur « npm run json-server »
-• Tester : http://localhost:3004/pandas
-
-Installer axios
-• « npm install axios »
-• Modifier « PandasListPage »
-o Appeler Axios pour récupérer la liste des pandas
-o La mettre dans le state
-o Afficher les pandas du state dans la méthode « render »
-o En utilisant les hooks “useState” et “useEffect”
-
 ## Chargement des données avec React Query
 
 ## Utilisation de Redux
