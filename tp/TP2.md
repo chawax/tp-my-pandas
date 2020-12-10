@@ -41,3 +41,13 @@ http://localhost:3004/pandas
   ```
 
 - Modifier le composant `PandasListView` et utilise les hooks `useState` et `useEffect` pour appeler le service `http://localhost:3004/pandas`. Il faut afficher un spinner (composant `Spinner` de Reactstrap) pendant le chargement des données et afficher un message d'erreur en cas d'échec de l'appel.
+
+- Une fois que ce chargement fonctionne on peut en extraire un hook personnalisé `usePandas` dans le répertoire `/src/hooks`.
+
+- Créer un test unitaire pour ce hook, en testant le cas où l'appel au service est OK et le cas où il est en erreur. Il faudra en particulier mocker les appels Axios. Ce test nécessitera l'installation de quelques librairies.
+
+  ```
+  npm install -D axios-mock-adapter react-test-renderer @testing-library/react-hooks
+  ```
+
+- Et mettre à jour les tests pour `PandasListView` sur les mêmes cas. On doit contrôler qu'on affiche bien d'abord un spinner, puis une liste de pandas ou un message d'erreur en fonction du résultat de l'appel de l'API.
