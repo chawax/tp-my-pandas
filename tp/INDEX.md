@@ -20,6 +20,8 @@ Gestion d’une liste de pandas
 
 [TP 1 - Création des premiers composants](TP1.md)
 
+[TP 2 - Chargement de données avec Axios et React Query](TP2.md)
+
 ## Chargement des données avec Axios
 
 TP1 Bis – Chargement des données avec Axios
