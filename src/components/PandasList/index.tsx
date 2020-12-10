@@ -4,7 +4,15 @@ import { Panda } from '../../types/Panda';
 import PandaItem from './PandaItem';
 
 export type PandasListProps = {
+  /**
+   * Liste des pandas
+   */
   pandas: Panda[];
+
+  /**
+   * Evénement déclenché lorsqu'on clique sur un panda dans la liste
+   * @param id identifiant du panda
+   */
   onPress(id: string): void;
 };
 
@@ -21,7 +29,7 @@ const PandasList: React.FC<PandasListProps> = (props: PandasListProps) => {
           />
         ))
       ) : (
-        <ListGroupItem>Aucune donnée</ListGroupItem>
+        <ListGroupItem>Aucun panda n'a été trouvé !</ListGroupItem>
       )}
     </ListGroup>
   );
