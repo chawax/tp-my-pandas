@@ -6,14 +6,16 @@ import PandasListView from './views/PandasListView';
 
 const queryClient = new QueryClient();
 const ReactQueryWrapper = ({ children }: { children: ReactNode }) => (
-  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  <QueryClientProvider client={queryClient}>
+    {children}
+    <ReactQueryDevtools initialIsOpen={false} />
+  </QueryClientProvider>
 );
 
 function App() {
   return (
     <ReactQueryWrapper>
       <PandasListView />
-      <ReactQueryDevtools initialIsOpen={false} />
     </ReactQueryWrapper>
   );
 }
