@@ -1,21 +1,39 @@
 import { render, waitForElementToBeRemoved } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import type { ReactNode } from 'react';
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import pandas from '../../mocks/pandas.json';
 import PandasListView from './';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
+const ReactQueryWrapper = ({ children }: { children: ReactNode }) => (
+  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+);
 
 const axiosMock = new MockAdapter(axios);
 
 describe('PandasListView', () => {
   afterEach(() => {
     axiosMock.reset();
+    queryClient.getQueryCache().clear();
   });
 
   test('should render a list of pandas', async () => {
     axiosMock.onGet('http://localhost:3004/pandas').reply(200, pandas);
 
-    const { getByText, findAllByRole } = render(<PandasListView />);
+    const { getByText, findAllByRole } = render(
+      <ReactQueryWrapper>
+        <PandasListView />
+      </ReactQueryWrapper>,
+    );
 
     // Should display a loading indicator
 
@@ -39,7 +57,11 @@ describe('PandasListView', () => {
   test('should fail to load pandas', async () => {
     axiosMock.onGet('http://localhost:3004/pandas').networkError();
 
-    const { getByText } = render(<PandasListView />);
+    const { getByText } = render(
+      <ReactQueryWrapper>
+        <PandasListView />
+      </ReactQueryWrapper>,
+    );
 
     // Should display a loading indicator
 

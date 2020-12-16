@@ -8,12 +8,12 @@ const handlePress = (id: string) => {
 };
 
 const PandasListView = () => {
-  const { data, isLoading, error } = usePandas();
+  const { isLoading, isSuccess, data, error } = usePandas();
   return (
     <>
       {isLoading && <Spinner />}
-      {error && <p>{error}</p>}
-      {!isLoading && data && <PandasList pandas={data} onPress={handlePress} />}
+      {error && <p>{error.message}</p>}
+      {isSuccess && data && <PandasList pandas={data} onPress={handlePress} />}
     </>
   );
 };
