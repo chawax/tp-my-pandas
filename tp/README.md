@@ -20,7 +20,19 @@ Gestion d’une liste de pandas
 
 [TP 1 - Création des premiers composants](TP1.md)
 
-[TP 2 - Chargement de données avec Axios et React Query](TP2.md)
+[TP 2 - Chargement de données avec Axios et les hooks](TP2.md)
+
+[TP 3 - Chargement de données avec React Query](TP3.md)
+
+[TP 4 - Navigation avec React Router](TP4.md)
+
+[TP 5 - Utilisation de React i18next](TP5.md)
+
+[TP 6 - Utilisation de Redux](TP6.md)
+
+[TP 7 - Utilisation de Formik](TP7.md)
+
+[TP 7 - Utilisation de React Hook Form](TP7.md)
 
 ## Chargement des données avec React Query
 
