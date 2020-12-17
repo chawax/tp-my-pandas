@@ -1,4 +1,4 @@
-# TP 2 - Chargement de données avec Axios et React Query
+# TP 2 - Chargement de données avec Axios et les hooks
 
 ## Préparation d'un serveur de mock
 
