@@ -4,6 +4,7 @@ import MockAdapter from 'axios-mock-adapter';
 import type { ReactNode } from 'react';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import '../../i18n';
 import pandas from '../../mocks/pandas.json';
 import PandasListView from './';
 
