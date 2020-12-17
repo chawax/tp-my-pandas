@@ -43,4 +43,19 @@ On va maintenant utiliser React Router pour gérer la navigation entre les pages
 
 - Modifier les composants `Header`, `PandasListView` et `PandaDetailsView` pour intégrer la navigation en utilisant les hooks et / ou composants fournis par React Router.
 
-> Remarque : une fois que ça marche on peut en profiter pour observer le bon fonctionnement du cache React Query.
+> Remarque 1 : l'utilisation de React Router modifie la manière de tester le composant `PandaDetailsView` car il doit s'exécuter dans le contexte de React Router. On doit donc simuler l'appel d'une route en adaptant le test sur le modèle suivant :
+
+```
+const history = createMemoryHistory({
+  initialEntries: ['/pandas/1'],
+});
+const { getByText, getByRole } = render(
+  <ReactQueryWrapper>
+    <Router history={history}>
+      <Route path="/pandas/:id" component={PandaDetailsView} />
+    </Router>
+  </ReactQueryWrapper>,
+);
+```
+
+> Remarque 2 : une fois que ça marche on peut en profiter pour observer le bon fonctionnement du cache React Query.
