@@ -1,0 +1,14 @@
+{
+  "translation": {
+    "app": {
+      "title": "Mes pandas"
+    },
+    "common": {
+      "close": "Fermer",
+      "retry": "Réessayer"
+    },
+    "pandaList": {
+      "noPandas": "Aucun panda n'a été trouvé !"
+    }
+  }
+}
