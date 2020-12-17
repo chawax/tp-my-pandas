@@ -1,16 +1,16 @@
-import {
-  findByRole,
-  getByRole,
-  render,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { render, waitForElementToBeRemoved } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import { createMemoryHistory } from 'history';
 import type { ReactNode } from 'react';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { Route, Router } from 'react-router-dom';
 import pandas from '../../mocks/pandas.json';
 import PandaDetailsView from './';
+
+// Création d'un wrapper pour React Query
+// On désactive le mode retry
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,6 +23,8 @@ const ReactQueryWrapper = ({ children }: { children: ReactNode }) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 );
 
+// Mock pour Axios
+
 const axiosMock = new MockAdapter(axios);
 
 describe('PandaDetailsView', () => {
@@ -34,9 +36,16 @@ describe('PandaDetailsView', () => {
   test('should render the details of the panda', async () => {
     axiosMock.onGet('http://localhost:3004/pandas/1').reply(200, pandas[0]);
 
-    const { getByText, findAllByRole, findByRole, getByRole } = render(
+    // Pour tester ce composant on doit simuler l'appel d'une route /pandas/1
+
+    const history = createMemoryHistory({
+      initialEntries: ['/pandas/1'],
+    });
+    const { getByText, getByRole } = render(
       <ReactQueryWrapper>
-        <PandaDetailsView />
+        <Router history={history}>
+          <Route path="/pandas/:id" component={PandaDetailsView} />
+        </Router>
       </ReactQueryWrapper>,
     );
 
@@ -67,9 +76,16 @@ describe('PandaDetailsView', () => {
   test('should fail to load the details of the panda', async () => {
     axiosMock.onGet('http://localhost:3004/pandas/1').networkError();
 
+    // Pour tester ce composant on doit simuler l'appel d'une route /pandas/1
+
+    const history = createMemoryHistory({
+      initialEntries: ['/pandas/1'],
+    });
     const { getByText } = render(
       <ReactQueryWrapper>
-        <PandaDetailsView />
+        <Router history={history}>
+          <Route path="/pandas/:id" component={PandaDetailsView} />
+        </Router>
       </ReactQueryWrapper>,
     );
 
