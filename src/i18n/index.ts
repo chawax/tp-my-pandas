@@ -10,7 +10,7 @@ const resources: any = {
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: 'en',
+  lng: 'fr',
   keySeparator: '.',
   interpolation: {
     escapeValue: false,

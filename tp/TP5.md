@@ -15,3 +15,7 @@ npm install i18next react-i18next
 - Utiliser le hook `useTranslation` pour remplacer les libellés en dur dans les différents composants.
 
 ## Changement de la langue
+
+- Modifier le composant `Header` pour permettre le changement de la langue.
+  - Deux libellés "FR" et "EN" pour passer en français ou en anglais.
+  - Le libellé associé à la langue courante est en gras.
