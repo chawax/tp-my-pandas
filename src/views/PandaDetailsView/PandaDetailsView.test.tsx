@@ -42,7 +42,7 @@ describe('PandaDetailsView', () => {
     const history = createMemoryHistory({
       initialEntries: ['/pandas/1'],
     });
-    const { getByText, getByRole } = render(
+    const { getByText, getByRole, getAllByRole } = render(
       <ReactQueryWrapper>
         <Router history={history}>
           <Route path="/pandas/:id" component={PandaDetailsView} />
@@ -70,8 +70,11 @@ describe('PandaDetailsView', () => {
     expect(imageElement).toBeInTheDocument();
     expect(imageElement.getAttribute('src')).toEqual(pandas[0].image);
 
-    const closeElement = getByRole('button');
-    expect(closeElement).toBeInTheDocument();
+    const buttonElements = getAllByRole('button');
+    expect(buttonElements.length).toEqual(2);
+
+    expect(getByText(/Fermer/)).toBeInTheDocument();
+    expect(getByText(/Modifier le panda/)).toBeInTheDocument();
   });
 
   test('should fail to load the details of the panda', async () => {
