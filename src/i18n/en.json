@@ -10,7 +10,8 @@
       "submit": "Submit"
     },
     "pandaList": {
-      "noPandas": "No panda was found !"
+      "noPandas": "No panda was found !",
+      "addNewPanda": "Add a new panda"
     },
     "pandaForm": {
       "name": {

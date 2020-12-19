@@ -10,7 +10,11 @@
       "submit": "Valider"
     },
     "pandaList": {
-      "noPandas": "Aucun panda n'a été trouvé !"
+      "noPandas": "Aucun panda n'a été trouvé !",
+      "addNewPanda": "Ajouter un panda"
+    },
+    "pandaDetails": {
+      "editPanda": "Modifier le panda"
     },
     "pandaForm": {
       "name": {
