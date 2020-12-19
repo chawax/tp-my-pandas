@@ -12,19 +12,20 @@ export type TextInputProps = {
 };
 
 const TextInput = (props: TextInputProps) => {
-  const { label, error, required, value, placeholder, innerRef } = props;
+  const { label, error, name, required, value, placeholder, innerRef } = props;
   let className = '';
   if (error) {
     className = error ? 'is-invalid' : 'is-valid';
   }
   return (
     <FormGroup>
-      <Label for={props.name}>
+      <Label for={name}>
         {label}
         {required && <sup> *</sup>}
       </Label>
       <Input
-        name={props.name}
+        id={name}
+        name={name}
         type="text"
         value={value}
         placeholder={placeholder}
