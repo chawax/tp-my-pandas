@@ -1,11 +1,14 @@
 import { History } from 'history';
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { Alert, Spinner } from 'reactstrap';
 import PandaForm, { PandaFormValues } from '../../components/PandaForm';
 import useCreatePanda from '../../hooks/useCreatePanda';
 
 const CreatePandaView = () => {
+  const { t } = useTranslation();
+
   const history: History = useHistory();
 
   const createPandaMutation = useCreatePanda();
@@ -29,12 +32,11 @@ const CreatePandaView = () => {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>Nouveau panda</h2>
+      <h2>{t('createPanda.title')}</h2>
       {createPandaMutation.isLoading && <Spinner />}
       {createPandaMutation.isError && (
-        <Alert color="danger">Impossible de créer le panda</Alert>
+        <Alert color="danger">{t('createPanda.error')}</Alert>
       )}
-
       <PandaForm onSubmit={handleSubmit} onCancel={handleCancel} />
     </div>
   );

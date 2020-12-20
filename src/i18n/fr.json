@@ -14,7 +14,23 @@
       "addNewPanda": "Ajouter un panda"
     },
     "pandaDetails": {
-      "editPanda": "Modifier le panda"
+      "editPanda": "Modifier le panda",
+      "deletePanda": "Supprimer le panda",
+      "errors": {
+        "delete": "Impossible de supprimer le panda"
+      }
+    },
+    "createPanda": {
+      "title": "Nouveau panda",
+      "errors": {
+        "create": "Impossible de créer le panda"
+      }
+    },
+    "editPanda": {
+      "title": "Modification du panda {{id}}",
+      "errors": {
+        "update": "Impossible de modifier le panda"
+      }
     },
     "pandaForm": {
       "name": {

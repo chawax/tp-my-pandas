@@ -13,6 +13,25 @@
       "noPandas": "No panda was found !",
       "addNewPanda": "Add a new panda"
     },
+    "pandaDetails": {
+      "editPanda": "Edit panda",
+      "deletePanda": "Delete panda",
+      "errors": {
+        "delete": "Could not delete panda"
+      }
+    },
+    "createPanda": {
+      "title": "New panda",
+      "errors": {
+        "create": "Could not create panda"
+      }
+    },
+    "editPanda": {
+      "title": "Edit panda {{id}}",
+      "errors": {
+        "update": "Could not update panda"
+      }
+    },
     "pandaForm": {
       "name": {
         "label": "Name",

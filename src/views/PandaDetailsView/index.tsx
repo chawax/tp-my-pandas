@@ -1,9 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router-dom';
-import { Button, Spinner } from 'reactstrap';
+import { Alert, Button, Spinner } from 'reactstrap';
 import ErrorAndRetry from '../../components/ErrorAndRetry';
 import PandaDetails from '../../components/PandaDetails';
+import useDeletePanda from '../../hooks/useDeletePanda';
 import usePandaDetails from '../../hooks/usePandaDetails';
 
 const PandaDetailsView = () => {
@@ -13,6 +14,8 @@ const PandaDetailsView = () => {
 
   const history = useHistory();
 
+  const deletePandaMutation = useDeletePanda();
+
   const handleClose = () => {
     history.push('/pandas');
   };
@@ -21,10 +24,19 @@ const PandaDetailsView = () => {
     history.push(`/pandas/${id}/edit`);
   };
 
+  const handleDelete = async () => {
+    await deletePandaMutation.mutateAsync(id);
+    history.push('/pandas');
+  };
+
   return (
     <>
       {isLoading && <Spinner />}
+      {deletePandaMutation.isLoading && <Spinner />}
       {error && <ErrorAndRetry message={error.message} onRetry={refetch} />}
+      {deletePandaMutation.isError && (
+        <Alert color="danger">{t('pandaDetails.error.delete')}</Alert>
+      )}
       {isSuccess && data && (
         <>
           <PandaDetails panda={data} />
@@ -38,6 +50,13 @@ const PandaDetailsView = () => {
               style={{ marginLeft: 10 }}
             >
               {t('pandaDetails.editPanda')}
+            </Button>
+            <Button
+              color="primary"
+              onClick={handleDelete}
+              style={{ marginLeft: 10 }}
+            >
+              {t('pandaDetails.deletePanda')}
             </Button>
           </div>
         </>
