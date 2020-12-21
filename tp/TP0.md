@@ -48,10 +48,10 @@ Lancer les tests automatisés avec `npm test` ou `yarn test`
 Ajouter le plugin Prettier et la configuration Prettier.
 
 ```
-yarn add -D prettier
+npm intall --save-dev prettier
 ```
 
-Créer un fichier `.prettierc` à la racine du projet avec la configuration suivante :
+Créer un fichier `.prettierrc` à la racine du projet avec la configuration suivante :
 
 ```
 {
