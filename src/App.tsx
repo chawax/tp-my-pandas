@@ -3,6 +3,7 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Router from './components/Router';
+import { DisplayModeProvider } from './context/DisplayModeProvider';
 
 const queryClient = new QueryClient();
 const ReactQueryWrapper = ({ children }: { children: ReactNode }) => (
@@ -15,7 +16,9 @@ const ReactQueryWrapper = ({ children }: { children: ReactNode }) => (
 function App() {
   return (
     <ReactQueryWrapper>
-      <Router />
+      <DisplayModeProvider>
+        <Router />
+      </DisplayModeProvider>
     </ReactQueryWrapper>
   );
 }

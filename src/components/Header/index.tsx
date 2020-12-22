@@ -1,64 +1,38 @@
-import React, { useCallback } from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Nav, Navbar, NavbarBrand } from 'reactstrap';
-
-const styles = {
-  languageEnabled: {
-    cursor: 'pointer',
-    fontWeight: 'bold',
-  },
-  languageDisabled: {
-    cursor: 'pointer',
-    fontWeight: 'normal',
-  },
-};
-
-type ChooseLanguageProps = {
-  code: string;
-  label: string;
-};
-
-const ChooseLanguage = (props: ChooseLanguageProps) => {
-  const { i18n } = useTranslation();
-
-  const handleChangeLanguage = useCallback(
-    (language: string) => {
-      i18n.changeLanguage(language);
-    },
-    [i18n],
-  );
-
-  const style: React.CSSProperties =
-    i18n.language === props.code
-      ? (styles.languageEnabled as React.CSSProperties)
-      : (styles.languageDisabled as React.CSSProperties);
-
-  return (
-    <span
-      style={style}
-      onClick={() => {
-        handleChangeLanguage(props.code);
-      }}
-    >
-      {props.label}
-    </span>
-  );
-};
+import DisplayModeContext from '../../context/DisplayModeContext';
+import ChooseDisplayMode from './ChooseDisplayMode';
+import ChooseLanguage from './ChooseLanguage';
 
 const Header: React.FC = () => {
   const { t } = useTranslation();
+  const { displayMode } = useContext(DisplayModeContext);
+  const navbarColor = displayMode === 'dark' ? 'dark' : 'light';
+  const textColor = displayMode === 'dark' ? '#FFF' : '#000';
   return (
-    <Navbar color="dark" expand="md" className="d-flex justify-content-between">
+    <Navbar
+      color={navbarColor}
+      expand="md"
+      className="d-flex justify-content-between"
+    >
       <Link to="/">
-        <NavbarBrand>
+        <NavbarBrand style={{ color: textColor }}>
           <h1>{t('app.title')}</h1>
         </NavbarBrand>
       </Link>
-      <Nav style={{ color: 'white' }}>
-        <ChooseLanguage code="fr" label="FR" />
-        &nbsp;|&nbsp;
-        <ChooseLanguage code="en" label="EN" />
+      <Nav style={{ color: textColor, flexDirection: 'column' }}>
+        <div>
+          <ChooseLanguage code="fr" label="FR" />
+          &nbsp;|&nbsp;
+          <ChooseLanguage code="en" label="EN" />
+        </div>
+        <div>
+          <ChooseDisplayMode code="dark" label="DARK" />
+          &nbsp;|&nbsp;
+          <ChooseDisplayMode code="light" label="LIGHT" />
+        </div>
       </Nav>
     </Navbar>
   );
