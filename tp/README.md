@@ -32,6 +32,6 @@ Gestion d’une liste de pandas
 
 [TP7 - Mise à jour des données avec React Query](TP7.md)
 
-[TP 8 - Utilisation de Redux](TP8.md)
+[TP 8 - Utilisation de Context API](TP8.md)
 
 [TP 9 - Utilisation de Formik](TP9.md)
