@@ -71,10 +71,11 @@ describe('PandaDetailsView', () => {
     expect(imageElement.getAttribute('src')).toEqual(pandas[0].image);
 
     const buttonElements = getAllByRole('button');
-    expect(buttonElements.length).toEqual(2);
+    expect(buttonElements.length).toEqual(3);
 
     expect(getByText(/Fermer/)).toBeInTheDocument();
     expect(getByText(/Modifier le panda/)).toBeInTheDocument();
+    expect(getByText(/Supprimer le panda/)).toBeInTheDocument();
   });
 
   test('should fail to load the details of the panda', async () => {
