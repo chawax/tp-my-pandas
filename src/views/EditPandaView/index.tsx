@@ -38,9 +38,9 @@ const EditPandaView = () => {
   const initialValues: PandaFormValues | undefined = useMemo(() => {
     if (data) {
       return {
-        name: data?.name,
-        interests: data?.interests.join(','),
-        image: data?.image,
+        name: data.name,
+        interests: data.interests.join(','),
+        image: data.image,
       };
     } else {
       return undefined;
