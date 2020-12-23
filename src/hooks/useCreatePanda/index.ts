@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { Panda } from '../../types/Panda';
 
 const useCreatePanda = () => {
-  const queryCache = useQueryClient();
+  const queryClient = useQueryClient();
 
   return useMutation(
     (panda: Panda) =>
@@ -16,7 +16,7 @@ const useCreatePanda = () => {
         .then((response) => response.data),
     {
       onSuccess: () => {
-        queryCache.invalidateQueries('pandas');
+        queryClient.invalidateQueries('pandas');
       },
     },
   );
