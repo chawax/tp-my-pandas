@@ -147,13 +147,12 @@ Secondary.args = {
 };
 ```
 
-
 ### Création du composant `PandasList`
 
-On va créer un composant `PandasList` (composant de type fonction) pour afficher une liste de pandas. Ce composant a les propriétés suivantes :
+On va créer un composant `PandasList` pour afficher une liste de pandas. Ce composant a les propriétés suivantes :
 
 - `pandas` : un tableau de pandas
-- `onPress(id)` : événement déclenché lorsqu’on clique sur un panda dans la liste. On passe l’id du panda en paramètre à la méthode liée.
+- `onPress` : événement déclenché lorsqu’on clique sur un panda dans la liste. On passe l’id du panda en paramètre.
 
 Chaque item de la liste est défini par un composant `PandaItem`. Ce composant a les propriétés suivantes :
 
@@ -162,25 +161,29 @@ Chaque item de la liste est défini par un composant `PandaItem`. Ce composant a
 
 Ce composant affiche un cercle avec la 1ère lettre du nom du panda puis son nom. Le clic doit être pris sur l'ensemble de la ligne.
 
+Ces composants doivent être définis dans le répertoire `src/components`.
+
 Pour pouvoir typer correctement les composants, créer un type `Panda` dans `src/types` avec les propriétés suivantes :
 
-- `key` de type `string` (optionnel)
+- `key` de type `string`
 - `name` de type `string`
 - `interests` de type tableau de `string`
 - `image` de type string
 
-Écrire des stories pour le composant `PandasList` avec deux cas :
+Écrire des stories pour le composant `PandasList` (dans le même répertoire que le composant) avec deux cas :
 
 - La liste de pandas est vide
 - La liste de pandas n'est pas vide
 
 Ajouter des commentaires sur les propriétés dans le code du composant `PandasList` pour compléter la documentation dans Storybook.
 
-> Un peu d'aide :
->
-> - Pour créer ces composants on peut s'appuyer sur les composants `ListGroup`, `ListGroupItem` et `Badge` de Reactstrap.
-> - La création du cercle avec la lettre nécessite de créer un style CSS personnalisé.
-> - La liste des pandas peut être récupérée dans le fichier `src/mocks/pandas.json`.
+<aside>
+ Un peu d'aide :
+
+ - Pour créer ces composants on peut s'appuyer sur les composants `ListGroup`, `ListGroupItem` et `Badge` de Reactstrap.
+ - La création du cercle avec la lettre nécessite de créer un style CSS personnalisé.
+ - La liste des pandas peut être récupérée dans le fichier `src/mocks/pandas.json`.
+ </aside>
 
 ### Création du composant PandasListView
 
