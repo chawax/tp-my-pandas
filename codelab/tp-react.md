@@ -86,17 +86,23 @@ Installer l'extension ESLint dans VSCode.
 
 ## Création des premiers composants
 
+Nous allons créer nos premiers composants et utiliser Storybook pour les tester. Nous utiliseront la librairie Reactstrap (librairie de wrapping de Bootstrap pour React) pour créer des composants beaux visuellement sans avoir besoin d'écrire de CSS !
+
+<aside class="positive">
+Reacstrap met à disposition un Storybook pour documenter les composants mis à disposition et les tester : https://reactstrap.github.io/
+</aside>
+
 ### Installation de Storybook
 
-Dans un premier temps on ajoute Storybook pour pouvoir mettre au point nos composants de manière isolée.
+Dans un premier temps installons Storybook dans le projet.
 
 ```bash
-npx sb init
+npx sb init --use-npm
 ```
 
-Puis lancer `yarn storybook` ou `npm run storybook` pour vérifier que tout se lance bien
+Puis lancer `npm run storybook` pour vérifier que tout se lance bien.
 
-### Installation de Reactstrap / Bootstrap
+### Installation de Reactstrap
 
 D'abord installer les librairies Bootstrap et Reactstrap :
 
@@ -105,12 +111,42 @@ npm install bootstrap reactstrap
 npm install --save-dev @types/reactstrap
 ```
 
-Ajouter l’import `import 'bootstrap/dist/css/bootstrap.min.css'` dans `index.tsx` et dans `.storybook/preview.js`.
+<aside class="negative">
+La librairie Reactstrap n'étant pas encore officiellement compatible avec React 18, on peut avoir des warnings pendant l'installation de la librairie.
+</aside>
 
-Vérifier que Bootstrap est bien initialisé :
+Ajouter l’import `import 'bootstrap/dist/css/bootstrap.min.css'` dans `index.tsx` et dans `.storybook/preview.js` pour que les styles CSS Bootstrap soient chargés au démarrage de l'application et de Storybook.
 
-- En utilisant le composant `Button` de Bootstrap dans `App.tsx`
-- En créant une story pour le composant `Button` de Bootstrap.
+Pour vérifier que Reactstrap est bien initialisé :
+
+- Insérer le composant `Button` de Reactstrap dans `App.tsx` et vérifier qu'il a l'aspect attendu.
+- Créer une story `ReactstrapButton.stories.tsx` utilisant le composant `Button` de Reactstrap. On peut s'inspirer de celle du composant `Button` initialisé lors de l'installation de Storybook pour créer une story de ce type :
+
+```ts
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+
+import { Button } from 'reactstrap';
+
+export default {
+  title: 'Example/Reactstrap Button',
+  component: Button,
+} as ComponentMeta<typeof Button>;
+
+const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
+
+export const Primary = Template.bind({});
+Primary.args = {
+  color: 'primary',
+  children: 'Primary',
+};
+
+export const Secondary = Template.bind({});
+Secondary.args = {
+  color: 'secondary',
+  children: 'Secondary',
+};
+```
+
 
 ### Création du composant `PandasList`
 
