@@ -84,27 +84,55 @@ npm start
       </google-codelab-step>
     
       <google-codelab-step label="Création des premiers composants" duration="0">
-        <h2 is-upgraded>Installation de Storybook</h2>
-<p>Dans un premier temps on ajoute Storybook pour pouvoir mettre au point nos composants de manière isolée.</p>
-<pre><code language="language-bash" class="language-bash">npx sb init
+        <p>Nous allons créer nos premiers composants et utiliser Storybook pour les tester. Nous utiliseront la librairie Reactstrap (librairie de wrapping de Bootstrap pour React) pour créer des composants beaux visuellement sans avoir besoin d&#39;écrire de CSS !</p>
+<aside class="special"><p> Reacstrap met à disposition un Storybook pour documenter les composants mis à disposition et les tester : <a href="https://reactstrap.github.io/" target="_blank">reactstrap.github.io</a></p>
+</aside>
+<h2 is-upgraded>Installation de Storybook</h2>
+<p>Dans un premier temps installons Storybook dans le projet.</p>
+<pre><code language="language-bash" class="language-bash">npx sb init --use-npm
 </code></pre>
-<p>Puis lancer <code>yarn storybook</code> ou <code>npm run storybook</code> pour vérifier que tout se lance bien</p>
-<h2 is-upgraded>Installation de Reactstrap / Bootstrap</h2>
+<p>Puis lancer <code>npm run storybook</code> pour vérifier que tout se lance bien.</p>
+<h2 is-upgraded>Installation de Reactstrap</h2>
 <p>D&#39;abord installer les librairies Bootstrap et Reactstrap :</p>
 <pre><code language="language-bash" class="language-bash">npm install bootstrap reactstrap
 npm install --save-dev @types/reactstrap
 </code></pre>
-<p>Ajouter l&#39;import <code>import 'bootstrap/dist/css/bootstrap.min.css'</code> dans <code>index.tsx</code> et dans <code>.storybook/preview.js</code>.</p>
-<p>Vérifier que Bootstrap est bien initialisé :</p>
+<aside class="warning"><p> La librairie Reactstrap n&#39;étant pas encore officiellement compatible avec React 18, on peut avoir des warnings pendant l&#39;installation de la librairie. </p>
+</aside>
+<p>Ajouter l&#39;import <code>import 'bootstrap/dist/css/bootstrap.min.css'</code> dans <code>index.tsx</code> et dans <code>.storybook/preview.js</code> pour que les styles CSS Bootstrap soient chargés au démarrage de l&#39;application et de Storybook.</p>
+<p>Pour vérifier que Reactstrap est bien initialisé :</p>
 <ul>
-<li>En utilisant le composant <code>Button</code> de Bootstrap dans <code>App.tsx</code></li>
-<li>En créant une story pour le composant <code>Button</code> de Bootstrap.</li>
+<li>Insérer le composant <code>Button</code> de Reactstrap dans <code>App.tsx</code> et vérifier qu&#39;il a l&#39;aspect attendu.</li>
+<li>Créer une story <code>ReactstrapButton.stories.tsx</code> utilisant le composant <code>Button</code> de Reactstrap. On peut s&#39;inspirer de celle du composant <code>Button</code> initialisé lors de l&#39;installation de Storybook pour créer une story de ce type :</li>
 </ul>
+<pre><code language="language-ts" class="language-ts">import { ComponentMeta, ComponentStory } from &#39;@storybook/react&#39;;
+
+import { Button } from &#39;reactstrap&#39;;
+
+export default {
+  title: &#39;Example/Reactstrap Button&#39;,
+  component: Button,
+} as ComponentMeta&lt;typeof Button&gt;;
+
+const Template: ComponentStory&lt;typeof Button&gt; = (args) =&gt; &lt;Button {...args} /&gt;;
+
+export const Primary = Template.bind({});
+Primary.args = {
+  color: &#39;primary&#39;,
+  children: &#39;Primary&#39;,
+};
+
+export const Secondary = Template.bind({});
+Secondary.args = {
+  color: &#39;secondary&#39;,
+  children: &#39;Secondary&#39;,
+};
+</code></pre>
 <h2 is-upgraded>Création du composant <code>PandasList</code></h2>
-<p>On va créer un composant <code>PandasList</code> (composant de type fonction) pour afficher une liste de pandas. Ce composant a les propriétés suivantes :</p>
+<p>On va créer un composant <code>PandasList</code> pour afficher une liste de pandas. Ce composant a les propriétés suivantes :</p>
 <ul>
 <li><code>pandas</code> : un tableau de pandas</li>
-<li><code>onPress(id)</code> : événement déclenché lorsqu&#39;on clique sur un panda dans la liste. On passe l&#39;id du panda en paramètre à la méthode liée.</li>
+<li><code>onPress</code> : événement déclenché lorsqu&#39;on clique sur un panda dans la liste. On passe l&#39;id du panda en paramètre.</li>
 </ul>
 <p>Chaque item de la liste est défini par un composant <code>PandaItem</code>. Ce composant a les propriétés suivantes :</p>
 <ul>
@@ -112,25 +140,27 @@ npm install --save-dev @types/reactstrap
 <li><code>onPress</code> : événement déclenché lorsqu&#39;on clique sur le panda</li>
 </ul>
 <p>Ce composant affiche un cercle avec la 1ère lettre du nom du panda puis son nom. Le clic doit être pris sur l&#39;ensemble de la ligne.</p>
+<p>Ces composants doivent être définis dans le répertoire <code>src/components</code>.</p>
 <p>Pour pouvoir typer correctement les composants, créer un type <code>Panda</code> dans <code>src/types</code> avec les propriétés suivantes :</p>
 <ul>
-<li><code>key</code> de type <code>string</code> (optionnel)</li>
+<li><code>key</code> de type <code>string</code></li>
 <li><code>name</code> de type <code>string</code></li>
 <li><code>interests</code> de type tableau de <code>string</code></li>
 <li><code>image</code> de type string</li>
 </ul>
-<p>Écrire des stories pour le composant <code>PandasList</code> avec deux cas :</p>
+<p>Écrire des stories pour le composant <code>PandasList</code> (dans le même répertoire que le composant) avec deux cas :</p>
 <ul>
 <li>La liste de pandas est vide</li>
 <li>La liste de pandas n&#39;est pas vide</li>
 </ul>
 <p>Ajouter des commentaires sur les propriétés dans le code du composant <code>PandasList</code> pour compléter la documentation dans Storybook.</p>
-<p>Un peu d&#39;aide :</p>
+<aside class="special"><p>  Un peu d&#39;aide : </p>
 <ul>
 <li>Pour créer ces composants on peut s&#39;appuyer sur les composants <code>ListGroup</code>, <code>ListGroupItem</code> et <code>Badge</code> de Reactstrap.</li>
 <li>La création du cercle avec la lettre nécessite de créer un style CSS personnalisé.</li>
 <li>La liste des pandas peut être récupérée dans le fichier <code>src/mocks/pandas.json</code>.</li>
 </ul>
+</aside>
 <h2 is-upgraded>Création du composant PandasListView</h2>
 <p>Une fois que les composants fonctionnent dans Storybook, on peut les utiliser dans l&#39;application !</p>
 <p>Créer un nouveau composant <code>PandasListView</code> dans <code>src/views</code>. Ce composant utilise le composant <code>PandasList</code>et lui passe la liste des pandas (comme dans la story). Lors d&#39;un clic sur un panda, on doit afficher une alerte avec la clé du panda qui a été cliqué.</p>

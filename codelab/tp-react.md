@@ -89,7 +89,7 @@ Installer l'extension ESLint dans VSCode.
 Nous allons créer nos premiers composants et utiliser Storybook pour les tester. Nous utiliseront la librairie Reactstrap (librairie de wrapping de Bootstrap pour React) pour créer des composants beaux visuellement sans avoir besoin d'écrire de CSS !
 
 <aside class="positive">
-Reacstrap met à disposition un Storybook pour documenter les composants mis à disposition et les tester : https://reactstrap.github.io/
+Reacstrap met à disposition un Storybook pour documenter les composants mis à disposition et les tester : <a href="https://reactstrap.github.io/">reactstrap.github.io</a>
 </aside>
 
 ### Installation de Storybook
@@ -180,10 +180,10 @@ Ajouter des commentaires sur les propriétés dans le code du composant `PandasL
 <aside>
  Un peu d'aide :
 
- - Pour créer ces composants on peut s'appuyer sur les composants `ListGroup`, `ListGroupItem` et `Badge` de Reactstrap.
- - La création du cercle avec la lettre nécessite de créer un style CSS personnalisé.
- - La liste des pandas peut être récupérée dans le fichier `src/mocks/pandas.json`.
- </aside>
+- Pour créer ces composants on peut s'appuyer sur les composants `ListGroup`, `ListGroupItem` et `Badge` de Reactstrap.
+- La création du cercle avec la lettre nécessite de créer un style CSS personnalisé.
+- La liste des pandas peut être récupérée dans le fichier `src/mocks/pandas.json`.
+</aside>
 
 ### Création du composant PandasListView
 
