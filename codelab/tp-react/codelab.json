@@ -1,0 +1,17 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2022-09-28T15:00:29+02:00",
+  "id": "tp-react",
+  "duration": 0,
+  "title": "TP My Pandas",
+  "summary": "",
+  "source": "tp-react.md",
+  "theme": "",
+  "status": null,
+  "category": null,
+  "tags": [],
+  "url": "tp-react"
+}
