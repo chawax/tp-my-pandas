@@ -38,8 +38,8 @@
 </ul>
 <p>Prérequis :</p>
 <ul>
-<li>Node JS installé (&gt;= 8.10)</li>
-<li>Chrome installé</li>
+<li>Node JS installé (16 minimum recommandée)</li>
+<li>Chrome ou un autre navigateur installé</li>
 <li>Visual Studio Code installé</li>
 </ul>
 <h2 is-upgraded>Initialiser l&#39;application React</h2>
@@ -56,14 +56,11 @@ npm start
 <p>Lancer un build :</p>
 <pre><code language="language-bash" class="language-bash">npm run build
 </code></pre>
-<p>ou</p>
-<pre><code language="language-bash" class="language-bash">yarn build
-</code></pre>
 <p>Et vérifier que l&#39;application fonctionne en mode production :</p>
 <pre><code language="language-bash" class="language-bash">npx serve -s build
 </code></pre>
-<p>Lancer les tests automatisés avec <code>npm test</code> ou <code>yarn test</code></p>
-<p>En cas d&#39;erreur &#34;Cannot use JSX unless the ‘–jsx&#39; flag is provided&#39; quand on ouvre un fichier TSX dans VSCode, faire un upgrade de Typescript (<code>npm install -D typescript@latest</code>) puis relancer VSCode. Ce problème est lié à la version Typescript utilisée par VSCode.</p>
+<p>Lancer les tests automatisés avec <code>npm test</code>.</p>
+<p>Negative : En cas d&#39;erreur &#34;Cannot use JSX unless the ‘–jsx&#39; flag is provided&#39; quand on ouvre un fichier TSX dans VSCode, faire un upgrade de Typescript (<code>npm install -D typescript@latest</code>) puis relancer VSCode. Ce problème est lié à la version Typescript utilisée par VSCode.</p>
 <h2 is-upgraded>Améliorer l&#39;environnement de développement</h2>
 <p>Ajouter le plugin Prettier et la configuration Prettier.</p>
 <pre><code language="language-bash" class="language-bash">npm install --save-dev prettier
@@ -78,7 +75,7 @@ npm start
   &#34;trailingComma&#34;: &#34;all&#34;
 }
 </code></pre>
-<p>Installer l&#39;extension Prettier dans VSCode et activer le formatage à la sauvegarde de chaque fichier (option <code>Format on save</code> dans les préférences).</p>
+<p>Installer l&#39;extension Prettier dans VSCode et activer le formatage à la sauvegarde de chaque fichier (option <code>Format on save</code> dans les préférences du workspace).</p>
 <p>Installer l&#39;extension ESLint dans VSCode.</p>
 
 
