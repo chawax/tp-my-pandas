@@ -14,8 +14,8 @@ Ce TP permet de développer une application qui permet de gérer une liste de pa
 
 Prérequis :
 
-- Node JS installé (>= 8.10)
-- Chrome installé
+- Node JS installé (16 minimum recommandée)
+- Chrome ou un autre navigateur installé
 - Visual Studio Code installé
 
 ### Initialiser l'application React
@@ -45,21 +45,16 @@ Lancer un build :
 npm run build
 ```
 
-ou
-
-```bash
-yarn build
-```
-
 Et vérifier que l'application fonctionne en mode production :
 
 ```bash
 npx serve -s build
 ```
 
-Lancer les tests automatisés avec `npm test` ou `yarn test`
+Lancer les tests automatisés avec `npm test`.
 
-> En cas d'erreur "Cannot use JSX unless the '--jsx' flag is provided' quand on ouvre un fichier TSX dans VSCode, faire un upgrade de Typescript (`npm install -D typescript@latest`) puis relancer VSCode. Ce problème est lié à la version Typescript utilisée par VSCode.
+Negative
+: En cas d'erreur "Cannot use JSX unless the '--jsx' flag is provided' quand on ouvre un fichier TSX dans VSCode, faire un upgrade de Typescript (`npm install -D typescript@latest`) puis relancer VSCode. Ce problème est lié à la version Typescript utilisée par VSCode.
 
 ### Améliorer l'environnement de développement
 
@@ -82,7 +77,7 @@ Créer un fichier `.prettierrc` à la racine du projet avec la configuration sui
 }
 ```
 
-Installer l'extension Prettier dans VSCode et activer le formatage à la sauvegarde de chaque fichier (option `Format on save` dans les préférences).
+Installer l'extension Prettier dans VSCode et activer le formatage à la sauvegarde de chaque fichier (option `Format on save` dans les préférences du workspace).
 
 Installer l'extension ESLint dans VSCode.
 
