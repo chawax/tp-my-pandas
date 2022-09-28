@@ -36,12 +36,13 @@
 <li>Modification d&#39;un panda</li>
 <li>Suppression d&#39;un panda</li>
 </ul>
-<p>Prérequis :</p>
+<aside class="special"><p> Prérequis : </p>
 <ul>
 <li>Node JS installé (16 minimum recommandée)</li>
 <li>Chrome ou un autre navigateur installé</li>
 <li>Visual Studio Code installé</li>
 </ul>
+</aside>
 <h2 is-upgraded>Initialiser l&#39;application React</h2>
 <p>Créer une application React avec la commande <code>create-react-app</code>.</p>
 <p>Attention au copier / coller qui peut parfois embarquer des caractères pourris !</p>
@@ -60,7 +61,8 @@ npm start
 <pre><code language="language-bash" class="language-bash">npx serve -s build
 </code></pre>
 <p>Lancer les tests automatisés avec <code>npm test</code>.</p>
-<p>Negative : En cas d&#39;erreur &#34;Cannot use JSX unless the ‘–jsx&#39; flag is provided&#39; quand on ouvre un fichier TSX dans VSCode, faire un upgrade de Typescript (<code>npm install -D typescript@latest</code>) puis relancer VSCode. Ce problème est lié à la version Typescript utilisée par VSCode.</p>
+<aside class="warning"><p> En cas d&#39;erreur &#34;Cannot use JSX unless the &#39;--jsx&#39; flag is provided&#39; quand on ouvre un fichier TSX dans VSCode, faire un upgrade de Typescript (`npm install -D typescript@latest`) puis relancer VSCode. Ce problème est lié à la version Typescript utilisée par VSCode. </p>
+</aside>
 <h2 is-upgraded>Améliorer l&#39;environnement de développement</h2>
 <p>Ajouter le plugin Prettier et la configuration Prettier.</p>
 <pre><code language="language-bash" class="language-bash">npm install --save-dev prettier

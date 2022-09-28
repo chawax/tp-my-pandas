@@ -12,11 +12,13 @@ Ce TP permet de développer une application qui permet de gérer une liste de pa
 - Modification d’un panda
 - Suppression d’un panda
 
+<aside class="positive">
 Prérequis :
 
 - Node JS installé (16 minimum recommandée)
 - Chrome ou un autre navigateur installé
 - Visual Studio Code installé
+</aside>
 
 ### Initialiser l'application React
 
@@ -53,8 +55,9 @@ npx serve -s build
 
 Lancer les tests automatisés avec `npm test`.
 
-Negative
-: En cas d'erreur "Cannot use JSX unless the '--jsx' flag is provided' quand on ouvre un fichier TSX dans VSCode, faire un upgrade de Typescript (`npm install -D typescript@latest`) puis relancer VSCode. Ce problème est lié à la version Typescript utilisée par VSCode.
+<aside class="negative">
+En cas d'erreur "Cannot use JSX unless the '--jsx' flag is provided' quand on ouvre un fichier TSX dans VSCode, faire un upgrade de Typescript (`npm install -D typescript@latest`) puis relancer VSCode. Ce problème est lié à la version Typescript utilisée par VSCode.
+</aside>
 
 ### Améliorer l'environnement de développement
 
