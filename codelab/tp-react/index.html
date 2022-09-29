@@ -176,42 +176,65 @@ Secondary.args = {
       </google-codelab-step>
     
       <google-codelab-step label="Chargement de données avec Axios et les hooks" duration="0">
-        <h2 is-upgraded>Préparation d&#39;un serveur de mock</h2>
-<p>On va s&#39;appuyer sur <code>json-server</code> pour fournir une API de manière très simplifiée.</p>
+        <p>Modifions l&#39;application pour récupérer la liste des pandas depuis une API.</p>
+<h2 is-upgraded>Préparation d&#39;un serveur de mock</h2>
+<p>On va s&#39;appuyer sur <code>json-server</code> pour fournir une API simplifiée en local.</p>
 <ul>
 <li>Installer <code>json-server</code></li>
 </ul>
-<pre><code>npm install -D json-server
+<pre><code language="language-bash" class="language-bash">npm install -D json-server
 </code></pre>
 <ul>
 <li>Ajouter le script suivant dans <code>package.json</code> :</li>
 </ul>
-<pre><code>&#34;json-server&#34;: &#34;./node_modules/.bin/json-server --watch ./json-server/db.json --port 3004 --id key&#34;
+<pre><code language="language-js" class="language-js">&#34;json-server&#34;: &#34;./node_modules/.bin/json-server --watch ./json-server/db.json --port 3004 --id key&#34;
 </code></pre>
 <ul>
 <li>Créer un fichier <code>json-server/db.json</code></li>
 <li>Y créer une collection <code>pandas</code> et y recopier la liste des pandas</li>
 <li>Démarrer le serveur</li>
 </ul>
-<pre><code>npm run json-server
+<pre><code language="language-bash" class="language-bash">npm run json-server
 </code></pre>
 <ul>
-<li>Tester que le service fonctionne</li>
+<li>Tester que le service fonctionne en appelant l&#39;url <code>http://localhost:3004/pandas</code>.</li>
 </ul>
-<pre><code>http://localhost:3004/pandas
-</code></pre>
 <h2 is-upgraded>Utilisation des hooks avec Axios</h2>
 <ul>
-<li>Installer la librairie <code>axios</code><pre><code>npm install axios
+<li>Installer la librairie <code>axios</code><pre><code language="language-bash" class="language-bash">npm install axios
 </code></pre>
 </li>
-<li>Modifier le composant <code>PandasListView</code> et utilise les hooks <code>useState</code> et <code>useEffect</code> pour appeler le service <code>http://localhost:3004/pandas</code>. Il faut afficher un spinner (composant <code>Spinner</code> de Reactstrap) pendant le chargement des données et afficher un message d&#39;erreur en cas d&#39;échec de l&#39;appel.</li>
-<li>Une fois que ce chargement fonctionne on peut en extraire un hook personnalisé <code>usePandas</code> dans le répertoire <code>/src/hooks</code>.</li>
-<li>Créer un test unitaire pour ce hook, en testant le cas où l&#39;appel au service est OK et le cas où il est en erreur. Il faudra en particulier mocker les appels Axios. Ce test nécessitera l&#39;installation de quelques librairies.<pre><code>npm install -D axios-mock-adapter react-test-renderer @testing-library/react-hooks
-</code></pre>
-</li>
-<li>Et mettre à jour les tests pour <code>PandasListView</code> sur les mêmes cas. On doit contrôler qu&#39;on affiche bien d&#39;abord un spinner, puis une liste de pandas ou un message d&#39;erreur en fonction du résultat de l&#39;appel de l&#39;API.</li>
+<li>Dans le composant <code>PandasListView</code>, utiliser les hooks <code>useState</code> et <code>useEffect</code> pour appeler le service <code>http://localhost:3004/pandas</code>. Il faut afficher un spinner (composant <code>Spinner</code> de Reactstrap) pendant le chargement des données, afficher les données quand la requête a réussi et afficher un message d&#39;erreur en cas d&#39;échec de l&#39;appel. Pour gérer tout ça on devra définir les variables correspondantes dans le state du composant.</li>
+<li>Une fois que ce chargement fonctionne on peut extraire tout ce code vers un hook personnalisé <code>usePandas</code> dans le répertoire <code>/src/hooks</code>.</li>
 </ul>
+<aside class="special"><p> Pour qu&#39;on puisse voir le spinner s&#39;afficher pendant le chargement des données, on peut encapsuler l&#39;appel Axios dans la méthode `setTimeout` : </p>
+<pre><code language="language-ts" class="language-ts">setTimeout(() =&gt; {
+  // Appel Axios
+}, 2000);
+
+</code></pre>
+<p><em>Attention à supprimer l&#39;appel de la méthode </em><em><code>setTimeout</code></em><em> pour les tests unitaires car elle empêche le mock Axios de fonctionner correctement.</em></p>
+</aside>
+<ul>
+<li>Modifier les tests unitaires de <code>PandasListView</code> pour tester le fonctionnement de l&#39;écran.</li>
+</ul>
+<p>Il faudra deux scénarios de test :</p>
+<ul>
+<li>Dans le cas où la requête REST fonctionne (réponse 200), on veut tester que le spinner s&#39;affiche, qu&#39;il disparaît et qu&#39;on a liste des pandas qui s&#39;affichent (en comptant le nombre de pandas affichés).</li>
+<li>Dans le cas où la requête REST plante (réponse 500), on veut tester que le spinner s&#39;affiche, qu&#39;il disparaît et qu&#39;un message d&#39;erreur s&#39;affiche.</li>
+</ul>
+<p>Pour écrire ce test, on aura besoin de mocker les appels Axios en utilisant la librairie Axios Mock Adapter :</p>
+<pre><code language="language-bash" class="language-bash">npm install -D axios-mock-adapter
+</code></pre>
+<aside class="special"><p> Un peu d&#39;aide : </p>
+<ul>
+<li>Pour vérifier l&#39;affichage du spinner on peut se baser sur le rôle <code>status</code> porté par le composant <code>Spinner</code>.</li>
+<li>Pour vérifier l&#39;affichage de la liste des pandas, on peut se baser sur les rôles <code>list</code> et <code>listitem</code> portés par les composants <code>ListGroup</code> et <code>ListGroupItem</code>.</li>
+<li>La méthode <code>waitForElementToBeRemoved</code> permet d&#39;attendre qu&#39;un composant soit supprimé du DOM (ici le spinner)</li>
+<li>Pour s&#39;assurer qu&#39;un test est bon, il faut le faire échouer au moins une fois !</li>
+<li>Pour voir les rôles disponibles à un moment donné du test, on peut utiliser la méthode <code>screen.getByRole('')</code>.</li>
+</ul>
+</aside>
 
 
       </google-codelab-step>

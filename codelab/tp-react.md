@@ -201,19 +201,21 @@ Supprimer le test `App.test.tsx`.
 
 ## Chargement de données avec Axios et les hooks
 
+Modifions l'application pour récupérer la liste des pandas depuis une API.
+
 ### Préparation d'un serveur de mock
 
-On va s'appuyer sur `json-server` pour fournir une API de manière très simplifiée.
+On va s'appuyer sur `json-server` pour fournir une API simplifiée en local.
 
 - Installer `json-server`
 
-```
+```bash
 npm install -D json-server
 ```
 
 - Ajouter le script suivant dans `package.json` :
 
-```
+```js
 "json-server": "./node_modules/.bin/json-server --watch ./json-server/db.json --port 3004 --id key"
 ```
 
@@ -223,35 +225,63 @@ npm install -D json-server
 
 - Démarrer le serveur
 
-```
+```bash
 npm run json-server
 ```
 
-- Tester que le service fonctionne
-
-```
-http://localhost:3004/pandas
-```
+- Tester que le service fonctionne en appelant l'url `http://localhost:3004/pandas`.
 
 ### Utilisation des hooks avec Axios
 
 - Installer la librairie `axios`
 
-  ```
+  ```bash
   npm install axios
   ```
 
-- Modifier le composant `PandasListView` et utilise les hooks `useState` et `useEffect` pour appeler le service `http://localhost:3004/pandas`. Il faut afficher un spinner (composant `Spinner` de Reactstrap) pendant le chargement des données et afficher un message d'erreur en cas d'échec de l'appel.
+- Dans le composant `PandasListView`, utiliser les hooks `useState` et `useEffect` pour appeler le service `http://localhost:3004/pandas`. Il faut afficher un spinner (composant `Spinner` de Reactstrap) pendant le chargement des données, afficher les données quand la requête a réussi et afficher un message d'erreur en cas d'échec de l'appel. Pour gérer tout ça on devra définir les variables correspondantes dans le state du composant.
 
-- Une fois que ce chargement fonctionne on peut en extraire un hook personnalisé `usePandas` dans le répertoire `/src/hooks`.
+- Une fois que ce chargement fonctionne on peut extraire tout ce code vers un hook personnalisé `usePandas` dans le répertoire `/src/hooks`.
 
-- Créer un test unitaire pour ce hook, en testant le cas où l'appel au service est OK et le cas où il est en erreur. Il faudra en particulier mocker les appels Axios. Ce test nécessitera l'installation de quelques librairies.
+<aside class="positive">
+Pour qu'on puisse voir le spinner s'afficher pendant le chargement des données, on peut encapsuler l'appel Axios dans la méthode `setTimeout` :
 
+```ts
+setTimeout(() => {
+  // Appel Axios
+}, 2000);
+
+```
+
+*Attention à supprimer l'appel de la méthode `setTimeout` pour les tests unitaires car elle empêche le mock Axios de fonctionner correctement.*
+
+</aside>
+
+- Modifier les tests unitaires de `PandasListView` pour tester le fonctionnement de l'écran. 
+
+Il faudra deux scénarios de test :
+- Dans le cas où la requête REST fonctionne (réponse 200), on veut tester que le spinner s'affiche, qu'il disparaît et qu'on a liste des pandas qui s'affichent (en comptant le nombre de pandas affichés).
+- Dans le cas où la requête REST plante (réponse 500), on veut tester que le spinner s'affiche, qu'il disparaît et qu'un message d'erreur s'affiche.
+ 
+ Pour écrire ce test, on aura besoin de mocker les appels Axios en utilisant la librairie Axios Mock Adapter :
+
+  ```bash
+  npm install -D axios-mock-adapter
   ```
-  npm install -D axios-mock-adapter react-test-renderer @testing-library/react-hooks
-  ```
+ 
+<aside class="positive">
+Un peu d'aide :
 
-- Et mettre à jour les tests pour `PandasListView` sur les mêmes cas. On doit contrôler qu'on affiche bien d'abord un spinner, puis une liste de pandas ou un message d'erreur en fonction du résultat de l'appel de l'API.
+- Pour vérifier l'affichage du spinner on peut se baser sur le rôle `status` porté par le composant `Spinner`.
+
+- Pour vérifier l'affichage de la liste des pandas, on peut se baser sur les rôles `list` et `listitem` portés par les composants `ListGroup` et `ListGroupItem`.
+
+- La méthode `waitForElementToBeRemoved` permet d'attendre qu'un composant soit supprimé du DOM (ici le spinner)
+
+- Pour s'assurer qu'un test est bon, il faut le faire échouer au moins une fois !
+
+- Pour voir les rôles disponibles à un moment donné du test, on peut utiliser la méthode `screen.getByRole('')`.
+</aside>
 
 ## Chargement de données avec React Query
 
