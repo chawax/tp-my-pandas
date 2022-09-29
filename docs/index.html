@@ -276,51 +276,61 @@ npm install -D @tanstack/react-query-devtools
       </google-codelab-step>
     
       <google-codelab-step label="Navigation avec React Router" duration="0">
-        <p>Objectif de ce TP :</p>
-<ul>
-<li>Créer une page de détail d&#39;un panda</li>
-<li>Intégrer React Router</li>
-</ul>
+        <p>Nous allons créer une page pour afficher le détail d&#39;un panda et utiliser la librairie React Router pour naviguer vers cette page de détail depuis la liste. C&#39;est également l&#39;occasion de réappliquer ce que nous avons vu jusqu&#39;ici !</p>
 <h2 is-upgraded>Création de la page de détail d&#39;un panda</h2>
 <ul>
-<li>Créer le composant <code>components/PandaDetails.tsx</code> et sa story. Ce composant affiche le nom du panda, ses centres d&#39;intérêt sous forme de badges, son image et un bouton &#34;Fermer&#34;. Il expose les propriétés suivantes :<ul>
+<li>Créer le composant <code>PandaDetails.tsx</code> et sa story. Ce composant affiche le nom du panda, ses centres d&#39;intérêt sous forme de badges, son image et un bouton &#34;Fermer&#34;. Il expose les propriétés suivantes :<ul>
 <li><code>panda</code> : le panda à afficher (de type <code>Panda</code>)</li>
 <li><code>onClose</code> : une méthode appelée quand on clique sur &#34;Fermer&#34;</li>
 </ul>
 </li>
-<li>Créer un nouveau hook <code>usePandaDetails</code> qui charge le détail d&#39;un panda. Ce hook prend un identifiant de panda en paramètre et utilise React Query pour charger le détail du panda. Écrire les tests unitaires pour ce hook.</li>
-<li>Créer un composant <code>PandaDetailsView</code>. Ce composant utilise le composant <code>PandaDetails</code> et s&#39;appuie sur le hook <code>usePandaDetails</code>. Dans un premier temps on passe un identifiant en dur, par exemple <code>1</code>. Pour vérifier que ce composant fonctionne correctement, remplacer le composant <code>PandasListView</code> dans le composant <code>App</code> par le composant <code>PandasDetailsView</code>.</li>
+<li>Créer un nouveau hook <code>usePandaDetails</code> qui charge le détail d&#39;un panda. Ce hook prend un identifiant de panda en paramètre et utilise React Query pour charger le détail du panda.</li>
+<li>Créer un composant <code>PandaDetailsView</code>. Ce composant utilise le composant <code>PandaDetails</code> et s&#39;appuie sur le hook <code>usePandaDetails</code>. Dans un premier temps, en attendant d&#39;avoir mis en place la navigation, on passe un identifiant de panda en dur, par exemple <code>1</code>. Pour vérifier que ce composant fonctionne correctement, remplacer dans le composant <code>App</code>  le composant <code>PandasListView</code> par le composant <code>PandasDetailsView</code>.</li>
 </ul>
-<p>Pour tous ces composants, hooks et tests, on peut s&#39;appuyer sur ceux déjà faits pour la liste des pandas.</p>
+<aside class="special"><p> Pour tous ces composants, hooks et tests, on peut s&#39;appuyer sur ceux déjà faits pour la liste des pandas.  </p>
+</aside>
 <h2 is-upgraded>Utilisation de React Router</h2>
-<p>On va maintenant utiliser React Router pour gérer la navigation entre les pages de liste et de détail. On en profite pour ajouter un header dans l&#39;application.</p>
+<p>Nous allons maintenant utiliser React Router pour gérer la navigation entre les pages de liste et de détail. Nous en profiterons pour définir un layout dans l&#39;application avec un header et une zone dans laquelle s&#39;affichent les pages.</p>
 <ul>
-<li>Créer un composant <code>Header</code> qui pour l&#39;instant ne fait qu&#39;afficher le nom de l&#39;application. On peut utiliser le composant <code>Navbar</code> de Reactstrap. Intégrer ce composant dans le composant <code>App</code>.</li>
+<li>Créer un composant <code>Header</code> qui pour l&#39;instant ne fait qu&#39;afficher le nom de l&#39;application. On peut utiliser le composant <code>Navbar</code> de Reactstrap.</li>
 <li>Créer un composant <code>NotFoundView</code> qui affiche un message &#34;Page introuvable !&#34;.</li>
-<li>Installer la librairie React Router et ses types Typescript<pre><code>npm install react-router-dom @types/react-router-dom
+<li>Installer la librairie React Router<pre><code language="language-bash" class="language-bash">npm install react-router-dom
 </code></pre>
 </li>
-<li>Définir un composant <code>Router</code> avec les deux routes suivantes :<ul>
-<li><code>/pandas</code> : pour ouvrir la liste des pandas</li>
-<li><code>/pandas/:id</code> : pour ouvrir le détail d&#39;un panda</li>
+<li>Définir un composant <code>Router</code> avec les règles suivantes :<ul>
+<li>La route <code>/pandas</code> ouvre la liste des pandas</li>
+<li>La route <code>/pandas/:id</code> ouvre le détail d&#39;un panda</li>
+<li>Par défaut on arrive sur la liste des pandas</li>
+<li>En cas de route introuvable on arrive sur une page d&#39;erreur (composant <code>NotFoundView</code>).</li>
+<li>Le composant <code>Router</code> doit intégrer un composant <code>Layout</code> pour afficher le header sur toutes les pages et insérer le rendu de chaque page dans un composant <code>Outlet</code>.</li>
 </ul>
-Par défaut on arrive sur la liste des pandas et en cas de route introuvable on arrive sur une page d&#39;erreur (composant <code>NotFoundView</code> à créer). Ce composant doit intégrer le header pour permettre la navigation depuis le header.</li>
+</li>
+</ul>
+<aside class="special"><p> On peut s&#39;inspirer de l&#39;exemple fourni sur le site de React Router pour définir les routes : <a href="https://github.com/remix-run/react-router/tree/dev/examples/basic" target="_blank">github.com/remix-run/react-router/tree/dev/examples/basic</a>. Attention à ne pas oublier d&#39;encapsuler les routes dans un des providers fournis par React Router. </p>
+</aside>
+<ul>
 <li>Intégrer ce composant <code>Router</code> dans le composant <code>App</code> et tester dans la barre de navigation du navigateur que les différentes URL fonctionnent correctement.</li>
-<li>Modifier les composants <code>Header</code>, <code>PandasListView</code> et <code>PandaDetailsView</code> pour intégrer la navigation en utilisant les hooks et / ou composants fournis par React Router.</li>
+<li>Modifier les composants <code>PandasListView</code> et <code>PandaDetailsView</code> pour ajouter la navigation de la liste des pandas vers le détail du panda. On peut s&#39;appuyer sur les hooks <code>useNavigate</code> et <code>useParams</code> de React Router.</li>
+<li>Mettre à jour les tests unitaires du composant <code>PandasListView</code>. On veut vérifier que lorsqu&#39;on clique sur le premier panda de la liste, on va bien vers page de détail. On aura besoin de mocker le hook <code>useNavigate</code> comme ci-dessous. On pourra utiliser l&#39;objet <code>userEvent</code> exposé par React Testing Library pour simuler l&#39;événement de clic.</li>
 </ul>
-<p>Remarque 1 : l&#39;utilisation de React Router modifie la manière de tester le composant <code>PandaDetailsView</code> car il doit s&#39;exécuter dans le contexte de React Router. On doit donc simuler l&#39;appel d&#39;une route en adaptant le test sur le modèle suivant :</p>
-<pre><code>const history = createMemoryHistory({
-  initialEntries: [&#39;/pandas/1&#39;],
-});
-const { getByText, getByRole } = render(
-  &lt;ReactQueryWrapper&gt;
-    &lt;Router history={history}&gt;
-      &lt;Route path=&#34;/pandas/:id&#34; component={PandaDetailsView} /&gt;
-    &lt;/Router&gt;
-  &lt;/ReactQueryWrapper&gt;,
-);
+<pre><code language="language-ts" class="language-ts">const mockedUsedNavigate = jest.fn();
+jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
+  ...jest.requireActual(&#39;react-router-dom&#39;),
+  useNavigate: () =&gt; mockedUsedNavigate,
+}));
 </code></pre>
-<p>Remarque 2 : une fois que ça marche on peut en profiter pour observer le bon fonctionnement du cache React Query.</p>
+<ul>
+<li>Créer un test unitaire pour <code>PandaDetailsView</code>. On veut vérifier que pendant le chargement le spinner s&#39;affiche puis, dans le cas où la requête fonctionne, on affiche bien le détail du panda et lorsqu&#39;elle ne fonctionne pas on affiche un message d&#39;erreur. On aura besoin de mocker les hooks <code>useNavigate</code> et <code>useParams</code> de React Router comme ci-dessous.</li>
+</ul>
+<pre><code language="language-ts" class="language-ts">const mockedUsedNavigate = jest.fn();
+jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
+  ...jest.requireActual(&#39;react-router-dom&#39;),
+  useParams: () =&gt; ({ id: &#39;1&#39; }),
+  useNavigate: () =&gt; mockedUsedNavigate,
+}));
+</code></pre>
+<aside class="special"><p> Une fois les routes mises en place, on peut vérifier que le cache React Query fonctionne en passant de liste aux pages de détails et en surveillant l&#39;onglet Network de Chrome. </p>
+</aside>
 
 
       </google-codelab-step>
