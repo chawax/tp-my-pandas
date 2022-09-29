@@ -285,33 +285,34 @@ Un peu d'aide :
 
 ## Chargement de données avec React Query
 
-On va utiliser React Query pour faciliter la gestion des requêtes asynchrones et ajouter quelques fonctionnalités bien pratiques à notre applicaiton.
+Utilisons la librairie React Query et ses hooks pour gérer la récupération des données depuis le serveur, en particulier la gestion de cache et quelques autres fonctionnalités bien pratiques.
 
 ### Utilisation de `useQuery`
 
 - Installer React Query
 
-```
+```bash
 npm install @tanstack/react-query
 npm install -D @tanstack/react-query-devtools
 ```
 
-- Encapsuler l'application dans un composant `QueryClientProvider` pour initialiser React Query et activer les devtools de React Query.
+- Encapsuler l'application dans le composant `QueryClientProvider` pour initialiser React Query et activer les devtools de React Query. On désactive l'option `refetchOnWindowFocus` et on définit un `staleTime` (durée de cache) de 5 minutes.
 
-- Modifier le hook `usePandas` pour utiliser le hook `useQuery`. Le hook doit retourner l'objet retourné par le hook `useQuery`.
+- Modifier le hook `usePandas` pour utiliser le hook `useQuery` de React Query. Le hook doit retourner l'objet retourné par le hook `useQuery`.
 
-- Adapter les tests unitaires du hook `usePandas` et du composant `PandasListView` pour qu'ils continuent à passer.
+- Adapter les tests unitaires du composant `PandasListView` pour qu'ils continuent à passer.
 
-> Quelques indices :
->
-> - Pour encapsuler le test unitaire dans le composant `QueryClientProvider`, utiliser l'option `wrapper` de la méthode `renderHook`.
-> - Pour simplifier l'écriture des tests, on désactive le mode retry de React Query sur le client créé précédemment (option `defaultOptions.queries.retry` à `false`)
-> - En dehors de l'ajour du wrapper React Query, le test de `PandasListView` ne devrait pas bouger. Pour le test de `usePandas` on peut utiliser la méthode `waitFor` de Testing Library et s'appuyer sur les propriétés `isSuccess` ou `isError` pour suivre l'état de la requête.
-> - Attention à vider le cache de React Query entre chaque exécution de test. Sinon le test d'échec va fonctionner car on a des données en cache !
+<aside class="positive">
+ Quelques indices :
+
+ - Pour encapsuler le test unitaire dans le composant `QueryClientProvider`, utiliser l'option `wrapper` sur la méthode `render`.
+ - Pour simplifier l'écriture des tests, on désactive le mode retry de React Query sur le client créé précédemment (option `defaultOptions.queries.retry` à `false`)
+ - Attention à vider le cache de React Query entre chaque exécution de test. Sinon le test d'échec va fonctionner car on a des données mise en cache par l'autre test !
+</aside>
 
 ### Utilisation de la fonctionnalité `refetch` de React Query
 
-Dans un deuxième temps on va utiliser la fonctionnalité `refetch` de React Query pour réeen cas d'erreur lors de la requête.
+Dans un deuxième temps on va utiliser la fonctionnalité `refetch` de React Query pour réessayer facilemen la requête en cas d'erreur.
 
 - Créer un nouveau composant `ErrorAndRetry` qui affiche un message d'erreur et un bouton Réessayer. Il expose deux propriétés :
 
