@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import './App.css';
-import PandasListView from './views/PandasListView';
+import Router from './components/Router';
 
 const queryClientProvider = new QueryClient({
   defaultOptions: {
@@ -15,7 +14,7 @@ const queryClientProvider = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClientProvider}>
-      <PandasListView />
+      <Router />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

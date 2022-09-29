@@ -1,14 +1,18 @@
+import { useNavigate } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import ErrorAndRetry from '../components/ErrorAndRetry';
 import PandasList from '../components/PandasList';
 import usePandas from '../hooks/usePandas';
 
-const handlePress = (id: string) => {
-  alert(`Panda ${id} was pressed`);
-};
-
 const PandasListView = () => {
   const { isLoading, isSuccess, isError, data, error, refetch } = usePandas();
+
+  const navigate = useNavigate();
+
+  const handlePress = (id: string) => {
+    navigate(`/pandas/${id}`);
+  };
+
   return (
     <>
       {isLoading && <Spinner />}
