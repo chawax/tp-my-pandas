@@ -85,7 +85,7 @@ npm start
     
       <google-codelab-step label="Création des premiers composants" duration="0">
         <p>Nous allons créer nos premiers composants et utiliser Storybook pour les tester. Nous utiliseront la librairie Reactstrap (librairie de wrapping de Bootstrap pour React) pour créer des composants beaux visuellement sans avoir besoin d&#39;écrire de CSS !</p>
-<aside class="special"><p> Reacstrap met à disposition un Storybook pour documenter les composants mis à disposition et les tester : <a href="https://reactstrap.github.io/" target="_blank">reactstrap.github.io</a></p>
+<aside class="special"><p> Reactstrap met à disposition un Storybook documentant les composants mis à disposition et permettant de les tester : <a href="https://reactstrap.github.io/" target="_blank">reactstrap.github.io</a></p>
 </aside>
 <h2 is-upgraded>Installation de Storybook</h2>
 <p>Dans un premier temps installons Storybook dans le projet.</p>
@@ -128,7 +128,7 @@ Secondary.args = {
   children: &#39;Secondary&#39;,
 };
 </code></pre>
-<h2 is-upgraded>Création du composant <code>PandasList</code></h2>
+<h2 is-upgraded>Création des composants <code>PandasList</code> et <code>PandaItem</code></h2>
 <p>On va créer un composant <code>PandasList</code> pour afficher une liste de pandas. Ce composant a les propriétés suivantes :</p>
 <ul>
 <li><code>pandas</code> : un tableau de pandas</li>
@@ -164,8 +164,13 @@ Secondary.args = {
 <h2 is-upgraded>Création du composant PandasListView</h2>
 <p>Une fois que les composants fonctionnent dans Storybook, on peut les utiliser dans l&#39;application !</p>
 <p>Créer un nouveau composant <code>PandasListView</code> dans <code>src/views</code>. Ce composant utilise le composant <code>PandasList</code>et lui passe la liste des pandas (comme dans la story). Lors d&#39;un clic sur un panda, on doit afficher une alerte avec la clé du panda qui a été cliqué.</p>
-<p>Intégrer ce composant dans <code>App.tsx</code> à la place du code déjà existant.</p>
-<p>Écrire un test unitaire de ce composant <code>PandasListView</code> pour vérifier que le panda <code>Yuan Men</code> est bien affiché. On peut s&#39;inspirer de ce qui existe pour le test <code>App.test.tsx</code>.</p>
+<p>Intégrer ce composant dans <code>App.tsx</code> à la place du code JSX déjà existant.</p>
+<p>Écrire un test unitaire pour ce composant <code>PandasListView</code> en s&#39;inspirant de ce qui existe pour le test <code>App.test.tsx</code>. Ce test :</p>
+<ul>
+<li>Rend le composant <code>PandasListView</code></li>
+<li>Vérifie que le texte <code>Yuan Men</code> est bien affiché.</li>
+</ul>
+<p>Supprimer le test <code>App.test.tsx</code>.</p>
 
 
       </google-codelab-step>

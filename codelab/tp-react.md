@@ -89,7 +89,7 @@ Installer l'extension ESLint dans VSCode.
 Nous allons créer nos premiers composants et utiliser Storybook pour les tester. Nous utiliseront la librairie Reactstrap (librairie de wrapping de Bootstrap pour React) pour créer des composants beaux visuellement sans avoir besoin d'écrire de CSS !
 
 <aside class="positive">
-Reacstrap met à disposition un Storybook pour documenter les composants mis à disposition et les tester : <a href="https://reactstrap.github.io/">reactstrap.github.io</a>
+Reactstrap met à disposition un Storybook documentant les composants mis à disposition et permettant de les tester : <a href="https://reactstrap.github.io/">reactstrap.github.io</a>
 </aside>
 
 ### Installation de Storybook
@@ -147,7 +147,7 @@ Secondary.args = {
 };
 ```
 
-### Création du composant `PandasList`
+### Création des composants `PandasList` et `PandaItem`
 
 On va créer un composant `PandasList` pour afficher une liste de pandas. Ce composant a les propriétés suivantes :
 
@@ -191,9 +191,13 @@ Une fois que les composants fonctionnent dans Storybook, on peut les utiliser da
 
 Créer un nouveau composant `PandasListView` dans `src/views`. Ce composant utilise le composant `PandasList`et lui passe la liste des pandas (comme dans la story). Lors d’un clic sur un panda, on doit afficher une alerte avec la clé du panda qui a été cliqué.
 
-Intégrer ce composant dans `App.tsx` à la place du code déjà existant.
+Intégrer ce composant dans `App.tsx` à la place du code JSX déjà existant.
 
-Écrire un test unitaire de ce composant `PandasListView` pour vérifier que le panda `Yuan Men` est bien affiché. On peut s'inspirer de ce qui existe pour le test `App.test.tsx`.
+Écrire un test unitaire pour ce composant `PandasListView` en s'inspirant de ce qui existe pour le test `App.test.tsx`. Ce test :
+- Rend le composant `PandasListView`
+- Vérifie que le texte `Yuan Men` est bien affiché.
+
+Supprimer le test `App.test.tsx`.
 
 ## Chargement de données avec Axios et les hooks
 
