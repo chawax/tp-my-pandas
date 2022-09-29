@@ -399,13 +399,13 @@ Une fois les routes mises en place, on peut vérifier que le cache React Query f
 
 ## Utilisation de React i18next
 
-On va utiliser React i18Next pour gérer l'internationalisation de l'application.
+Utilisons maintenant la librairie React i18Next pour gérer l'internationalisation de l'application.
 
 ### Traduction des libellés
 
 - Installer React i18Next
 
-```
+```bash
 npm install i18next react-i18next
 ```
 
@@ -413,11 +413,13 @@ npm install i18next react-i18next
 
 - Utiliser le hook `useTranslation` pour remplacer les libellés en dur dans les différents composants.
 
+- Pour que les stories et les tests unitaires continuent à fonctionner il faut également importer le fichier `i18n/index.ts` dans les fichiers `.storybook/preview.js` et `src/setupTest.ts`.
+
 ### Changement de la langue
 
-- Modifier le composant `Header` pour permettre le changement de la langue.
-  - Deux libellés "FR" et "EN" pour passer en français ou en anglais.
-  - Le libellé associé à la langue courante est en gras.
+Modifier le composant `Header` pour permettre le changement de la langue selon les règles suivantes :
+- Deux libellés `FR` et `EN` pour passer en français ou en anglais.
+- Le libellé associé à la langue courante est en gras.
 
 ## Utilisation de React Hook Form
 

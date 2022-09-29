@@ -336,24 +336,23 @@ jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
       </google-codelab-step>
     
       <google-codelab-step label="Utilisation de React i18next" duration="0">
-        <p>On va utiliser React i18Next pour gérer l&#39;internationalisation de l&#39;application.</p>
+        <p>Utilisons maintenant la librairie React i18Next pour gérer l&#39;internationalisation de l&#39;application.</p>
 <h2 is-upgraded>Traduction des libellés</h2>
 <ul>
 <li>Installer React i18Next</li>
 </ul>
-<pre><code>npm install i18next react-i18next
+<pre><code language="language-bash" class="language-bash">npm install i18next react-i18next
 </code></pre>
 <ul>
 <li>Créer un fichier <code>i18n/index.ts</code> pour configurer React i18Next et importer ce fichier dans <code>index.ts</code> pour initialiser l&#39;internationalisation dans l&#39;application. On gère deux langues : anglais et français (français par défaut).</li>
 <li>Utiliser le hook <code>useTranslation</code> pour remplacer les libellés en dur dans les différents composants.</li>
+<li>Pour que les stories et les tests unitaires continuent à fonctionner il faut également importer le fichier <code>i18n/index.ts</code> dans les fichiers <code>.storybook/preview.js</code> et <code>src/setupTest.ts</code>.</li>
 </ul>
 <h2 is-upgraded>Changement de la langue</h2>
+<p>Modifier le composant <code>Header</code> pour permettre le changement de la langue selon les règles suivantes :</p>
 <ul>
-<li>Modifier le composant <code>Header</code> pour permettre le changement de la langue. <ul>
-<li>Deux libellés &#34;FR&#34; et &#34;EN&#34; pour passer en français ou en anglais.</li>
+<li>Deux libellés <code>FR</code> et <code>EN</code> pour passer en français ou en anglais.</li>
 <li>Le libellé associé à la langue courante est en gras.</li>
-</ul>
-</li>
 </ul>
 
 
