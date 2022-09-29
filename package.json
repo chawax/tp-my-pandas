@@ -68,6 +68,7 @@
     "@storybook/react": "^6.5.12",
     "@storybook/testing-library": "^0.0.13",
     "@types/reactstrap": "^8.7.2",
+    "axios-mock-adapter": "^1.21.2",
     "babel-plugin-named-exports-order": "^0.0.2",
     "json-server": "^0.17.0",
     "prettier": "^2.7.1",

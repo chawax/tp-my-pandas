@@ -1,12 +1,20 @@
+import { Spinner } from 'reactstrap';
 import PandasList from '../components/PandasList';
-import pandas from '../mocks/pandas.json';
+import usePandas from '../hooks/usePandas';
 
 const handlePress = (id: string) => {
   alert(`Panda ${id} was pressed`);
 };
 
-const PandasListView = () => (
-  <PandasList pandas={pandas} onPress={handlePress} />
-);
+const PandasListView = () => {
+  const { isLoading, isSuccess, isError, data, error } = usePandas();
+  return (
+    <>
+      {isLoading && <Spinner />}
+      {isError && error && <p>{error}</p>}
+      {isSuccess && data && <PandasList pandas={data} onPress={handlePress} />}
+    </>
+  );
+};
 
 export default PandasListView;
