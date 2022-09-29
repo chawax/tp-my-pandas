@@ -10,6 +10,7 @@
     "@types/node": "^16.11.62",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "axios": "^0.27.2",
     "bootstrap": "^5.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -24,7 +25,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "json-server": "./node_modules/.bin/json-server --watch ./json-server/db.json --port 3004 --id key"
   },
   "eslintConfig": {
     "extends": [
@@ -67,6 +69,7 @@
     "@storybook/testing-library": "^0.0.13",
     "@types/reactstrap": "^8.7.2",
     "babel-plugin-named-exports-order": "^0.0.2",
+    "json-server": "^0.17.0",
     "prettier": "^2.7.1",
     "prop-types": "^15.8.1",
     "webpack": "^5.74.0"
