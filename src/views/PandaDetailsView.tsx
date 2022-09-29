@@ -6,7 +6,6 @@ import usePandaDetails from '../hooks/usePandaDetails';
 
 const PandaDetailsView = () => {
   const { id } = useParams<{ id: string }>();
-  console.log(`id => ${id}`);
 
   const { isLoading, isSuccess, isError, data, error, refetch } =
     usePandaDetails(id!);

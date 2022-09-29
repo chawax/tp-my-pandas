@@ -1,0 +1,16 @@
+{
+  "translation": {
+    "app": {
+      "title": "My pandas"
+    },
+    "common": {
+      "close": "Close",
+      "retry": "Retry"
+    },
+    "pandaList": {
+      "noPandas": "No panda was found !",
+      "addNewPanda": "Add a new panda"
+    },
+    "errors": { "404": "Page not found !" }
+  }
+}

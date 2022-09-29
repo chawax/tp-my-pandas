@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { Panda } from '../types/Panda';
 import PandaItem from './PandaItem';
@@ -16,6 +17,7 @@ export type PandasListProps = {
 };
 
 const PandasList = ({ pandas, onPress }: PandasListProps) => {
+  const { t } = useTranslation();
   return (
     <ListGroup>
       {pandas.length > 0 ? (
@@ -27,7 +29,7 @@ const PandasList = ({ pandas, onPress }: PandasListProps) => {
           />
         ))
       ) : (
-        <ListGroupItem>Aucun panda n'a été trouvé !</ListGroupItem>
+        <ListGroupItem>{t('pandaList.noPandas')}</ListGroupItem>
       )}
     </ListGroup>
   );

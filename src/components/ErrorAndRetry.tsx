@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Alert, Button } from 'reactstrap';
 
 type ErrorAndRetryProps = {
@@ -6,6 +7,8 @@ type ErrorAndRetryProps = {
 };
 
 const ErrorAndRetry = ({ message, onRetry }: ErrorAndRetryProps) => {
+  const { t } = useTranslation();
+
   return (
     <Alert color="danger">
       <p>{message}</p>
@@ -16,7 +19,7 @@ const ErrorAndRetry = ({ message, onRetry }: ErrorAndRetryProps) => {
           className="float-right"
           size="sm"
         >
-          Réessayer
+          {t('common.retry')}
         </Button>
       ) : null}
     </Alert>
