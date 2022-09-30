@@ -13,6 +13,13 @@
       "noPandas": "No panda was found !",
       "addNewPanda": "Add a new panda"
     },
+    "pandaDetails": {
+      "deletePanda": "Delete the panda",
+      "editPanda": "Edit the panda"
+    },
+    "createPanda": {
+      "title": "Create a new panda"
+    },
     "pandaForm": {
       "name": {
         "label": "Name",
