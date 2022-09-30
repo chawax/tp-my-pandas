@@ -573,4 +573,6 @@ On va utiliser Context API pour gérer un mode d'affichage "dark" ou "light" dan
   - En mode `dark` la navbar doit être en dark et le texte en blanc
   - En mode `light` la navbar doit être en light et le texte en noir
 
-- A l'image de ce qui a été fait pour les langues créer un composant `ChooseDisplayMode` qui permet de choisir le mode d'affichage. Ce composant utilisera lui aussi `userContext` pour récupérer la valeur de `displayMode` dans `DisplayModeContext` mais aussi accéder à ma méthode `toggleDisplayMode`
+- A l'image de ce qui a été fait pour les langues créer un composant `ChooseDisplayMode` qui permet de choisir le mode d'affichage. Ce composant utilisera lui aussi `userContext` pour récupérer la valeur de `displayMode` dans `DisplayModeContext` mais aussi accéder à la méthode `toggleDisplayMode`.
+
+- Ne pas oublier de wrapper la story pour le composant `Header` avec le provider `DisplayModeProvider` pour que le changement de mode fonctionne également dans Storybook.

@@ -494,7 +494,8 @@ jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
 <li>En mode <code>light</code> la navbar doit être en light et le texte en noir</li>
 </ul>
 </li>
-<li>A l&#39;image de ce qui a été fait pour les langues créer un composant <code>ChooseDisplayMode</code> qui permet de choisir le mode d&#39;affichage. Ce composant utilisera lui aussi <code>userContext</code> pour récupérer la valeur de <code>displayMode</code> dans <code>DisplayModeContext</code> mais aussi accéder à ma méthode <code>toggleDisplayMode</code></li>
+<li>A l&#39;image de ce qui a été fait pour les langues créer un composant <code>ChooseDisplayMode</code> qui permet de choisir le mode d&#39;affichage. Ce composant utilisera lui aussi <code>userContext</code> pour récupérer la valeur de <code>displayMode</code> dans <code>DisplayModeContext</code> mais aussi accéder à la méthode <code>toggleDisplayMode</code>.</li>
+<li>Ne pas oublier de wrapper la story pour le composant <code>Header</code> avec le provider <code>DisplayModeProvider</code> pour que le changement de mode fonctionne également dans Storybook.</li>
 </ul>
 
 
