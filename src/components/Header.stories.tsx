@@ -1,5 +1,5 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
-import { MemoryRouter } from 'react-router-dom';
+import { DisplayModeProvider } from '../context/DisplayModeProvider';
 import Header from './Header';
 
 export default {
@@ -8,9 +8,9 @@ export default {
 } as Meta;
 
 const Template: Story = (args) => (
-  <MemoryRouter>
+  <DisplayModeProvider>
     <Header {...args} />
-  </MemoryRouter>
+  </DisplayModeProvider>
 );
 
 export const Default = Template.bind({});

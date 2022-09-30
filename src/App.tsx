@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Router from './components/Router';
+import { DisplayModeProvider } from './context/DisplayModeProvider';
 
 const queryClientProvider = new QueryClient({
   defaultOptions: {
@@ -13,10 +14,12 @@ const queryClientProvider = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClientProvider}>
-      <Router />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <DisplayModeProvider>
+      <QueryClientProvider client={queryClientProvider}>
+        <Router />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </DisplayModeProvider>
   );
 }
 
