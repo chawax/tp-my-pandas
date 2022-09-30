@@ -359,7 +359,7 @@ jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
       </google-codelab-step>
     
       <google-codelab-step label="Utilisation de React Hook Form" duration="0">
-        <p>On va utiliser React Hook Form pour gérer un formulaire de création de pandas.</p>
+        <p>Nous allons créer des formulaires de création et de modification de pandas en se basant sur React Hook Form.</p>
 <h2 is-upgraded>Création du composant <code>TextInput</code></h2>
 <p>On va d&#39;abord créer un composant <code>TextInput</code> qui permet de définir un champ de saisie de texte avec son label, sa gestion d&#39;erreur et d&#39;autres comportements.</p>
 <p>Ce composant a les propriétés suivantes :</p>
@@ -370,12 +370,13 @@ jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
 <li><code>value</code> : valeur initiale du champ (optionnel)</li>
 <li><code>required</code> : le champ est-il obligatoire (<code>false</code> par défaut)</li>
 <li><code>error</code> : le message d&#39;erreur à afficher sous le champ</li>
+<li><code>onChange</code>: un événement déclenché lorsque le contenu du champ change (de type <code>ChangeEventHandler<HTMLInputElement | undefined></code>)</li>
 </ul>
 <p>Quelques précisions sur le comportement :</p>
 <ul>
 <li>Lorsqu&#39;on clique sur le label, on doit donner le focus au champ</li>
-<li>Lorsque le champ est obligatoire le label doit contenir une petite étoile</li>
-<li>Lorsque le champ est en erreur, il doit avoir une bordure rouge</li>
+<li>Lorsque le champ est obligatoire le label doit être suffixé d&#39;une petite étoile</li>
+<li>Lorsque le champ est en erreur, il doit avoir une bordure rouge et le message d&#39;erreur doit s&#39;afficher sous le champ.</li>
 </ul>
 <p>On s&#39;appuie sur les composants et les styles CSS de Reactstrap pour créer ce composant.</p>
 <p>On peut créer des stories pour valider les cas suivants :</p>
@@ -387,7 +388,7 @@ jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
 </ul>
 <h2 is-upgraded>Création du composant <code>PandaForm</code> avec React Hook Form</h2>
 <p>Installer React Hook Form :</p>
-<pre><code>npm install react-hook-form
+<pre><code language="language-bash" class="language-bash">npm install react-hook-form
 </code></pre>
 <p>Créer un composant <code>PandaForm</code> qui s&#39;appuie sur React Hook Form et le composant <code>TextInput</code> créé précédemment pour définir un formulaire de création / modification d&#39;un panda.</p>
 <p>Le formulaire comprend les éléments suivants :</p>
@@ -398,31 +399,40 @@ jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
 <li>Un bouton <code>Valider</code> pour soumettre le formulaire</li>
 <li>Un bouton <code>Annuler</code> pour annuler la création en cours</li>
 </ul>
+<p>Il a trois propriétés :</p>
+<ul>
+<li><code>initialValues</code> : (optionnel) un objet contenant les valeurs par défaut des champs du formulaire (une propriété pour chaque nom de champ)</li>
+<li><code>onSubmit</code> : un événement déclenché en cas de soumission du formulaire. L&#39;événement a en paramètre un objet contenant les données du formulaire.</li>
+<li><code>onCancel</code> : un événement déclenché lorsqu&#39;on clique sur le bouton <code>Annuler</code></li>
+</ul>
+<p>On peut définir un type <code>PandaFormValues</code> qui sera utilisé pour typer la propriété <code>initialValues</code> et l&#39;objet passé sur l&#39;événement <code>onSubmit</code>.</p>
 <p>Quelques règles de gestion :</p>
 <ul>
 <li>Tous les champs sont obligatoires</li>
 <li>Le champ <code>Image</code> doit contenir une URL valide (commençant par <code>http://</code> ou <code>https://</code>)</li>
-<li>Le bouton <code>Valider</code> ne doit être actif que si</li>
+<li>Le bouton <code>Valider</code> ne doit être actif que si tous les contrôles de surface sont respectés.</li>
 </ul>
+<p>Pour lier chaque champ d&#39;entrée à React Hook Form, il faut utiliser le composant <code>Controller</code> fourni par React Hook Form.</p>
 <p>On crée deux stories pour tester ce composant :</p>
 <ul>
 <li>L&#39;une avec le formulaire sans valeurs initiales</li>
 <li>L&#39;autre avec le formulaire avec des valeurs initiales</li>
 </ul>
-<p><strong>Remarque :</strong> Pour lier chaque champ d&#39;entrée à React Hook Form, il faut passer dans le cas de Reactstrap par la propiété <code>innerRef</code> plutôt que la propriété <code>ref</code>. Il faut donc que le composant <code>TextInput</code> fasse le &#34;passe-plat&#34; pour cette propriété <code>innerRef</code> définie par le composant <code>Input</code> de Reactstrap.</p>
+<aside class="special"><p>Storybook offre un espace qui permet de manipuler le formulaire et vérifier qu&#39;il fonctionne bien. On s&#39;intéressera en particulier aux événements déclenchés et vérifier les paramètres passés. Idéalement on voudrait le faire dans le cadre de tests unitaires mais pour simplifier l&#39;exercice on se contente de tests visuels. </p>
+</aside>
 <h2 is-upgraded>Création des pages de création et de modification de panda</h2>
 <p>Ajouter un composant <code>CreatePandaView</code> :</p>
 <ul>
 <li>Ce composant définit une page permettant de créer un panda en intégrant le composant <code>PandaForm</code>.</li>
 <li>Lors de la création d&#39;un panda dans le formulaire on se contente pour l&#39;instant d&#39;afficher dans la console le panda créé.</li>
-<li>Ce composant est associé à la route <code>/pandas/new</code>. Un bouton &#34;Ajouter un panda&#34; dans le composant <code>PandasListView</code> permet d&#39;accéder à cette route</li>
+<li>Ce composant est associé à une nouvelle route <code>/pandas/new</code>. Un bouton &#34;Ajouter un panda&#34; dans le composant <code>PandasListView</code> permet d&#39;accéder à cette route</li>
 </ul>
 <p>Ajouter un deuxième composant <code>EditPandaView</code> :</p>
 <ul>
 <li>Ce composant définit une page permettant de modifier un panda en intégrant le composant <code>PandaForm</code> et en lui fournissant les valeurs initiales.</li>
 <li>Les informations sur le panda sont chargées de la même manière que depuis la page de visualisation des détails d&#39;un panda</li>
 <li>Lors de la modification d&#39;un panda dans le formulaire on se contente pour l&#39;instant d&#39;afficher dans la console les nouvelles données sur le panda.</li>
-<li>Ce composant est associé à la route <code>/pandas/:id/edit</code>. Un bouton &#34;Modifier le panda&#34; dans le composant <code>PandaDetailsView</code> permet d&#39;accéder à cette route.</li>
+<li>Ce composant est associé à une nouvelle route <code>/pandas/:id/edit</code>. Un bouton &#34;Modifier le panda&#34; dans le composant <code>PandaDetailsView</code> permet d&#39;accéder à cette route.</li>
 </ul>
 
 

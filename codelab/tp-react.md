@@ -423,7 +423,7 @@ Modifier le composant `Header` pour permettre le changement de la langue selon l
 
 ## Utilisation de React Hook Form
 
-On va utiliser React Hook Form pour gérer un formulaire de création de pandas.
+Nous allons créer des formulaires de création et de modification de pandas en se basant sur React Hook Form.
 
 ### Création du composant `TextInput`
 
@@ -437,12 +437,13 @@ Ce composant a les propriétés suivantes :
 - `value` : valeur initiale du champ (optionnel)
 - `required` : le champ est-il obligatoire (`false` par défaut)
 - `error` : le message d'erreur à afficher sous le champ
+- `onChange`: un événement déclenché lorsque le contenu du champ change (de type `ChangeEventHandler<HTMLInputElement | undefined>`)
 
 Quelques précisions sur le comportement :
 
 - Lorsqu'on clique sur le label, on doit donner le focus au champ
-- Lorsque le champ est obligatoire le label doit contenir une petite étoile
-- Lorsque le champ est en erreur, il doit avoir une bordure rouge
+- Lorsque le champ est obligatoire le label doit être suffixé d'une petite étoile
+- Lorsque le champ est en erreur, il doit avoir une bordure rouge et le message d'erreur doit s'afficher sous le champ.
 
 On s'appuie sur les composants et les styles CSS de Reactstrap pour créer ce composant.
 
@@ -457,7 +458,7 @@ On peut créer des stories pour valider les cas suivants :
 
 Installer React Hook Form :
 
-```
+```bash
 npm install react-hook-form
 ```
 
@@ -471,18 +472,28 @@ Le formulaire comprend les éléments suivants :
 - Un bouton `Valider` pour soumettre le formulaire
 - Un bouton `Annuler` pour annuler la création en cours
 
+Il a trois propriétés :
+- `initialValues` : (optionnel) un objet contenant les valeurs par défaut des champs du formulaire (une propriété pour chaque nom de champ)
+- `onSubmit` : un événement déclenché en cas de soumission du formulaire. L'événement a en paramètre un objet contenant les données du formulaire.
+- `onCancel` : un événement déclenché lorsqu'on clique sur le bouton `Annuler`
+
+On peut définir un type `PandaFormValues` qui sera utilisé pour typer la propriété `initialValues` et l'objet passé sur l'événement `onSubmit`.
+
 Quelques règles de gestion :
 
 - Tous les champs sont obligatoires
 - Le champ `Image` doit contenir une URL valide (commençant par `http://` ou `https://`)
-- Le bouton `Valider` ne doit être actif que si
+- Le bouton `Valider` ne doit être actif que si tous les contrôles de surface sont respectés.
+
+Pour lier chaque champ d'entrée à React Hook Form, il faut utiliser le composant `Controller` fourni par React Hook Form.
 
 On crée deux stories pour tester ce composant :
 
 - L'une avec le formulaire sans valeurs initiales
 - L'autre avec le formulaire avec des valeurs initiales
 
-> **Remarque :** Pour lier chaque champ d'entrée à React Hook Form, il faut passer dans le cas de Reactstrap par la propiété `innerRef` plutôt que la propriété `ref`. Il faut donc que le composant `TextInput` fasse le "passe-plat" pour cette propriété `innerRef` définie par le composant `Input` de Reactstrap.
+<aside class="positive">Storybook offre un espace qui permet de manipuler le formulaire et vérifier qu'il fonctionne bien. On s'intéressera en particulier aux événements déclenchés et vérifier les paramètres passés. Idéalement on voudrait le faire dans le cadre de tests unitaires mais pour simplifier l'exercice on se contente de tests visuels.
+</aside>
 
 ### Création des pages de création et de modification de panda
 
@@ -490,14 +501,14 @@ Ajouter un composant `CreatePandaView` :
 
 - Ce composant définit une page permettant de créer un panda en intégrant le composant `PandaForm`.
 - Lors de la création d'un panda dans le formulaire on se contente pour l'instant d'afficher dans la console le panda créé.
-- Ce composant est associé à la route `/pandas/new`. Un bouton "Ajouter un panda" dans le composant `PandasListView` permet d'accéder à cette route
+- Ce composant est associé à une nouvelle route `/pandas/new`. Un bouton "Ajouter un panda" dans le composant `PandasListView` permet d'accéder à cette route
 
 Ajouter un deuxième composant `EditPandaView` :
 
 - Ce composant définit une page permettant de modifier un panda en intégrant le composant `PandaForm` et en lui fournissant les valeurs initiales.
 - Les informations sur le panda sont chargées de la même manière que depuis la page de visualisation des détails d'un panda
 - Lors de la modification d'un panda dans le formulaire on se contente pour l'instant d'afficher dans la console les nouvelles données sur le panda.
-- Ce composant est associé à la route `/pandas/:id/edit`. Un bouton "Modifier le panda" dans le composant `PandaDetailsView` permet d'accéder à cette route.
+- Ce composant est associé à une nouvelle route `/pandas/:id/edit`. Un bouton "Modifier le panda" dans le composant `PandaDetailsView` permet d'accéder à cette route.
 
 ## Mise à jour des données avec React Query
 
