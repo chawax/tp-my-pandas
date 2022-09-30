@@ -1,14 +1,11 @@
-import { useTranslation } from 'react-i18next';
-import { Badge, Button } from 'reactstrap';
+import { Badge } from 'reactstrap';
 import { Panda } from '../types/Panda';
 
 export type PandaDetailsProps = {
   panda: Panda;
-  onClose: () => void;
 };
 
-const PandaDetails = ({ panda, onClose }: PandaDetailsProps) => {
-  const { t } = useTranslation();
+const PandaDetails = ({ panda }: PandaDetailsProps) => {
   return (
     <div style={{ padding: 20 }}>
       <h1>{panda.name}</h1>
@@ -23,11 +20,6 @@ const PandaDetails = ({ panda, onClose }: PandaDetailsProps) => {
       )}
       <div style={{ marginTop: 10 }}>
         <img src={panda.image} alt={panda.name} />
-      </div>
-      <div style={{ marginTop: 10 }}>
-        <Button color="primary" onClick={onClose}>
-          {t('common.close')}
-        </Button>
       </div>
     </div>
   );

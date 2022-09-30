@@ -4,11 +4,47 @@
       "title": "Mes pandas"
     },
     "common": {
+      "cancel": "Annuler",
       "close": "Fermer",
-      "retry": "Réessayer"
+      "retry": "Réessayer",
+      "submit": "Valider"
     },
     "pandaList": {
-      "noPandas": "Aucun panda n'a été trouvé !"
+      "noPandas": "Aucun panda n'a été trouvé !",
+      "addNewPanda": "Ajouter un panda"
+    },
+    "pandaDetails": {
+      "editPanda": "Modifier le panda"
+    },
+    "createPanda": {
+      "title": "Création d'un nouveau panda"
+    },
+    "editPanda": {
+      "title": "Modification de panda"
+    },
+    "pandaForm": {
+      "name": {
+        "label": "Nom",
+        "placeholder": "Saisissez le nom du panda",
+        "errors": {
+          "required": "Veuillez saisir un nom de panda"
+        }
+      },
+      "interests": {
+        "label": "Centres d'intérêt",
+        "placeholder": "Saisissez les centres d'intérêt du panda (séparés par une virgule)",
+        "errors": {
+          "required": "Veuillez saisir les centre d'intérêt du panda"
+        }
+      },
+      "image": {
+        "label": "Image",
+        "placeholder": "Saisissez l'url de la photo du panda",
+        "errors": {
+          "required": "Veuillez saisir une URL de photo pour le panda",
+          "invalid": "Veuillez saisir une URL valide"
+        }
+      }
     },
     "errors": { "404": "Page introuvable !" }
   }

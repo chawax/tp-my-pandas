@@ -4,12 +4,38 @@
       "title": "My pandas"
     },
     "common": {
+      "cancel": "Cancel",
       "close": "Close",
-      "retry": "Retry"
+      "retry": "Retry",
+      "submit": "Submit"
     },
     "pandaList": {
       "noPandas": "No panda was found !",
       "addNewPanda": "Add a new panda"
+    },
+    "pandaForm": {
+      "name": {
+        "label": "Name",
+        "placeholder": "The panda name",
+        "errors": {
+          "required": "Please enter a name for the panda"
+        }
+      },
+      "interests": {
+        "label": "Hobbies",
+        "placeholder": "The panda hobbies (a comma separated list)",
+        "errors": {
+          "required": "Please enter hobbies for the panda"
+        }
+      },
+      "image": {
+        "label": "Image",
+        "placeholder": "The URL of the panda photo",
+        "errors": {
+          "required": "Please enter a photo URL for the panda",
+          "invalid": "Please enter a valid URL"
+        }
+      }
     },
     "errors": { "404": "Page not found !" }
   }
