@@ -439,20 +439,23 @@ jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
       </google-codelab-step>
     
       <google-codelab-step label="Mise à jour des données avec React Query" duration="0">
-        <p>On va utiliser React Query pour gérer les appels de services REST pour la création, la modification et la suppression des pandas.</p>
+        <p>On va utiliser les mutations React Query pour gérer les appels de services REST pour la création, la modification et la suppression des pandas.</p>
 <h2 is-upgraded>Création de panda</h2>
 <ul>
-<li>Créer un hook <code>useCreatePanda</code> qui permet d&#39;appeler le service REST de création d&#39;un panda :<ul>
+<li>Créer un hook <code>useCreatePanda</code> qui permet d&#39;appeler le service REST de création d&#39;un panda en s&#39;appuyant sur le hook <code>useMutation</code> de React Query :<ul>
 <li>URL : <code>http://localhost:3004/panda</code></li>
 <li>Method : <code>POST</code></li>
 <li>Data : <code>{ name: "Nom du panda", interests: ["hobby1", "hobby2"], image: "http://url.image.fr" }</code></li>
 </ul>
 </li>
-<li>Utiliser ce hook dans le composant <code>CreatePandaView</code>.</li>
+<li>Pour définir le type en entrée de la méthode de mutation, on peut créer facilement un type identique à <code>Panda</code> mais en excluant la propriété <code>key</code> qui est positionnée automatiquement par json-server. On doit utiliser la notation <code>Omit</code> de Typescript.</li>
+<li>Utiliser ce hook dans le composant <code>CreatePandaView</code> en modifiant la méthode appelée au submit du formulaire. Afficher un spinner ou un message d&#39;erreur en fonction du hook <code>useCreatePanda</code>.</li>
 </ul>
+<aside class="special"><p> Lors d&#39;une mutation, React Query retourne des informations sur le déroulement de la requête. On peut les exploiter pour afficher un spinner ou un message d&#39;erreur dans l&#39;écran de création de panda. Si vous avez le temps, essayez de le faire ! </p>
+</aside>
 <h2 is-upgraded>Modification d&#39;un panda</h2>
 <ul>
-<li>Créer un hook <code>useUpdatePanda</code> qui permet d&#39;appeler le service REST de création d&#39;un panda :<ul>
+<li>Créer un hook <code>useUpdatePanda</code> qui permet d&#39;appeler le service REST de modification d&#39;un panda en s&#39;appuyant sur le hook <code>useMutation</code> de React Query :<ul>
 <li>URL : <code>http://localhost:3004/panda/:id</code></li>
 <li>Method : <code>PUT</code></li>
 <li>Data : <code>{ key: "zFR134", name: "Nom du panda", interests: ["hobby1", "hobby2"], image: "http://url.image.fr" }</code></li>
@@ -469,6 +472,8 @@ jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
 </li>
 <li>Ajouter un bouton &#34;Supprimer le panda&#34; et utiliser ce hook dans le composant <code>PandaDetailsView</code>.</li>
 </ul>
+<aside class="warning"><p> Lorsqu&#39;on revient sur la liste des pandas après la création, la modification ou la suppression d&#39;un panda, les données ne sont pas à jour dans la liste car les données sont mises en cache par React Query. Il faut donc invalider la liste des pandas dans le cache React Query pour forcer le rechargement de la liste des pandas. </p>
+</aside>
 
 
       </google-codelab-step>

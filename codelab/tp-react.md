@@ -512,21 +512,27 @@ Ajouter un deuxième composant `EditPandaView` :
 
 ## Mise à jour des données avec React Query
 
-On va utiliser React Query pour gérer les appels de services REST pour la création, la modification et la suppression des pandas.
+On va utiliser les mutations React Query pour gérer les appels de services REST pour la création, la modification et la suppression des pandas.
 
 ### Création de panda
 
-- Créer un hook `useCreatePanda` qui permet d'appeler le service REST de création d'un panda :
+- Créer un hook `useCreatePanda` qui permet d'appeler le service REST de création d'un panda en s'appuyant sur le hook `useMutation` de React Query :
 
   - URL : `http://localhost:3004/panda`
   - Method : `POST`
   - Data : `{ name: "Nom du panda", interests: ["hobby1", "hobby2"], image: "http://url.image.fr" }`
 
-- Utiliser ce hook dans le composant `CreatePandaView`.
+- Pour définir le type en entrée de la méthode de mutation, on peut créer facilement un type identique à `Panda` mais en excluant la propriété `key` qui est positionnée automatiquement par json-server. On doit utiliser la notation `Omit` de Typescript.
+
+- Utiliser ce hook dans le composant `CreatePandaView` en modifiant la méthode appelée au submit du formulaire. Afficher un spinner ou un message d'erreur en fonction du hook `useCreatePanda`.
+
+<aside class="positive">
+Lors d'une mutation, React Query retourne des informations sur le déroulement de la requête. On peut les exploiter pour afficher un spinner ou un message d'erreur dans l'écran de création de panda. Si vous avez le temps, essayez de le faire !
+</aside>
 
 ### Modification d'un panda
 
-- Créer un hook `useUpdatePanda` qui permet d'appeler le service REST de création d'un panda :
+- Créer un hook `useUpdatePanda` qui permet d'appeler le service REST de modification d'un panda en s'appuyant sur le hook `useMutation` de React Query :
 
   - URL : `http://localhost:3004/panda/:id`
   - Method : `PUT`
@@ -542,6 +548,10 @@ On va utiliser React Query pour gérer les appels de services REST pour la créa
   - Method : `DELETE`
 
 - Ajouter un bouton "Supprimer le panda" et utiliser ce hook dans le composant `PandaDetailsView`.
+
+<aside class="negative">
+Lorsqu'on revient sur la liste des pandas après la création, la modification ou la suppression d'un panda, les données ne sont pas à jour dans la liste car les données sont mises en cache par React Query. Il faut donc invalider la liste des pandas dans le cache React Query pour forcer le rechargement de la liste des pandas.
+</aside>
 
 ## Utilisation de Context API
 
