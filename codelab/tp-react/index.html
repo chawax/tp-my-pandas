@@ -1,0 +1,513 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>TP My Pandas</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="tp-react"
+                  title="TP My Pandas"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="Initialisation d&#39;une application React" duration="0">
+        <p>Ce TP permet de développer une application qui permet de gérer une liste de pandas.</p>
+<ul>
+<li>Liste de pandas</li>
+<li>Détail d&#39;un panda</li>
+<li>Création d&#39;un panda</li>
+<li>Modification d&#39;un panda</li>
+<li>Suppression d&#39;un panda</li>
+</ul>
+<aside class="special"><p> Prérequis : </p>
+<ul>
+<li>Node JS installé (16 minimum recommandée)</li>
+<li>Chrome ou un autre navigateur installé</li>
+<li>Visual Studio Code installé</li>
+</ul>
+</aside>
+<h2 is-upgraded>Initialiser l&#39;application React</h2>
+<p>Créer une application React avec la commande <code>create-react-app</code>.</p>
+<p>Attention au copier / coller qui peut parfois embarquer des caractères pourris !</p>
+<pre><code language="language-bash" class="language-bash">npx create-react-app my-pandas --template typescript
+</code></pre>
+<h2 is-upgraded>Vérifier que tout fonctionne</h2>
+<p>Lancer l&#39;application en mode développement :</p>
+<pre><code language="language-bash" class="language-bash">cd my-pandas
+npm start
+</code></pre>
+<p>Tester le hot reloading en modifiant le fichier <code>App.tsx</code></p>
+<p>Lancer un build :</p>
+<pre><code language="language-bash" class="language-bash">npm run build
+</code></pre>
+<p>Et vérifier que l&#39;application fonctionne en mode production :</p>
+<pre><code language="language-bash" class="language-bash">npx serve -s build
+</code></pre>
+<p>Lancer les tests automatisés avec <code>npm test</code>.</p>
+<aside class="warning"><p> En cas d&#39;erreur &#34;Cannot use JSX unless the &#39;--jsx&#39; flag is provided&#39; quand on ouvre un fichier TSX dans VSCode, faire un upgrade de Typescript (`npm install -D typescript@latest`) puis relancer VSCode. Ce problème est lié à la version Typescript utilisée par VSCode. </p>
+</aside>
+<h2 is-upgraded>Améliorer l&#39;environnement de développement</h2>
+<p>Ajouter le plugin Prettier et la configuration Prettier.</p>
+<pre><code language="language-bash" class="language-bash">npm install --save-dev prettier
+</code></pre>
+<p>Créer un fichier <code>.prettierrc</code> à la racine du projet avec la configuration suivante :</p>
+<pre><code>{
+  &#34;printWidth&#34;: 80,
+  &#34;tabWidth&#34;: 2,
+  &#34;useTabs&#34;: false,
+  &#34;semi&#34;: true,
+  &#34;singleQuote&#34;: true,
+  &#34;trailingComma&#34;: &#34;all&#34;
+}
+</code></pre>
+<p>Installer l&#39;extension Prettier dans VSCode et activer le formatage à la sauvegarde de chaque fichier (option <code>Format on save</code> dans les préférences du workspace).</p>
+<p>Installer l&#39;extension ESLint dans VSCode.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Création des premiers composants" duration="0">
+        <p>Nous allons créer nos premiers composants et utiliser Storybook pour les tester. Nous utiliseront la librairie Reactstrap (librairie de wrapping de Bootstrap pour React) pour créer des composants beaux visuellement sans avoir besoin d&#39;écrire de CSS !</p>
+<aside class="special"><p> Reactstrap met à disposition un Storybook documentant les composants mis à disposition et permettant de les tester : <a href="https://reactstrap.github.io/" target="_blank">reactstrap.github.io</a></p>
+</aside>
+<h2 is-upgraded>Installation de Storybook</h2>
+<p>Dans un premier temps installons Storybook dans le projet.</p>
+<pre><code language="language-bash" class="language-bash">npx sb init --use-npm
+</code></pre>
+<p>Puis lancer <code>npm run storybook</code> pour vérifier que tout se lance bien.</p>
+<h2 is-upgraded>Installation de Reactstrap</h2>
+<p>D&#39;abord installer les librairies Bootstrap et Reactstrap :</p>
+<pre><code language="language-bash" class="language-bash">npm install bootstrap reactstrap
+npm install --save-dev @types/reactstrap
+</code></pre>
+<aside class="warning"><p> La librairie Reactstrap n&#39;étant pas encore officiellement compatible avec React 18, on peut avoir des warnings pendant l&#39;installation de la librairie. </p>
+</aside>
+<p>Ajouter l&#39;import <code>import 'bootstrap/dist/css/bootstrap.min.css'</code> dans <code>index.tsx</code> et dans <code>.storybook/preview.js</code> pour que les styles CSS Bootstrap soient chargés au démarrage de l&#39;application et de Storybook.</p>
+<p>Pour vérifier que Reactstrap est bien initialisé :</p>
+<ul>
+<li>Insérer le composant <code>Button</code> de Reactstrap dans <code>App.tsx</code> et vérifier qu&#39;il a l&#39;aspect attendu.</li>
+<li>Créer une story <code>ReactstrapButton.stories.tsx</code> utilisant le composant <code>Button</code> de Reactstrap. On peut s&#39;inspirer de celle du composant <code>Button</code> initialisé lors de l&#39;installation de Storybook pour créer une story de ce type :</li>
+</ul>
+<pre><code language="language-ts" class="language-ts">import { ComponentMeta, ComponentStory } from &#39;@storybook/react&#39;;
+
+import { Button } from &#39;reactstrap&#39;;
+
+export default {
+  title: &#39;Example/Reactstrap Button&#39;,
+  component: Button,
+} as ComponentMeta&lt;typeof Button&gt;;
+
+const Template: ComponentStory&lt;typeof Button&gt; = (args) =&gt; &lt;Button {...args} /&gt;;
+
+export const Primary = Template.bind({});
+Primary.args = {
+  color: &#39;primary&#39;,
+  children: &#39;Primary&#39;,
+};
+
+export const Secondary = Template.bind({});
+Secondary.args = {
+  color: &#39;secondary&#39;,
+  children: &#39;Secondary&#39;,
+};
+</code></pre>
+<h2 is-upgraded>Création des composants <code>PandasList</code> et <code>PandaItem</code></h2>
+<p>On va créer un composant <code>PandasList</code> pour afficher une liste de pandas. Ce composant a les propriétés suivantes :</p>
+<ul>
+<li><code>pandas</code> : un tableau de pandas</li>
+<li><code>onPress</code> : événement déclenché lorsqu&#39;on clique sur un panda dans la liste. On passe l&#39;id du panda en paramètre.</li>
+</ul>
+<p>Chaque item de la liste est défini par un composant <code>PandaItem</code>. Ce composant a les propriétés suivantes :</p>
+<ul>
+<li><code>name</code> : le nom du panda</li>
+<li><code>onPress</code> : événement déclenché lorsqu&#39;on clique sur le panda</li>
+</ul>
+<p>Ce composant affiche un cercle avec la 1ère lettre du nom du panda puis son nom. Le clic doit être pris sur l&#39;ensemble de la ligne.</p>
+<p>Ces composants doivent être définis dans le répertoire <code>src/components</code>.</p>
+<p>Pour pouvoir typer correctement les composants, créer un type <code>Panda</code> dans <code>src/types</code> avec les propriétés suivantes :</p>
+<ul>
+<li><code>key</code> de type <code>string</code></li>
+<li><code>name</code> de type <code>string</code></li>
+<li><code>interests</code> de type tableau de <code>string</code></li>
+<li><code>image</code> de type string</li>
+</ul>
+<p>Écrire des stories pour le composant <code>PandasList</code> (dans le même répertoire que le composant) avec deux cas :</p>
+<ul>
+<li>La liste de pandas est vide</li>
+<li>La liste de pandas n&#39;est pas vide</li>
+</ul>
+<p>Ajouter des commentaires sur les propriétés dans le code du composant <code>PandasList</code> pour compléter la documentation dans Storybook.</p>
+<aside class="special"><p>  Un peu d&#39;aide : </p>
+<ul>
+<li>Pour créer ces composants on peut s&#39;appuyer sur les composants <code>ListGroup</code>, <code>ListGroupItem</code> et <code>Badge</code> de Reactstrap.</li>
+<li>La création du cercle avec la lettre nécessite de créer un style CSS personnalisé.</li>
+<li>La liste des pandas peut être récupérée dans le fichier <code>src/mocks/pandas.json</code>.</li>
+</ul>
+</aside>
+<h2 is-upgraded>Création du composant PandasListView</h2>
+<p>Une fois que les composants fonctionnent dans Storybook, on peut les utiliser dans l&#39;application !</p>
+<p>Créer un nouveau composant <code>PandasListView</code> dans <code>src/views</code>. Ce composant utilise le composant <code>PandasList</code>et lui passe la liste des pandas (comme dans la story). Lors d&#39;un clic sur un panda, on doit afficher une alerte avec la clé du panda qui a été cliqué.</p>
+<p>Intégrer ce composant dans <code>App.tsx</code> à la place du code JSX déjà existant.</p>
+<p>Écrire un test unitaire pour ce composant <code>PandasListView</code> en s&#39;inspirant de ce qui existe pour le test <code>App.test.tsx</code>. Ce test :</p>
+<ul>
+<li>Rend le composant <code>PandasListView</code></li>
+<li>Vérifie que le texte <code>Yuan Men</code> est bien affiché.</li>
+</ul>
+<p>Supprimer le test <code>App.test.tsx</code>.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Chargement de données avec Axios et les hooks" duration="0">
+        <p>Modifions l&#39;application pour récupérer la liste des pandas depuis une API.</p>
+<h2 is-upgraded>Préparation d&#39;un serveur de mock</h2>
+<p>On va s&#39;appuyer sur <code>json-server</code> pour fournir une API simplifiée en local.</p>
+<ul>
+<li>Installer <code>json-server</code></li>
+</ul>
+<pre><code language="language-bash" class="language-bash">npm install -D json-server
+</code></pre>
+<ul>
+<li>Ajouter le script suivant dans <code>package.json</code> :</li>
+</ul>
+<pre><code language="language-js" class="language-js">&#34;json-server&#34;: &#34;./node_modules/.bin/json-server --watch ./json-server/db.json --port 3004 --id key&#34;
+</code></pre>
+<ul>
+<li>Créer un fichier <code>json-server/db.json</code></li>
+<li>Y créer une collection <code>pandas</code> et y recopier la liste des pandas</li>
+<li>Démarrer le serveur</li>
+</ul>
+<pre><code language="language-bash" class="language-bash">npm run json-server
+</code></pre>
+<ul>
+<li>Tester que le service fonctionne en appelant l&#39;url <code>http://localhost:3004/pandas</code>.</li>
+</ul>
+<h2 is-upgraded>Utilisation des hooks avec Axios</h2>
+<ul>
+<li>Installer la librairie <code>axios</code><pre><code language="language-bash" class="language-bash">npm install axios
+</code></pre>
+</li>
+<li>Dans le composant <code>PandasListView</code>, utiliser les hooks <code>useState</code> et <code>useEffect</code> pour appeler le service <code>http://localhost:3004/pandas</code>. Il faut afficher un spinner (composant <code>Spinner</code> de Reactstrap) pendant le chargement des données, afficher les données quand la requête a réussi et afficher un message d&#39;erreur en cas d&#39;échec de l&#39;appel. Pour gérer tout ça on devra définir les variables correspondantes dans le state du composant.</li>
+<li>Une fois que ce chargement fonctionne on peut extraire tout ce code vers un hook personnalisé <code>usePandas</code> dans le répertoire <code>/src/hooks</code>.</li>
+</ul>
+<aside class="special"><p> Pour qu&#39;on puisse voir le spinner s&#39;afficher pendant le chargement des données, on peut encapsuler l&#39;appel Axios dans la méthode `setTimeout` : </p>
+<pre><code language="language-ts" class="language-ts">setTimeout(() =&gt; {
+  // Appel Axios
+}, 2000);
+
+</code></pre>
+<p><em>Attention à supprimer l&#39;appel de la méthode </em><em><code>setTimeout</code></em><em> pour les tests unitaires car elle empêche le mock Axios de fonctionner correctement.</em></p>
+</aside>
+<ul>
+<li>Modifier les tests unitaires de <code>PandasListView</code> pour tester le fonctionnement de l&#39;écran.</li>
+</ul>
+<p>Il faudra deux scénarios de test :</p>
+<ul>
+<li>Dans le cas où la requête REST fonctionne (réponse 200), on veut tester que le spinner s&#39;affiche, qu&#39;il disparaît et qu&#39;on a liste des pandas qui s&#39;affichent (en comptant le nombre de pandas affichés).</li>
+<li>Dans le cas où la requête REST plante (réponse 500), on veut tester que le spinner s&#39;affiche, qu&#39;il disparaît et qu&#39;un message d&#39;erreur s&#39;affiche.</li>
+</ul>
+<p>Pour écrire ce test, on aura besoin de mocker les appels Axios en utilisant la librairie Axios Mock Adapter :</p>
+<pre><code language="language-bash" class="language-bash">npm install -D axios-mock-adapter
+</code></pre>
+<aside class="special"><p> Un peu d&#39;aide : </p>
+<ul>
+<li>Pour vérifier l&#39;affichage du spinner on peut se baser sur le rôle <code>status</code> porté par le composant <code>Spinner</code>.</li>
+<li>Pour vérifier l&#39;affichage de la liste des pandas, on peut se baser sur les rôles <code>list</code> et <code>listitem</code> portés par les composants <code>ListGroup</code> et <code>ListGroupItem</code>.</li>
+<li>La méthode <code>waitForElementToBeRemoved</code> permet d&#39;attendre qu&#39;un composant soit supprimé du DOM (ici le spinner)</li>
+<li>Pour s&#39;assurer qu&#39;un test est bon, il faut le faire échouer au moins une fois !</li>
+<li>Pour voir les rôles disponibles à un moment donné du test, on peut utiliser la méthode <code>screen.getByRole('')</code>.</li>
+</ul>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Chargement de données avec React Query" duration="0">
+        <p>Utilisons la librairie React Query et ses hooks pour gérer la récupération des données depuis le serveur, en particulier la gestion de cache et quelques autres fonctionnalités bien pratiques.</p>
+<h2 is-upgraded>Utilisation de <code>useQuery</code></h2>
+<ul>
+<li>Installer React Query</li>
+</ul>
+<pre><code language="language-bash" class="language-bash">npm install @tanstack/react-query
+npm install -D @tanstack/react-query-devtools
+</code></pre>
+<ul>
+<li>Encapsuler l&#39;application dans le composant <code>QueryClientProvider</code> pour initialiser React Query et activer les devtools de React Query. On désactive l&#39;option <code>refetchOnWindowFocus</code> et on définit un <code>staleTime</code> (durée de cache) de 5 minutes.</li>
+<li>Modifier le hook <code>usePandas</code> pour utiliser le hook <code>useQuery</code> de React Query. Le hook doit retourner l&#39;objet retourné par le hook <code>useQuery</code>.</li>
+<li>Adapter les tests unitaires du composant <code>PandasListView</code> pour qu&#39;ils continuent à passer.</li>
+</ul>
+<aside class="special"><p>  Quelques indices : </p>
+<ul>
+<li>Pour encapsuler le test unitaire dans le composant <code>QueryClientProvider</code>, utiliser l&#39;option <code>wrapper</code> sur la méthode <code>render</code>.</li>
+<li>Pour simplifier l&#39;écriture des tests, on désactive le mode retry de React Query sur le client créé précédemment (option <code>defaultOptions.queries.retry</code> à <code>false</code>)</li>
+<li>Attention à vider le cache de React Query entre chaque exécution de test. Sinon le test d&#39;échec va fonctionner car on a des données mise en cache par l&#39;autre test !</li>
+</ul>
+</aside>
+<h2 is-upgraded>Utilisation de la fonctionnalité <code>refetch</code> de React Query</h2>
+<p>Dans un deuxième temps on va utiliser la fonctionnalité <code>refetch</code> de React Query pour réessayer facilemen la requête en cas d&#39;erreur.</p>
+<ul>
+<li>Créer un nouveau composant <code>ErrorAndRetry</code> qui affiche un message d&#39;erreur et un bouton Réessayer. Il expose deux propriétés :<ul>
+<li><code>message</code> : un message d&#39;erreur à afficher</li>
+<li><code>onRetry</code> : une méthode à appeler lorsqu&#39;on clique sur le bouton <code>Réessayer</code></li>
+</ul>
+</li>
+<li>Utiliser ce composant dans le composant <code>PandasListView</code> et le raccrocher à la fonctionnalité <code>refetch</code> de React Query.</li>
+<li>Pour tester ce comportement, couper le serveur json-server, essayer l&#39;application, redémarrer le serveur puis cliquer sur Réessayer.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Navigation avec React Router" duration="0">
+        <p>Nous allons créer une page pour afficher le détail d&#39;un panda et utiliser la librairie React Router pour naviguer vers cette page de détail depuis la liste. C&#39;est également l&#39;occasion de réappliquer ce que nous avons vu jusqu&#39;ici !</p>
+<h2 is-upgraded>Création de la page de détail d&#39;un panda</h2>
+<ul>
+<li>Créer le composant <code>PandaDetails.tsx</code> et sa story. Ce composant affiche le nom du panda, ses centres d&#39;intérêt sous forme de badges, son image et un bouton &#34;Fermer&#34;. Il expose les propriétés suivantes :<ul>
+<li><code>panda</code> : le panda à afficher (de type <code>Panda</code>)</li>
+<li><code>onClose</code> : une méthode appelée quand on clique sur &#34;Fermer&#34;</li>
+</ul>
+</li>
+<li>Créer un nouveau hook <code>usePandaDetails</code> qui charge le détail d&#39;un panda. Ce hook prend un identifiant de panda en paramètre et utilise React Query pour charger le détail du panda.</li>
+<li>Créer un composant <code>PandaDetailsView</code>. Ce composant utilise le composant <code>PandaDetails</code> et s&#39;appuie sur le hook <code>usePandaDetails</code>. Dans un premier temps, en attendant d&#39;avoir mis en place la navigation, on passe un identifiant de panda en dur, par exemple <code>1</code>. Pour vérifier que ce composant fonctionne correctement, remplacer dans le composant <code>App</code>  le composant <code>PandasListView</code> par le composant <code>PandasDetailsView</code>.</li>
+</ul>
+<aside class="special"><p> Pour tous ces composants, hooks et tests, on peut s&#39;appuyer sur ceux déjà faits pour la liste des pandas.  </p>
+</aside>
+<h2 is-upgraded>Utilisation de React Router</h2>
+<p>Nous allons maintenant utiliser React Router pour gérer la navigation entre les pages de liste et de détail. Nous en profiterons pour définir un layout dans l&#39;application avec un header et une zone dans laquelle s&#39;affichent les pages.</p>
+<ul>
+<li>Créer un composant <code>Header</code> qui pour l&#39;instant ne fait qu&#39;afficher le nom de l&#39;application. On peut utiliser le composant <code>Navbar</code> de Reactstrap.</li>
+<li>Créer un composant <code>NotFoundView</code> qui affiche un message &#34;Page introuvable !&#34;.</li>
+<li>Installer la librairie React Router<pre><code language="language-bash" class="language-bash">npm install react-router-dom
+</code></pre>
+</li>
+<li>Définir un composant <code>Router</code> avec les règles suivantes :<ul>
+<li>La route <code>/pandas</code> ouvre la liste des pandas</li>
+<li>La route <code>/pandas/:id</code> ouvre le détail d&#39;un panda</li>
+<li>Par défaut on arrive sur la liste des pandas</li>
+<li>En cas de route introuvable on arrive sur une page d&#39;erreur (composant <code>NotFoundView</code>).</li>
+<li>Le composant <code>Router</code> doit intégrer un composant <code>Layout</code> pour afficher le header sur toutes les pages et insérer le rendu de chaque page dans un composant <code>Outlet</code>.</li>
+</ul>
+</li>
+</ul>
+<aside class="special"><p> On peut s&#39;inspirer de l&#39;exemple fourni sur le site de React Router pour définir les routes : <a href="https://github.com/remix-run/react-router/tree/dev/examples/basic" target="_blank">github.com/remix-run/react-router/tree/dev/examples/basic</a>. Attention à ne pas oublier d&#39;encapsuler les routes dans un des providers fournis par React Router. </p>
+</aside>
+<ul>
+<li>Intégrer ce composant <code>Router</code> dans le composant <code>App</code> et tester dans la barre de navigation du navigateur que les différentes URL fonctionnent correctement.</li>
+<li>Modifier les composants <code>PandasListView</code> et <code>PandaDetailsView</code> pour ajouter la navigation de la liste des pandas vers le détail du panda. On peut s&#39;appuyer sur les hooks <code>useNavigate</code> et <code>useParams</code> de React Router.</li>
+<li>Mettre à jour les tests unitaires du composant <code>PandasListView</code>. On veut vérifier que lorsqu&#39;on clique sur le premier panda de la liste, on va bien vers page de détail. On aura besoin de mocker le hook <code>useNavigate</code> comme ci-dessous. On pourra utiliser l&#39;objet <code>userEvent</code> exposé par React Testing Library pour simuler l&#39;événement de clic.</li>
+</ul>
+<pre><code language="language-ts" class="language-ts">const mockedUsedNavigate = jest.fn();
+jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
+  ...jest.requireActual(&#39;react-router-dom&#39;),
+  useNavigate: () =&gt; mockedUsedNavigate,
+}));
+</code></pre>
+<ul>
+<li>Créer un test unitaire pour <code>PandaDetailsView</code>. On veut vérifier que pendant le chargement le spinner s&#39;affiche puis, dans le cas où la requête fonctionne, on affiche bien le détail du panda et lorsqu&#39;elle ne fonctionne pas on affiche un message d&#39;erreur. On aura besoin de mocker les hooks <code>useNavigate</code> et <code>useParams</code> de React Router comme ci-dessous.</li>
+</ul>
+<pre><code language="language-ts" class="language-ts">const mockedUsedNavigate = jest.fn();
+jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
+  ...jest.requireActual(&#39;react-router-dom&#39;),
+  useParams: () =&gt; ({ id: &#39;1&#39; }),
+  useNavigate: () =&gt; mockedUsedNavigate,
+}));
+</code></pre>
+<aside class="special"><p> Une fois les routes mises en place, on peut vérifier que le cache React Query fonctionne en passant de liste aux pages de détails et en surveillant l&#39;onglet Network de Chrome. </p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Utilisation de React i18next" duration="0">
+        <p>Utilisons maintenant la librairie React i18Next pour gérer l&#39;internationalisation de l&#39;application.</p>
+<h2 is-upgraded>Traduction des libellés</h2>
+<ul>
+<li>Installer React i18Next</li>
+</ul>
+<pre><code language="language-bash" class="language-bash">npm install i18next react-i18next
+</code></pre>
+<ul>
+<li>Créer un fichier <code>i18n/index.ts</code> pour configurer React i18Next et importer ce fichier dans <code>index.ts</code> pour initialiser l&#39;internationalisation dans l&#39;application. On gère deux langues : anglais et français (français par défaut).</li>
+<li>Utiliser le hook <code>useTranslation</code> pour remplacer les libellés en dur dans les différents composants.</li>
+<li>Pour que les stories et les tests unitaires continuent à fonctionner il faut également importer le fichier <code>i18n/index.ts</code> dans les fichiers <code>.storybook/preview.js</code> et <code>src/setupTest.ts</code>.</li>
+</ul>
+<h2 is-upgraded>Changement de la langue</h2>
+<p>Modifier le composant <code>Header</code> pour permettre le changement de la langue selon les règles suivantes :</p>
+<ul>
+<li>Deux libellés <code>FR</code> et <code>EN</code> pour passer en français ou en anglais.</li>
+<li>Le libellé associé à la langue courante est en gras.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Utilisation de React Hook Form" duration="0">
+        <p>Nous allons créer des formulaires de création et de modification de pandas en se basant sur React Hook Form.</p>
+<h2 is-upgraded>Création du composant <code>TextInput</code></h2>
+<p>On va d&#39;abord créer un composant <code>TextInput</code> qui permet de définir un champ de saisie de texte avec son label, sa gestion d&#39;erreur et d&#39;autres comportements.</p>
+<p>Ce composant a les propriétés suivantes :</p>
+<ul>
+<li><code>label</code> : libellé du champ</li>
+<li><code>name</code> : nom du champ</li>
+<li><code>placeholder</code>: placeholder pour le champ (optionnel)</li>
+<li><code>value</code> : valeur initiale du champ (optionnel)</li>
+<li><code>required</code> : le champ est-il obligatoire (<code>false</code> par défaut)</li>
+<li><code>error</code> : le message d&#39;erreur à afficher sous le champ</li>
+<li><code>onChange</code>: un événement déclenché lorsque le contenu du champ change (de type <code>ChangeEventHandler<HTMLInputElement | undefined></code>)</li>
+</ul>
+<p>Quelques précisions sur le comportement :</p>
+<ul>
+<li>Lorsqu&#39;on clique sur le label, on doit donner le focus au champ</li>
+<li>Lorsque le champ est obligatoire le label doit être suffixé d&#39;une petite étoile</li>
+<li>Lorsque le champ est en erreur, il doit avoir une bordure rouge et le message d&#39;erreur doit s&#39;afficher sous le champ.</li>
+</ul>
+<p>On s&#39;appuie sur les composants et les styles CSS de Reactstrap pour créer ce composant.</p>
+<p>On peut créer des stories pour valider les cas suivants :</p>
+<ul>
+<li>Le champ a un placeholder</li>
+<li>Le champ est obligatoire (propriété <code>required</code> à <code>true</code>)</li>
+<li>Le champ est en erreur (on a un message d&#39;erreur dans la propriété <code>error</code>)</li>
+<li>Le champ a une valeur initiale (on une valeur dans la propriété <code>value</code>)</li>
+</ul>
+<h2 is-upgraded>Création du composant <code>PandaForm</code> avec React Hook Form</h2>
+<p>Installer React Hook Form :</p>
+<pre><code language="language-bash" class="language-bash">npm install react-hook-form
+</code></pre>
+<p>Créer un composant <code>PandaForm</code> qui s&#39;appuie sur React Hook Form et le composant <code>TextInput</code> créé précédemment pour définir un formulaire de création / modification d&#39;un panda.</p>
+<p>Le formulaire comprend les éléments suivants :</p>
+<ul>
+<li>Un champ <code>Nom</code> pour définir le nom du panda</li>
+<li>Un champ <code>Centres d'intérêt</code> pour définir les centres d&#39;intérêt du panda (ce sont des chaînes de caractère séparées par des virgules)</li>
+<li>Un champ <code>Image</code> pour définir l&#39;URL de la photo du panda</li>
+<li>Un bouton <code>Valider</code> pour soumettre le formulaire</li>
+<li>Un bouton <code>Annuler</code> pour annuler la création en cours</li>
+</ul>
+<p>Il a trois propriétés :</p>
+<ul>
+<li><code>initialValues</code> : (optionnel) un objet contenant les valeurs par défaut des champs du formulaire (une propriété pour chaque nom de champ)</li>
+<li><code>onSubmit</code> : un événement déclenché en cas de soumission du formulaire. L&#39;événement a en paramètre un objet contenant les données du formulaire.</li>
+<li><code>onCancel</code> : un événement déclenché lorsqu&#39;on clique sur le bouton <code>Annuler</code></li>
+</ul>
+<p>On peut définir un type <code>PandaFormValues</code> qui sera utilisé pour typer la propriété <code>initialValues</code> et l&#39;objet passé sur l&#39;événement <code>onSubmit</code>.</p>
+<p>Quelques règles de gestion :</p>
+<ul>
+<li>Tous les champs sont obligatoires</li>
+<li>Le champ <code>Image</code> doit contenir une URL valide (commençant par <code>http://</code> ou <code>https://</code>)</li>
+<li>Le bouton <code>Valider</code> ne doit être actif que si tous les contrôles de surface sont respectés.</li>
+</ul>
+<p>Pour lier chaque champ d&#39;entrée à React Hook Form, il faut utiliser le composant <code>Controller</code> fourni par React Hook Form.</p>
+<p>On crée deux stories pour tester ce composant :</p>
+<ul>
+<li>L&#39;une avec le formulaire sans valeurs initiales</li>
+<li>L&#39;autre avec le formulaire avec des valeurs initiales</li>
+</ul>
+<aside class="special"><p>Storybook offre un espace qui permet de manipuler le formulaire et vérifier qu&#39;il fonctionne bien. On s&#39;intéressera en particulier aux événements déclenchés et vérifier les paramètres passés. Idéalement on voudrait le faire dans le cadre de tests unitaires mais pour simplifier l&#39;exercice on se contente de tests visuels. </p>
+</aside>
+<h2 is-upgraded>Création des pages de création et de modification de panda</h2>
+<p>Ajouter un composant <code>CreatePandaView</code> :</p>
+<ul>
+<li>Ce composant définit une page permettant de créer un panda en intégrant le composant <code>PandaForm</code>.</li>
+<li>Lors de la création d&#39;un panda dans le formulaire on se contente pour l&#39;instant d&#39;afficher dans la console le panda créé.</li>
+<li>Ce composant est associé à une nouvelle route <code>/pandas/new</code>. Un bouton &#34;Ajouter un panda&#34; dans le composant <code>PandasListView</code> permet d&#39;accéder à cette route</li>
+</ul>
+<p>Ajouter un deuxième composant <code>EditPandaView</code> :</p>
+<ul>
+<li>Ce composant définit une page permettant de modifier un panda en intégrant le composant <code>PandaForm</code> et en lui fournissant les valeurs initiales.</li>
+<li>Les informations sur le panda sont chargées de la même manière que depuis la page de visualisation des détails d&#39;un panda</li>
+<li>Lors de la modification d&#39;un panda dans le formulaire on se contente pour l&#39;instant d&#39;afficher dans la console les nouvelles données sur le panda.</li>
+<li>Ce composant est associé à une nouvelle route <code>/pandas/:id/edit</code>. Un bouton &#34;Modifier le panda&#34; dans le composant <code>PandaDetailsView</code> permet d&#39;accéder à cette route.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Mise à jour des données avec React Query" duration="0">
+        <p>On va utiliser les mutations React Query pour gérer les appels de services REST pour la création, la modification et la suppression des pandas.</p>
+<h2 is-upgraded>Création de panda</h2>
+<ul>
+<li>Créer un hook <code>useCreatePanda</code> qui permet d&#39;appeler le service REST de création d&#39;un panda en s&#39;appuyant sur le hook <code>useMutation</code> de React Query :<ul>
+<li>URL : <code>http://localhost:3004/panda</code></li>
+<li>Method : <code>POST</code></li>
+<li>Data : <code>{ name: "Nom du panda", interests: ["hobby1", "hobby2"], image: "http://url.image.fr" }</code></li>
+</ul>
+</li>
+<li>Pour définir le type en entrée de la méthode de mutation, on peut créer facilement un type identique à <code>Panda</code> mais en excluant la propriété <code>key</code> qui est positionnée automatiquement par json-server. On doit utiliser la notation <code>Omit</code> de Typescript.</li>
+<li>Utiliser ce hook dans le composant <code>CreatePandaView</code> en modifiant la méthode appelée au submit du formulaire. Afficher un spinner ou un message d&#39;erreur en fonction du hook <code>useCreatePanda</code>.</li>
+</ul>
+<aside class="special"><p> Lors d&#39;une mutation, React Query retourne des informations sur le déroulement de la requête. On peut les exploiter pour afficher un spinner ou un message d&#39;erreur dans l&#39;écran de création de panda. Si vous avez le temps, essayez de le faire ! </p>
+</aside>
+<h2 is-upgraded>Modification d&#39;un panda</h2>
+<ul>
+<li>Créer un hook <code>useUpdatePanda</code> qui permet d&#39;appeler le service REST de modification d&#39;un panda en s&#39;appuyant sur le hook <code>useMutation</code> de React Query :<ul>
+<li>URL : <code>http://localhost:3004/panda/:id</code></li>
+<li>Method : <code>PUT</code></li>
+<li>Data : <code>{ key: "zFR134", name: "Nom du panda", interests: ["hobby1", "hobby2"], image: "http://url.image.fr" }</code></li>
+</ul>
+</li>
+<li>Utiliser ce hook dans le composant <code>EditPandaView</code>.</li>
+</ul>
+<h2 is-upgraded>Suppression d&#39;un panda</h2>
+<ul>
+<li>Créer un hook <code>useDeletePanda</code> qui permet d&#39;appeler le service REST de suppression d&#39;un panda :<ul>
+<li>URL : <code>http://localhost:3004/panda/:id</code></li>
+<li>Method : <code>DELETE</code></li>
+</ul>
+</li>
+<li>Ajouter un bouton &#34;Supprimer le panda&#34; et utiliser ce hook dans le composant <code>PandaDetailsView</code>.</li>
+</ul>
+<aside class="warning"><p> Lorsqu&#39;on revient sur la liste des pandas après la création, la modification ou la suppression d&#39;un panda, les données ne sont pas à jour dans la liste car les données sont mises en cache par React Query. Il faut donc invalider la liste des pandas dans le cache React Query pour forcer le rechargement de la liste des pandas. </p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Utilisation de Context API" duration="0">
+        <p>On va utiliser Context API pour gérer un mode d&#39;affichage &#34;dark&#34; ou &#34;light&#34; dans l&#39;application. Context API permettra de manipuler ce mode d&#39;affichage depuis n&#39;importe quel composant de l&#39;application sans devoir le faire passer par les props.</p>
+<ul>
+<li>Créer un nouveau type <code>DisplayMode</code> qui peut prendre deux valeurs : <code>dark</code> ou <code>light</code>.</li>
+<li>Créer un nouveau contexte <code>DisplayModeContext</code> dans le fichier <code>context/DisplayModeContext.ts</code> avec l&#39;API Context. Ce contexte contient deux propriétés :<ul>
+<li><code>displayMode</code> : le mode d&#39;affichage courant, <code>dark</code> par défaut.</li>
+<li><code>toggleDisplayMode</code> : une méthode qui permet de basculer le mode d&#39;afficha entre <code>dark</code> et <code>light</code></li>
+</ul>
+</li>
+<li>Créer un nouveau provider <code>DisplayModeProvider</code> dans le fichier <code>context/DisplayModeProvider.tsx</code>. Ce provider implémenente le provider <code>DisplayModeContext.Provider</code> et s&#39;appuie sur <code>useState</code> pour conserver la valeur du mode d&#39;affichage mais aussi pour implémenter <code>toggleDisplayMode</code>.</li>
+<li>Wrapper l&#39;application avec ce provider <code>DisplayModeProvider</code></li>
+<li>Dans le composant <code>Header</code> utiliser le hook <code>useContext</code> pour récupérer la valeur de <code>displayMode</code> dans <code>DisplayModeContext</code> et gérer l&#39;affichage du mode dark ou light :<ul>
+<li>En mode <code>dark</code> la navbar doit être en dark et le texte en blanc</li>
+<li>En mode <code>light</code> la navbar doit être en light et le texte en noir</li>
+</ul>
+</li>
+<li>A l&#39;image de ce qui a été fait pour les langues créer un composant <code>ChooseDisplayMode</code> qui permet de choisir le mode d&#39;affichage. Ce composant utilisera lui aussi <code>userContext</code> pour récupérer la valeur de <code>displayMode</code> dans <code>DisplayModeContext</code> mais aussi accéder à la méthode <code>toggleDisplayMode</code>.</li>
+<li>Ne pas oublier de wrapper la story pour le composant <code>Header</code> avec le provider <code>DisplayModeProvider</code> pour que le changement de mode fonctionne également dans Storybook.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
