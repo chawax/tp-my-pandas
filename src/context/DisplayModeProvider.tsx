@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import { DisplayMode } from '../types/DisplayMode';
 import DisplayModeContext from './DisplayModeContext';
 
-export type DisplayModeProviderProps = {
+type DisplayModeProviderProps = {
   children: React.ReactNode;
 };
 
-export const DisplayModeProvider = (props: DisplayModeProviderProps) => {
+export const DisplayModeProvider = ({ children }: DisplayModeProviderProps) => {
   const [displayMode, setDisplayMode] = useState<DisplayMode>('dark');
   const toggleDisplayMode = () => {
     setDisplayMode(displayMode === 'dark' ? 'light' : 'dark');
   };
   return (
     <DisplayModeContext.Provider value={{ displayMode, toggleDisplayMode }}>
-      {props.children}
+      {children}
     </DisplayModeContext.Provider>
   );
 };

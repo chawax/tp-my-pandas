@@ -3,14 +3,18 @@ import React from 'react';
 import { Button } from './Button';
 import './header.css';
 
-export interface HeaderProps {
-  user?: {};
+type User = {
+  name: string;
+};
+
+interface HeaderProps {
+  user?: User;
   onLogin: () => void;
   onLogout: () => void;
   onCreateAccount: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, onCreateAccount }) => (
+export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => (
   <header>
     <div className="wrapper">
       <div>
@@ -34,7 +38,12 @@ export const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, onCreat
       </div>
       <div>
         {user ? (
-          <Button size="small" onClick={onLogout} label="Log out" />
+          <>
+            <span className="welcome">
+              Welcome, <b>{user.name}</b>!
+            </span>
+            <Button size="small" onClick={onLogout} label="Log out" />
+          </>
         ) : (
           <>
             <Button size="small" onClick={onLogin} label="Log in" />

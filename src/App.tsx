@@ -1,25 +1,25 @@
-import type { ReactNode } from 'react';
-import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Router from './components/Router';
 import { DisplayModeProvider } from './context/DisplayModeProvider';
 
-const queryClient = new QueryClient();
-const ReactQueryWrapper = ({ children }: { children: ReactNode }) => (
-  <QueryClientProvider client={queryClient}>
-    {children}
-    <ReactQueryDevtools initialIsOpen={false} />
-  </QueryClientProvider>
-);
+const queryClientProvider = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000,
+    },
+  },
+});
 
 function App() {
   return (
-    <ReactQueryWrapper>
-      <DisplayModeProvider>
+    <DisplayModeProvider>
+      <QueryClientProvider client={queryClientProvider}>
         <Router />
-      </DisplayModeProvider>
-    </ReactQueryWrapper>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </DisplayModeProvider>
   );
 }
 

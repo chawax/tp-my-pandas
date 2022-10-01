@@ -1,4 +1,4 @@
-import React from 'react';
+import { createContext } from 'react';
 import { DisplayMode } from '../types/DisplayMode';
 
 type DisplayModeContextProps = {
@@ -6,7 +6,7 @@ type DisplayModeContextProps = {
   toggleDisplayMode: () => void;
 };
 
-const DisplayModeContext = React.createContext<DisplayModeContextProps>({
+const DisplayModeContext = createContext<DisplayModeContextProps>({
   displayMode: 'dark',
   toggleDisplayMode: () => {},
 });

@@ -1,23 +1,26 @@
 import React from 'react';
-// also exported from '@storybook/react' if you can deal with breaking changes in 6.1
-import { Story, Meta } from '@storybook/react/types-6-0';
-
-import { Page, PageProps } from './Page';
-import * as HeaderStories from './Header.stories';
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { within, userEvent } from '@storybook/testing-library';
+import { Page } from './Page';
 
 export default {
   title: 'Example/Page',
   component: Page,
-} as Meta;
+  parameters: {
+    // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
+    layout: 'fullscreen',
+  },
+} as ComponentMeta<typeof Page>;
 
-const Template: Story<PageProps> = (args) => <Page {...args} />;
-
-export const LoggedIn = Template.bind({});
-LoggedIn.args = {
-  ...HeaderStories.LoggedIn.args,
-};
+const Template: ComponentStory<typeof Page> = (args) => <Page {...args} />;
 
 export const LoggedOut = Template.bind({});
-LoggedOut.args = {
-  ...HeaderStories.LoggedOut.args,
+
+export const LoggedIn = Template.bind({});
+
+// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+LoggedIn.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const loginButton = await canvas.getByRole('button', { name: /Log in/i });
+  await userEvent.click(loginButton);
 };

@@ -21,13 +21,13 @@
       }
     },
     "createPanda": {
-      "title": "Nouveau panda",
+      "title": "Création d'un nouveau panda",
       "errors": {
         "create": "Impossible de créer le panda"
       }
     },
     "editPanda": {
-      "title": "Modification du panda {{id}}",
+      "title": "Modification de panda",
       "errors": {
         "update": "Impossible de modifier le panda"
       }
@@ -55,6 +55,7 @@
           "invalid": "Veuillez saisir une URL valide"
         }
       }
-    }
+    },
+    "errors": { "404": "Page introuvable !" }
   }
 }

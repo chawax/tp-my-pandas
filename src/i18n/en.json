@@ -14,23 +14,11 @@
       "addNewPanda": "Add a new panda"
     },
     "pandaDetails": {
-      "editPanda": "Edit panda",
-      "deletePanda": "Delete panda",
-      "errors": {
-        "delete": "Could not delete panda"
-      }
+      "deletePanda": "Delete the panda",
+      "editPanda": "Edit the panda"
     },
     "createPanda": {
-      "title": "New panda",
-      "errors": {
-        "create": "Could not create panda"
-      }
-    },
-    "editPanda": {
-      "title": "Edit panda {{id}}",
-      "errors": {
-        "update": "Could not update panda"
-      }
+      "title": "Create a new panda"
     },
     "pandaForm": {
       "name": {
@@ -55,6 +43,7 @@
           "invalid": "Please enter a valid URL"
         }
       }
-    }
+    },
+    "errors": { "404": "Page not found !" }
   }
 }
