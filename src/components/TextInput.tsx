@@ -1,5 +1,5 @@
 import { ChangeEventHandler } from 'react';
-import { FormGroup, Input, Label } from 'reactstrap';
+import { FormFeedback, FormGroup, Input, InputProps, Label } from 'reactstrap';
 
 export type TextInputProps = {
   label: string;
@@ -17,29 +17,23 @@ const TextInput = ({
   name,
   required,
   value,
-  placeholder,
-  onChange,
+  ...props
 }: TextInputProps) => {
-  let className = '';
+  let extraProps: InputProps = { ...props };
   if (error) {
-    className = error ? 'is-invalid' : 'is-valid';
+    extraProps = { ...props, invalid: true };
+  } else if (!!value) {
+    extraProps = { ...props, valid: true };
   }
+
   return (
     <FormGroup>
       <Label for={name}>
         {label}
         {required && <sup> *</sup>}
       </Label>
-      <Input
-        id={name}
-        name={name}
-        type="text"
-        value={value}
-        placeholder={placeholder}
-        className={className}
-        onChange={onChange}
-      />
-      {error && <div className="invalid-feedback">{error}</div>}
+      <Input id={name} name={name} type="text" value={value} {...extraProps} />
+      <FormFeedback>{error}</FormFeedback>
     </FormGroup>
   );
 };
