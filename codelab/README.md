@@ -56,7 +56,7 @@ https://github.com/googlecodelabs/tools/tree/main/claat/parser/md
 
   ```bash
   cd codelab
-  claat export nestjs.md
+  claat export tp-react.md
   ```
 
 > Lors de l'exécution de la commade `claat` il peut arriver que Google demande une authentification. Il faut alors ouvrir dans le navigateur l'URL affichée, se connecter sur son compte Google et copier dans la ligne de commande le code unique généré.
@@ -74,9 +74,9 @@ https://github.com/googlecodelabs/tools/tree/main/claat/parser/md
 
 Pour que les fichiers du codelab puissent être déployés sur Github.io, il faut les copier dans le répertoire `docs` et les pousser sur le repository Github.
 
-    ```bash
-    cd codelab
-    cp -R tp-react ../docs
-    ```
+  ```bash
+  cd codelab
+  cp -R tp-react/* ../docs
+  ```
 
 Le compte Github doit être configuré pour faire pointer Github Pages sur le répertoire `/docs` du repository. Le codelab est alors accessible sur l'adresse : `https://chawax.github.io/tp-react`
