@@ -471,24 +471,24 @@ On peut s'inspirer de l'exemple fourni sur le site de React Router pour définir
 
 - Modifier les composants `PandasListView` et `PandaDetailsView` pour ajouter la navigation de la liste des pandas vers le détail du panda. On peut s'appuyer sur les hooks `useNavigate` et `useParams` de React Router.
 
-- Mettre à jour les tests unitaires du composant `PandasListView`. On veut vérifier que lorsqu'on clique sur le premier panda de la liste, on va bien vers page de détail. On aura besoin de mocker le hook `useNavigate` comme ci-dessous. On pourra utiliser l'objet `userEvent` exposé par React Testing Library pour simuler l'événement de clic.
+- Mettre à jour les tests unitaires du composant `PandasListView`. On veut vérifier que lorsqu'on clique sur le premier panda de la liste, on va bien vers page de détail. On aura besoin de mocker le hook `useNavigate` comme ci-dessous. On pourra utiliser l'objet `userEvent` exposé par la librairie `@testing-library/user-event` pour simuler l'événement de clic.
 
 ```ts
-const mockedUsedNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockedUsedNavigate,
+const mockedNavigate = vi.fn();
+vi.mock('react-router-dom', async (importOriginal) => ({
+  ...((await importOriginal()) as object),
+  useNavigate: () => mockedNavigate,
 }));
 ```
 
 - Créer un test unitaire pour `PandaDetailsView`. On veut vérifier que pendant le chargement le spinner s'affiche puis, dans le cas où la requête fonctionne, on affiche bien le détail du panda et lorsqu'elle ne fonctionne pas on affiche un message d'erreur. On aura besoin de mocker les hooks `useNavigate` et `useParams` de React Router comme ci-dessous.
 
 ```ts
-const mockedUsedNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
+const mockedNavigate = vi.fn();
+vi.mock('react-router-dom', async (importOriginal) => ({
+  ...((await importOriginal()) as object),
   useParams: () => ({ id: '1' }),
-  useNavigate: () => mockedUsedNavigate,
+  useNavigate: () => mockedNavigate,
 }));
 ```
 
