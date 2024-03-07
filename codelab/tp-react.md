@@ -204,7 +204,7 @@ Ces composants doivent être définis dans le répertoire `src/components`.
 
 Pour pouvoir typer correctement les composants, créer un type `Panda` dans `src/types` avec les propriétés suivantes :
 
-- `key` de type `string`
+- `id` de type `string`
 - `name` de type `string`
 - `interests` de type tableau de `string`
 - `image` de type string
@@ -315,7 +315,7 @@ npm install -D json-server
 - Ajouter le script suivant dans `package.json` :
 
 ```js
-"json-server": "./node_modules/.bin/json-server --watch ./json-server/db.json --port 3004 --id key"
+"json-server": "./node_modules/.bin/json-server --watch ./json-server/db.json --port 3004"
 ```
 
 - Créer un fichier `json-server/db.json`
@@ -382,13 +382,13 @@ Un peu d'aide :
 - Pour voir les rôles disponibles à un moment donné du test, on peut utiliser la méthode `screen.getByRole('')`.
 </aside>
 
-## Chargement de données avec React Query
+## Chargement de données avec Tanstack Query
 
-Utilisons la librairie React Query et ses hooks pour gérer la récupération des données depuis le serveur, en particulier la gestion de cache et quelques autres fonctionnalités bien pratiques.
+Utilisons la librairie Tanstack Query et ses hooks pour gérer la récupération des données depuis le serveur, en particulier la gestion de cache et quelques autres fonctionnalités bien pratiques.
 
 ### Utilisation de `useQuery`
 
-- Installer React Query
+- Installer Tanstack Query
 
 ```bash
 npm install @tanstack/react-query
@@ -623,7 +623,7 @@ On va utiliser les mutations React Query pour gérer les appels de services REST
   - Method : `POST`
   - Data : `{ name: "Nom du panda", interests: ["hobby1", "hobby2"], image: "http://url.image.fr" }`
 
-- Pour définir le type en entrée de la méthode de mutation, on peut créer facilement un type identique à `Panda` mais en excluant la propriété `key` qui est positionnée automatiquement par json-server. On doit utiliser la notation `Omit` de Typescript.
+- Pour définir le type en entrée de la méthode de mutation, on peut créer facilement un type identique à `Panda` mais en excluant la propriété `id` qui est positionnée automatiquement par json-server. On doit utiliser la notation `Omit` de Typescript.
 
 - Utiliser ce hook dans le composant `CreatePandaView` en modifiant la méthode appelée au submit du formulaire. Afficher un spinner ou un message d'erreur en fonction du hook `useCreatePanda`.
 
@@ -637,7 +637,7 @@ Lors d'une mutation, React Query retourne des informations sur le déroulement d
 
   - URL : `http://localhost:3004/panda/:id`
   - Method : `PUT`
-  - Data : `{ key: "zFR134", name: "Nom du panda", interests: ["hobby1", "hobby2"], image: "http://url.image.fr" }`
+  - Data : `{ id: "zFR134", name: "Nom du panda", interests: ["hobby1", "hobby2"], image: "http://url.image.fr" }`
 
 - Utiliser ce hook dans le composant `EditPandaView`.
 
