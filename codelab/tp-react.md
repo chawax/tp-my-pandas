@@ -15,19 +15,27 @@ Ce TP permet de développer une application qui permet de gérer une liste de pa
 <aside class="positive">
 Prérequis :
 
-- Node JS installé (16 minimum recommandée)
+- Node JS installé (20 minimum recommandée)
 - Chrome ou un autre navigateur installé
 - Visual Studio Code installé
 </aside>
 
 ### Initialiser l'application React
 
-Créer une application React avec la commande `create-react-app`.
+Créer une application React avec Vite.
 
 > Attention au copier / coller qui peut parfois embarquer des caractères pourris !
 
 ```bash
-npx create-react-app my-pandas --template typescript
+npm create vite@latest
+```
+
+Avec les réponses suivantes aux questions :
+
+```
+✔ Project name: tp-my-pandas
+✔ Select a framework: React
+✔ Select a variant: TypeScript
 ```
 
 ### Vérifier que tout fonctionne
@@ -35,9 +43,12 @@ npx create-react-app my-pandas --template typescript
 Lancer l'application en mode développement :
 
 ```bash
-cd my-pandas
-npm start
+cd tp-my-pandas
+npm install
+npm run dev
 ```
+
+Puis aller sur `http://localhost:5173`
 
 Tester le hot reloading en modifiant le fichier `App.tsx`
 
@@ -50,7 +61,17 @@ npm run build
 Et vérifier que l'application fonctionne en mode production :
 
 ```bash
-npx serve -s build
+npm run preview
+```
+
+Puis aller sur `http://localhost:4173`
+
+### Installer les tests unitaires
+
+Installer Vitest :
+
+```bash
+npm install -D vitest
 ```
 
 Lancer les tests automatisés avec `npm test`.
@@ -61,7 +82,9 @@ En cas d'erreur "Cannot use JSX unless the '--jsx' flag is provided' quand on ou
 
 ### Améliorer l'environnement de développement
 
-Ajouter le plugin Prettier et la configuration Prettier.
+Prettier est un outil qui permet de formater le code source. Il est disponible sous la forme d'une librairie à installer au projet d'une extension VSCode.
+
+Ajouter la librairie Prettier :
 
 ```bash
 npm install --save-dev prettier
@@ -80,13 +103,25 @@ Créer un fichier `.prettierrc` à la racine du projet avec la configuration sui
 }
 ```
 
+Créer un fichier `.prettierignore` à la racine qui contiendra une liste de fichiers à ne pas formater.
+
+Ajouter les scripts suivants dans `package.json` :
+
+```json
+    "prettier:check": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+
+```
+
+Exécuter `npm run prettier:check` pour rechercher les erreurs de formatage et `npm run prettier:fix` pour formater les fichiers de l'application.
+
 Installer l'extension Prettier dans VSCode et activer le formatage à la sauvegarde de chaque fichier (option `Format on save` dans les préférences du workspace).
 
 Installer l'extension ESLint dans VSCode.
 
 ## Création des premiers composants
 
-Nous allons créer nos premiers composants et utiliser Storybook pour les tester. Nous utiliseront la librairie Reactstrap (librairie de wrapping de Bootstrap pour React) pour créer des composants beaux visuellement sans avoir besoin d'écrire de CSS !
+Nous allons créer nos premiers composants et utiliser Storybook pour les tester. Nous utiliserons la librairie Reactstrap (librairie de wrapping de Bootstrap pour React) pour créer des composants beaux visuellement sans avoir besoin d'écrire de CSS !
 
 <aside class="positive">
 Reactstrap met à disposition un Storybook documentant les composants mis à disposition et permettant de les tester : <a href="https://reactstrap.github.io/">reactstrap.github.io</a>
@@ -115,7 +150,7 @@ npm install --save-dev @types/reactstrap
 La librairie Reactstrap n'étant pas encore officiellement compatible avec React 18, on peut avoir des warnings pendant l'installation de la librairie.
 </aside>
 
-Ajouter l’import `import 'bootstrap/dist/css/bootstrap.min.css'` dans `index.tsx` et dans `.storybook/preview.js` pour que les styles CSS Bootstrap soient chargés au démarrage de l'application et de Storybook.
+Ajouter l’import `import 'bootstrap/dist/css/bootstrap.min.css'` dans `main.tsx` et dans `.storybook/preview.ts` pour que les styles CSS Bootstrap soient chargés au démarrage de l'application et de Storybook.
 
 Pour vérifier que Reactstrap est bien initialisé :
 
@@ -123,28 +158,32 @@ Pour vérifier que Reactstrap est bien initialisé :
 - Créer une story `ReactstrapButton.stories.tsx` utilisant le composant `Button` de Reactstrap. On peut s'inspirer de celle du composant `Button` initialisé lors de l'installation de Storybook pour créer une story de ce type :
 
 ```ts
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { Button } from 'reactstrap';
 
-export default {
-  title: 'Example/Reactstrap Button',
+const meta = {
+  title: 'Reactstrap/Button',
   component: Button,
-} as ComponentMeta<typeof Button>;
+} satisfies Meta<typeof Button>;
 
-const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Primary = Template.bind({});
-Primary.args = {
-  color: 'primary',
-  children: 'Primary',
+export const Primary: Story = {
+  args: {
+    color: 'primary',
+    children: 'Primary',
+  },
 };
 
-export const Secondary = Template.bind({});
-Secondary.args = {
-  color: 'secondary',
-  children: 'Secondary',
+export const Secondary: Story = {
+  args: {
+    color: 'secondary',
+    children: 'Secondary',
+  },
 };
+
 ```
 
 ### Création des composants `PandasList` et `PandaItem`
@@ -194,6 +233,7 @@ Créer un nouveau composant `PandasListView` dans `src/views`. Ce composant util
 Intégrer ce composant dans `App.tsx` à la place du code JSX déjà existant.
 
 Écrire un test unitaire pour ce composant `PandasListView` en s'inspirant de ce qui existe pour le test `App.test.tsx`. Ce test :
+
 - Rend le composant `PandasListView`
 - Vérifie que le texte `Yuan Men` est bien affiché.
 
@@ -250,25 +290,25 @@ Pour qu'on puisse voir le spinner s'afficher pendant le chargement des données,
 setTimeout(() => {
   // Appel Axios
 }, 2000);
-
 ```
 
-*Attention à supprimer l'appel de la méthode `setTimeout` pour les tests unitaires car elle empêche le mock Axios de fonctionner correctement.*
+_Attention à supprimer l'appel de la méthode `setTimeout` pour les tests unitaires car elle empêche le mock Axios de fonctionner correctement._
 
 </aside>
 
-- Modifier les tests unitaires de `PandasListView` pour tester le fonctionnement de l'écran. 
+- Modifier les tests unitaires de `PandasListView` pour tester le fonctionnement de l'écran.
 
 Il faudra deux scénarios de test :
+
 - Dans le cas où la requête REST fonctionne (réponse 200), on veut tester que le spinner s'affiche, qu'il disparaît et qu'on a liste des pandas qui s'affichent (en comptant le nombre de pandas affichés).
 - Dans le cas où la requête REST plante (réponse 500), on veut tester que le spinner s'affiche, qu'il disparaît et qu'un message d'erreur s'affiche.
- 
- Pour écrire ce test, on aura besoin de mocker les appels Axios en utilisant la librairie Axios Mock Adapter :
 
-  ```bash
-  npm install -D axios-mock-adapter
-  ```
- 
+Pour écrire ce test, on aura besoin de mocker les appels Axios en utilisant la librairie Axios Mock Adapter :
+
+```bash
+npm install -D axios-mock-adapter
+```
+
 <aside class="positive">
 Un peu d'aide :
 
@@ -305,9 +345,9 @@ npm install -D @tanstack/react-query-devtools
 <aside class="positive">
  Quelques indices :
 
- - Pour encapsuler le test unitaire dans le composant `QueryClientProvider`, utiliser l'option `wrapper` sur la méthode `render`.
- - Pour simplifier l'écriture des tests, on désactive le mode retry de React Query sur le client créé précédemment (option `defaultOptions.queries.retry` à `false`)
- - Attention à vider le cache de React Query entre chaque exécution de test. Sinon le test d'échec va fonctionner car on a des données mise en cache par l'autre test !
+- Pour encapsuler le test unitaire dans le composant `QueryClientProvider`, utiliser l'option `wrapper` sur la méthode `render`.
+- Pour simplifier l'écriture des tests, on désactive le mode retry de React Query sur le client créé précédemment (option `defaultOptions.queries.retry` à `false`)
+- Attention à vider le cache de React Query entre chaque exécution de test. Sinon le test d'échec va fonctionner car on a des données mise en cache par l'autre test !
 </aside>
 
 ### Utilisation de la fonctionnalité `refetch` de React Query
@@ -336,7 +376,7 @@ Nous allons créer une page pour afficher le détail d'un panda et utiliser la l
 
 - Créer un nouveau hook `usePandaDetails` qui charge le détail d'un panda. Ce hook prend un identifiant de panda en paramètre et utilise React Query pour charger le détail du panda.
 
-- Créer un composant `PandaDetailsView`. Ce composant utilise le composant `PandaDetails` et s'appuie sur le hook `usePandaDetails`. Dans un premier temps, en attendant d'avoir mis en place la navigation, on passe un identifiant de panda en dur, par exemple `1`. Pour vérifier que ce composant fonctionne correctement, remplacer dans le composant `App`  le composant `PandasListView` par le composant `PandasDetailsView`.
+- Créer un composant `PandaDetailsView`. Ce composant utilise le composant `PandaDetails` et s'appuie sur le hook `usePandaDetails`. Dans un premier temps, en attendant d'avoir mis en place la navigation, on passe un identifiant de panda en dur, par exemple `1`. Pour vérifier que ce composant fonctionne correctement, remplacer dans le composant `App` le composant `PandasListView` par le composant `PandasDetailsView`.
 
 <aside class="positive">
 Pour tous ces composants, hooks et tests, on peut s'appuyer sur ceux déjà faits pour la liste des pandas.
@@ -370,7 +410,7 @@ On peut s'inspirer de l'exemple fourni sur le site de React Router pour définir
 
 - Intégrer ce composant `Router` dans le composant `App` et tester dans la barre de navigation du navigateur que les différentes URL fonctionnent correctement.
 
-- Modifier les composants `PandasListView` et `PandaDetailsView` pour ajouter la navigation de la liste des pandas vers le détail du panda. On peut s'appuyer sur les hooks `useNavigate` et `useParams` de React Router. 
+- Modifier les composants `PandasListView` et `PandaDetailsView` pour ajouter la navigation de la liste des pandas vers le détail du panda. On peut s'appuyer sur les hooks `useNavigate` et `useParams` de React Router.
 
 - Mettre à jour les tests unitaires du composant `PandasListView`. On veut vérifier que lorsqu'on clique sur le premier panda de la liste, on va bien vers page de détail. On aura besoin de mocker le hook `useNavigate` comme ci-dessous. On pourra utiliser l'objet `userEvent` exposé par React Testing Library pour simuler l'événement de clic.
 
@@ -418,6 +458,7 @@ npm install i18next react-i18next
 ### Changement de la langue
 
 Modifier le composant `Header` pour permettre le changement de la langue selon les règles suivantes :
+
 - Deux libellés `FR` et `EN` pour passer en français ou en anglais.
 - Le libellé associé à la langue courante est en gras.
 
@@ -473,6 +514,7 @@ Le formulaire comprend les éléments suivants :
 - Un bouton `Annuler` pour annuler la création en cours
 
 Il a trois propriétés :
+
 - `initialValues` : (optionnel) un objet contenant les valeurs par défaut des champs du formulaire (une propriété pour chaque nom de champ)
 - `onSubmit` : un événement déclenché en cas de soumission du formulaire. L'événement a en paramètre un objet contenant les données du formulaire.
 - `onCancel` : un événement déclenché lorsqu'on clique sur le bouton `Annuler`
