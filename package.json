@@ -16,6 +16,7 @@
     "json-server": "./node_modules/.bin/json-server --watch ./json-server/db.json --port 3004"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.25.0",
     "axios": "^1.6.7",
     "bootstrap": "^5.3.3",
     "react": "^18.2.0",
@@ -31,6 +32,7 @@
     "@storybook/react": "^7.6.17",
     "@storybook/react-vite": "^7.6.17",
     "@storybook/test": "^7.6.17",
+    "@tanstack/react-query-devtools": "^5.25.0",
     "@testing-library/react": "^14.2.1",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",

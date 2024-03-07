@@ -1,4 +1,5 @@
 import { Spinner } from 'reactstrap';
+import ErrorAndRetry from '../components/ErrorAndRetry';
 import PandasList from '../components/PandasList';
 import usePandas from '../hooks/usePandas';
 
@@ -7,11 +8,13 @@ const handlePress = (id: string) => {
 };
 
 const PandasListView = () => {
-  const { isLoading, isSuccess, isError, data, error } = usePandas();
+  const { isLoading, isSuccess, isError, data, error, refetch } = usePandas();
   return (
     <>
       {isLoading && <Spinner />}
-      {isError && error && <p>{error}</p>}
+      {isError && error && (
+        <ErrorAndRetry message={error.message} onRetry={refetch} />
+      )}
       {isSuccess && data && <PandasList pandas={data} onPress={handlePress} />}
     </>
   );
