@@ -230,14 +230,73 @@ Une fois que les composants fonctionnent dans Storybook, on peut les utiliser da
 
 Créer un nouveau composant `PandasListView` dans `src/views`. Ce composant utilise le composant `PandasList`et lui passe la liste des pandas (comme dans la story). Lors d’un clic sur un panda, on doit afficher une alerte avec la clé du panda qui a été cliqué.
 
-Intégrer ce composant dans `App.tsx` à la place du code JSX déjà existant.
+Intégrer ce composant dans `App.tsx` à la place du code JSX déjà existant et vérifier que tout fonctionne correctement dans l'application.
 
-Écrire un test unitaire pour ce composant `PandasListView` en s'inspirant de ce qui existe pour le test `App.test.tsx`. Ce test :
+### Création de tests unitaires pour PandasListView
 
-- Rend le composant `PandasListView`
-- Vérifie que le texte `Yuan Men` est bien affiché.
+Nous allons écrire un test unitaire pour ce composant `PandasListView` en s'appuyant sur Vitest et React Testing Library. Ce test :
 
-Supprimer le test `App.test.tsx`.
+- Ajouter Vitest
+
+```bash
+npm install -D vitest @testing-library/react jsdom
+```
+
+- Ajouter le script suivant dans package.json
+
+```json
+"test": "vitest",
+```
+
+- Créer le fichier `src/vitest.setup.ts` avec le contenu suivant :
+
+```ts
+import '@testing-library/jest-dom';
+```
+
+- Ajouter la propriété suivante dans la partie `compilerOptions` du fichier `tsconfig.json` :
+
+```ts
+"types": ["vitest/globals"]
+```
+
+- Remplacer le contenu du fichier `vite.config.ts` :
+
+```ts
+/// <reference types="vitest" />
+/// <reference types="vite/client" />
+
+import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/vitest.setup.ts',
+    // you might want to disable it, if you don't have tests that rely on CSS
+    // since parsing CSS is slow
+    css: true,
+  },
+});
+```
+
+- Créer le fichier `src/views/PandasListView.test.tsx` suivant :
+
+```ts
+import { render, screen } from '@testing-library/react';
+import PandasListView from './PandasListView';
+
+test('renders a list of pandas', () => {
+  render(<PandasListView />);
+  const pandaElement = screen.getByText(/Yuan Meng/i);
+  expect(pandaElement).toBeInTheDocument();
+});
+```
+
+- Ce test rend le composant `PandasListView` et vérifie que le texte `Yuan Men` est bien affiché.
 
 ## Chargement de données avec Axios et les hooks
 
