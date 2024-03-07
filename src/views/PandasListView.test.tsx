@@ -4,6 +4,7 @@ import {
   screen,
   waitForElementToBeRemoved,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { ReactNode } from 'react';
@@ -23,6 +24,14 @@ const ReactQueryWrapper = ({ children }: { children: ReactNode }) => (
 
 const axiosMock = new MockAdapter(axios);
 
+// Mock navigation hooks used in the component
+
+const mockedNavigate = vi.fn();
+vi.mock('react-router-dom', async (importOriginal) => ({
+  ...((await importOriginal()) as object),
+  useNavigate: () => mockedNavigate,
+}));
+
 describe('PandasListView', () => {
   afterEach(() => {
     axiosMock.reset();
@@ -30,7 +39,11 @@ describe('PandasListView', () => {
   });
 
   test('should render a list of pandas', async () => {
+    // Axios should return a 200 HTTP response with a list of pandas
+
     axiosMock.onGet('http://localhost:3004/pandas').reply(200, pandas);
+
+    // Render component
 
     render(<PandasListView />, { wrapper: ReactQueryWrapper });
 
@@ -49,10 +62,19 @@ describe('PandasListView', () => {
 
     const itemElements = await screen.findAllByRole('listitem');
     expect(itemElements.length).toBe(pandas.length);
+
+    // When we click on a panda we shoul navigate to the details for the panda
+
+    await userEvent.click(itemElements[0]);
+    expect(mockedNavigate).toHaveBeenCalledWith('/pandas/1');
   });
 
   test('should fail to load pandas', async () => {
+    // Axios should return a 500 HTTP response with a list of pandas
+
     axiosMock.onGet('http://localhost:3004/pandas').reply(500);
+
+    // Render the component
 
     render(<PandasListView />, { wrapper: ReactQueryWrapper });
 
