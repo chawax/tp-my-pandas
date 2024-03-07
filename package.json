@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "vitest"
+    "test": "vitest",
+    "json-server": "./node_modules/.bin/json-server --watch ./json-server/db.json --port 3004"
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
@@ -41,6 +42,7 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "eslint-plugin-storybook": "^0.8.0",
     "jsdom": "^24.0.0",
+    "json-server": "^1.0.0-alpha.23",
     "prettier": "^3.2.5",
     "storybook": "^7.6.17",
     "typescript": "^5.2.2",
