@@ -496,31 +496,6 @@ vi.mock('react-router-dom', async (importOriginal) => ({
 Une fois les routes mises en place, on peut vérifier que le cache React Query fonctionne en passant de liste aux pages de détails et en surveillant l'onglet Network de Chrome.
 </aside>
 
-## Utilisation de React i18next
-
-Utilisons maintenant la librairie React i18Next pour gérer l'internationalisation de l'application.
-
-### Traduction des libellés
-
-- Installer React i18Next
-
-```bash
-npm install i18next react-i18next
-```
-
-- Créer un fichier `i18n/index.ts` pour configurer React i18Next et importer ce fichier dans `index.ts` pour initialiser l'internationalisation dans l'application. On gère deux langues : anglais et français (français par défaut).
-
-- Utiliser le hook `useTranslation` pour remplacer les libellés en dur dans les différents composants.
-
-- Pour que les stories et les tests unitaires continuent à fonctionner il faut également importer le fichier `i18n/index.ts` dans les fichiers `.storybook/preview.js` et `src/setupTest.ts`.
-
-### Changement de la langue
-
-Modifier le composant `Header` pour permettre le changement de la langue selon les règles suivantes :
-
-- Deux libellés `FR` et `EN` pour passer en français ou en anglais.
-- Le libellé associé à la langue courante est en gras.
-
 ## Utilisation de React Hook Form
 
 Nous allons créer des formulaires de création et de modification de pandas en se basant sur React Hook Form.
