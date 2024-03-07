@@ -21,9 +21,9 @@ const PandasList = ({ pandas, onPress }: PandasListProps) => {
       {pandas.length > 0 ? (
         pandas.map((panda: Panda) => (
           <PandaItem
-            key={panda.key}
+            key={panda.id}
             name={panda.name}
-            onPress={() => onPress(panda.key)}
+            onPress={() => onPress(panda.id)}
           />
         ))
       ) : (

@@ -1,5 +1,5 @@
 export interface Panda {
-  key: string;
+  id: string;
   name: string;
   image: string;
   interests: Array<string>;
