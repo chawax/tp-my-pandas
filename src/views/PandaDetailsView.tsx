@@ -34,7 +34,7 @@ const PandaDetailsView = () => {
 
   return (
     <>
-      {isLoading || (isDeleting && <Spinner />)}
+      {(isLoading || isDeleting) && <Spinner />}
       {isError && error && (
         <ErrorAndRetry message={error.message} onRetry={refetch} />
       )}
