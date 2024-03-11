@@ -16,14 +16,17 @@
     "json-server": "./node_modules/.bin/json-server --watch ./json-server/db.json --port 3004"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
     "@tanstack/react-query": "^5.25.0",
     "@testing-library/user-event": "^14.5.2",
     "axios": "^1.6.7",
     "bootstrap": "^5.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.0",
     "react-router-dom": "^6.22.3",
-    "reactstrap": "^9.2.2"
+    "reactstrap": "^9.2.2",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.6.17",

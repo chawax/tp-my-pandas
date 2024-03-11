@@ -16,6 +16,10 @@ const PandaDetailsView = () => {
     navigate('/pandas');
   };
 
+  const handleEdit = () => {
+    navigate(`/pandas/${id}/edit`);
+  };
+
   return (
     <>
       {isLoading && <Spinner />}
@@ -23,9 +27,12 @@ const PandaDetailsView = () => {
         <ErrorAndRetry message={error.message} onRetry={refetch} />
       )}
       {isSuccess && data && <PandaDetails panda={data} />}
-      <div style={{ marginLeft: 30, marginTop: 10 }}>
+      <div style={{ marginLeft: 20, marginTop: 10 }}>
         <Button color="primary" onClick={handleClose}>
           Fermer
+        </Button>
+        <Button color="primary" onClick={handleEdit} style={{ marginLeft: 10 }}>
+          Modifier le panda
         </Button>
       </div>
     </>
