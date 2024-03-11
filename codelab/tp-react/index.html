@@ -38,33 +38,46 @@
 </ul>
 <aside class="special"><p> Prérequis : </p>
 <ul>
-<li>Node JS installé (16 minimum recommandée)</li>
+<li>Node JS installé (20 minimum recommandée)</li>
 <li>Chrome ou un autre navigateur installé</li>
 <li>Visual Studio Code installé</li>
 </ul>
 </aside>
 <h2 is-upgraded>Initialiser l&#39;application React</h2>
-<p>Créer une application React avec la commande <code>create-react-app</code>.</p>
+<p>Créer une application React avec Vite.</p>
 <p>Attention au copier / coller qui peut parfois embarquer des caractères pourris !</p>
-<pre><code language="language-bash" class="language-bash">npx create-react-app my-pandas --template typescript
+<pre><code language="language-bash" class="language-bash">npm create vite@latest
+</code></pre>
+<p>Avec les réponses suivantes aux questions :</p>
+<pre><code>✔ Project name: tp-my-pandas
+✔ Select a framework: React
+✔ Select a variant: TypeScript
 </code></pre>
 <h2 is-upgraded>Vérifier que tout fonctionne</h2>
 <p>Lancer l&#39;application en mode développement :</p>
-<pre><code language="language-bash" class="language-bash">cd my-pandas
-npm start
+<pre><code language="language-bash" class="language-bash">cd tp-my-pandas
+npm install
+npm run dev
 </code></pre>
+<p>Puis aller sur <code>http://localhost:5173</code></p>
 <p>Tester le hot reloading en modifiant le fichier <code>App.tsx</code></p>
 <p>Lancer un build :</p>
 <pre><code language="language-bash" class="language-bash">npm run build
 </code></pre>
 <p>Et vérifier que l&#39;application fonctionne en mode production :</p>
-<pre><code language="language-bash" class="language-bash">npx serve -s build
+<pre><code language="language-bash" class="language-bash">npm run preview
+</code></pre>
+<p>Puis aller sur <code>http://localhost:4173</code></p>
+<h2 is-upgraded>Installer les tests unitaires</h2>
+<p>Installer Vitest :</p>
+<pre><code language="language-bash" class="language-bash">npm install -D vitest
 </code></pre>
 <p>Lancer les tests automatisés avec <code>npm test</code>.</p>
 <aside class="warning"><p> En cas d&#39;erreur &#34;Cannot use JSX unless the &#39;--jsx&#39; flag is provided&#39; quand on ouvre un fichier TSX dans VSCode, faire un upgrade de Typescript (`npm install -D typescript@latest`) puis relancer VSCode. Ce problème est lié à la version Typescript utilisée par VSCode. </p>
 </aside>
 <h2 is-upgraded>Améliorer l&#39;environnement de développement</h2>
-<p>Ajouter le plugin Prettier et la configuration Prettier.</p>
+<p>Prettier est un outil qui permet de formater le code source. Il est disponible sous la forme d&#39;une librairie à installer au projet d&#39;une extension VSCode.</p>
+<p>Ajouter la librairie Prettier :</p>
 <pre><code language="language-bash" class="language-bash">npm install --save-dev prettier
 </code></pre>
 <p>Créer un fichier <code>.prettierrc</code> à la racine du projet avec la configuration suivante :</p>
@@ -77,6 +90,13 @@ npm start
   &#34;trailingComma&#34;: &#34;all&#34;
 }
 </code></pre>
+<p>Créer un fichier <code>.prettierignore</code> à la racine qui contiendra une liste de fichiers à ne pas formater.</p>
+<p>Ajouter les scripts suivants dans <code>package.json</code> :</p>
+<pre><code language="language-json" class="language-json">    &#34;prettier:check&#34;: &#34;prettier --check .&#34;,
+    &#34;prettier:fix&#34;: &#34;prettier --write .&#34;,
+
+</code></pre>
+<p>Exécuter <code>npm run prettier:check</code> pour rechercher les erreurs de formatage et <code>npm run prettier:fix</code> pour formater les fichiers de l&#39;application.</p>
 <p>Installer l&#39;extension Prettier dans VSCode et activer le formatage à la sauvegarde de chaque fichier (option <code>Format on save</code> dans les préférences du workspace).</p>
 <p>Installer l&#39;extension ESLint dans VSCode.</p>
 
@@ -84,7 +104,7 @@ npm start
       </google-codelab-step>
     
       <google-codelab-step label="Création des premiers composants" duration="0">
-        <p>Nous allons créer nos premiers composants et utiliser Storybook pour les tester. Nous utiliseront la librairie Reactstrap (librairie de wrapping de Bootstrap pour React) pour créer des composants beaux visuellement sans avoir besoin d&#39;écrire de CSS !</p>
+        <p>Nous allons créer nos premiers composants et utiliser Storybook pour les tester. Nous utiliserons la librairie Reactstrap (librairie de wrapping de Bootstrap pour React) pour créer des composants beaux visuellement sans avoir besoin d&#39;écrire de CSS !</p>
 <aside class="special"><p> Reactstrap met à disposition un Storybook documentant les composants mis à disposition et permettant de les tester : <a href="https://reactstrap.github.io/" target="_blank">reactstrap.github.io</a></p>
 </aside>
 <h2 is-upgraded>Installation de Storybook</h2>
@@ -99,34 +119,38 @@ npm install --save-dev @types/reactstrap
 </code></pre>
 <aside class="warning"><p> La librairie Reactstrap n&#39;étant pas encore officiellement compatible avec React 18, on peut avoir des warnings pendant l&#39;installation de la librairie. </p>
 </aside>
-<p>Ajouter l&#39;import <code>import 'bootstrap/dist/css/bootstrap.min.css'</code> dans <code>index.tsx</code> et dans <code>.storybook/preview.js</code> pour que les styles CSS Bootstrap soient chargés au démarrage de l&#39;application et de Storybook.</p>
+<p>Ajouter l&#39;import <code>import 'bootstrap/dist/css/bootstrap.min.css'</code> dans <code>main.tsx</code> et dans <code>.storybook/preview.ts</code> pour que les styles CSS Bootstrap soient chargés au démarrage de l&#39;application et de Storybook.</p>
 <p>Pour vérifier que Reactstrap est bien initialisé :</p>
 <ul>
 <li>Insérer le composant <code>Button</code> de Reactstrap dans <code>App.tsx</code> et vérifier qu&#39;il a l&#39;aspect attendu.</li>
 <li>Créer une story <code>ReactstrapButton.stories.tsx</code> utilisant le composant <code>Button</code> de Reactstrap. On peut s&#39;inspirer de celle du composant <code>Button</code> initialisé lors de l&#39;installation de Storybook pour créer une story de ce type :</li>
 </ul>
-<pre><code language="language-ts" class="language-ts">import { ComponentMeta, ComponentStory } from &#39;@storybook/react&#39;;
+<pre><code language="language-ts" class="language-ts">import type { Meta, StoryObj } from &#39;@storybook/react&#39;;
 
 import { Button } from &#39;reactstrap&#39;;
 
-export default {
-  title: &#39;Example/Reactstrap Button&#39;,
+const meta = {
+  title: &#39;Reactstrap/Button&#39;,
   component: Button,
-} as ComponentMeta&lt;typeof Button&gt;;
+} satisfies Meta&lt;typeof Button&gt;;
 
-const Template: ComponentStory&lt;typeof Button&gt; = (args) =&gt; &lt;Button {...args} /&gt;;
+export default meta;
+type Story = StoryObj&lt;typeof meta&gt;;
 
-export const Primary = Template.bind({});
-Primary.args = {
-  color: &#39;primary&#39;,
-  children: &#39;Primary&#39;,
+export const Primary: Story = {
+  args: {
+    color: &#39;primary&#39;,
+    children: &#39;Primary&#39;,
+  },
 };
 
-export const Secondary = Template.bind({});
-Secondary.args = {
-  color: &#39;secondary&#39;,
-  children: &#39;Secondary&#39;,
+export const Secondary: Story = {
+  args: {
+    color: &#39;secondary&#39;,
+    children: &#39;Secondary&#39;,
+  },
 };
+
 </code></pre>
 <h2 is-upgraded>Création des composants <code>PandasList</code> et <code>PandaItem</code></h2>
 <p>On va créer un composant <code>PandasList</code> pour afficher une liste de pandas. Ce composant a les propriétés suivantes :</p>
@@ -143,7 +167,7 @@ Secondary.args = {
 <p>Ces composants doivent être définis dans le répertoire <code>src/components</code>.</p>
 <p>Pour pouvoir typer correctement les composants, créer un type <code>Panda</code> dans <code>src/types</code> avec les propriétés suivantes :</p>
 <ul>
-<li><code>key</code> de type <code>string</code></li>
+<li><code>id</code> de type <code>string</code></li>
 <li><code>name</code> de type <code>string</code></li>
 <li><code>interests</code> de type tableau de <code>string</code></li>
 <li><code>image</code> de type string</li>
@@ -164,13 +188,66 @@ Secondary.args = {
 <h2 is-upgraded>Création du composant PandasListView</h2>
 <p>Une fois que les composants fonctionnent dans Storybook, on peut les utiliser dans l&#39;application !</p>
 <p>Créer un nouveau composant <code>PandasListView</code> dans <code>src/views</code>. Ce composant utilise le composant <code>PandasList</code>et lui passe la liste des pandas (comme dans la story). Lors d&#39;un clic sur un panda, on doit afficher une alerte avec la clé du panda qui a été cliqué.</p>
-<p>Intégrer ce composant dans <code>App.tsx</code> à la place du code JSX déjà existant.</p>
-<p>Écrire un test unitaire pour ce composant <code>PandasListView</code> en s&#39;inspirant de ce qui existe pour le test <code>App.test.tsx</code>. Ce test :</p>
+<p>Intégrer ce composant dans <code>App.tsx</code> à la place du code JSX déjà existant et vérifier que tout fonctionne correctement dans l&#39;application.</p>
+<h2 is-upgraded>Création de tests unitaires pour PandasListView</h2>
+<p>Nous allons écrire un test unitaire pour ce composant <code>PandasListView</code> en s&#39;appuyant sur Vitest et React Testing Library. Ce test :</p>
 <ul>
-<li>Rend le composant <code>PandasListView</code></li>
-<li>Vérifie que le texte <code>Yuan Men</code> est bien affiché.</li>
+<li>Ajouter Vitest</li>
 </ul>
-<p>Supprimer le test <code>App.test.tsx</code>.</p>
+<pre><code language="language-bash" class="language-bash">npm install -D vitest @testing-library/react jsdom
+</code></pre>
+<ul>
+<li>Ajouter le script suivant dans package.json</li>
+</ul>
+<pre><code language="language-json" class="language-json">&#34;test&#34;: &#34;vitest&#34;,
+</code></pre>
+<ul>
+<li>Créer le fichier <code>src/vitest.setup.ts</code> avec le contenu suivant :</li>
+</ul>
+<pre><code language="language-ts" class="language-ts">import &#39;@testing-library/jest-dom&#39;;
+</code></pre>
+<ul>
+<li>Ajouter la propriété suivante dans la partie <code>compilerOptions</code> du fichier <code>tsconfig.json</code> :</li>
+</ul>
+<pre><code language="language-ts" class="language-ts">&#34;types&#34;: [&#34;vitest/globals&#34;]
+</code></pre>
+<ul>
+<li>Remplacer le contenu du fichier <code>vite.config.ts</code> :</li>
+</ul>
+<pre><code language="language-ts" class="language-ts">/// &lt;reference types=&#34;vitest&#34; /&gt;
+/// &lt;reference types=&#34;vite/client&#34; /&gt;
+
+import { defineConfig } from &#39;vitest/config&#39;;
+import react from &#39;@vitejs/plugin-react&#39;;
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    globals: true,
+    environment: &#39;jsdom&#39;,
+    setupFiles: &#39;./src/vitest.setup.ts&#39;,
+    // you might want to disable it, if you don&#39;t have tests that rely on CSS
+    // since parsing CSS is slow
+    css: true,
+  },
+});
+</code></pre>
+<ul>
+<li>Créer le fichier <code>src/views/PandasListView.test.tsx</code> suivant :</li>
+</ul>
+<pre><code language="language-ts" class="language-ts">import { render, screen } from &#39;@testing-library/react&#39;;
+import PandasListView from &#39;./PandasListView&#39;;
+
+test(&#39;renders a list of pandas&#39;, () =&gt; {
+  render(&lt;PandasListView /&gt;);
+  const pandaElement = screen.getByText(/Yuan Meng/i);
+  expect(pandaElement).toBeInTheDocument();
+});
+</code></pre>
+<ul>
+<li>Ce test rend le composant <code>PandasListView</code> et vérifie que le texte <code>Yuan Men</code> est bien affiché.</li>
+</ul>
 
 
       </google-codelab-step>
@@ -187,7 +264,7 @@ Secondary.args = {
 <ul>
 <li>Ajouter le script suivant dans <code>package.json</code> :</li>
 </ul>
-<pre><code language="language-js" class="language-js">&#34;json-server&#34;: &#34;./node_modules/.bin/json-server --watch ./json-server/db.json --port 3004 --id key&#34;
+<pre><code language="language-js" class="language-js">&#34;json-server&#34;: &#34;./node_modules/.bin/json-server --watch ./json-server/db.json --port 3004&#34;
 </code></pre>
 <ul>
 <li>Créer un fichier <code>json-server/db.json</code></li>
@@ -211,7 +288,6 @@ Secondary.args = {
 <pre><code language="language-ts" class="language-ts">setTimeout(() =&gt; {
   // Appel Axios
 }, 2000);
-
 </code></pre>
 <p><em>Attention à supprimer l&#39;appel de la méthode </em><em><code>setTimeout</code></em><em> pour les tests unitaires car elle empêche le mock Axios de fonctionner correctement.</em></p>
 </aside>
@@ -239,11 +315,11 @@ Secondary.args = {
 
       </google-codelab-step>
     
-      <google-codelab-step label="Chargement de données avec React Query" duration="0">
-        <p>Utilisons la librairie React Query et ses hooks pour gérer la récupération des données depuis le serveur, en particulier la gestion de cache et quelques autres fonctionnalités bien pratiques.</p>
+      <google-codelab-step label="Chargement de données avec Tanstack Query" duration="0">
+        <p>Utilisons la librairie Tanstack Query et ses hooks pour gérer la récupération des données depuis le serveur, en particulier la gestion de cache et quelques autres fonctionnalités bien pratiques.</p>
 <h2 is-upgraded>Utilisation de <code>useQuery</code></h2>
 <ul>
-<li>Installer React Query</li>
+<li>Installer Tanstack Query</li>
 </ul>
 <pre><code language="language-bash" class="language-bash">npm install @tanstack/react-query
 npm install -D @tanstack/react-query-devtools
@@ -285,7 +361,7 @@ npm install -D @tanstack/react-query-devtools
 </ul>
 </li>
 <li>Créer un nouveau hook <code>usePandaDetails</code> qui charge le détail d&#39;un panda. Ce hook prend un identifiant de panda en paramètre et utilise React Query pour charger le détail du panda.</li>
-<li>Créer un composant <code>PandaDetailsView</code>. Ce composant utilise le composant <code>PandaDetails</code> et s&#39;appuie sur le hook <code>usePandaDetails</code>. Dans un premier temps, en attendant d&#39;avoir mis en place la navigation, on passe un identifiant de panda en dur, par exemple <code>1</code>. Pour vérifier que ce composant fonctionne correctement, remplacer dans le composant <code>App</code>  le composant <code>PandasListView</code> par le composant <code>PandasDetailsView</code>.</li>
+<li>Créer un composant <code>PandaDetailsView</code>. Ce composant utilise le composant <code>PandaDetails</code> et s&#39;appuie sur le hook <code>usePandaDetails</code>. Dans un premier temps, en attendant d&#39;avoir mis en place la navigation, on passe un identifiant de panda en dur, par exemple <code>1</code>. Pour vérifier que ce composant fonctionne correctement, remplacer dans le composant <code>App</code> le composant <code>PandasListView</code> par le composant <code>PandasDetailsView</code>.</li>
 </ul>
 <aside class="special"><p> Pour tous ces composants, hooks et tests, on peut s&#39;appuyer sur ceux déjà faits pour la liste des pandas.  </p>
 </aside>
@@ -311,22 +387,22 @@ npm install -D @tanstack/react-query-devtools
 <ul>
 <li>Intégrer ce composant <code>Router</code> dans le composant <code>App</code> et tester dans la barre de navigation du navigateur que les différentes URL fonctionnent correctement.</li>
 <li>Modifier les composants <code>PandasListView</code> et <code>PandaDetailsView</code> pour ajouter la navigation de la liste des pandas vers le détail du panda. On peut s&#39;appuyer sur les hooks <code>useNavigate</code> et <code>useParams</code> de React Router.</li>
-<li>Mettre à jour les tests unitaires du composant <code>PandasListView</code>. On veut vérifier que lorsqu&#39;on clique sur le premier panda de la liste, on va bien vers page de détail. On aura besoin de mocker le hook <code>useNavigate</code> comme ci-dessous. On pourra utiliser l&#39;objet <code>userEvent</code> exposé par React Testing Library pour simuler l&#39;événement de clic.</li>
+<li>Mettre à jour les tests unitaires du composant <code>PandasListView</code>. On veut vérifier que lorsqu&#39;on clique sur le premier panda de la liste, on va bien vers page de détail. On aura besoin de mocker le hook <code>useNavigate</code> comme ci-dessous. On pourra utiliser l&#39;objet <code>userEvent</code> exposé par la librairie <code>@testing-library/user-event</code> pour simuler l&#39;événement de clic.</li>
 </ul>
-<pre><code language="language-ts" class="language-ts">const mockedUsedNavigate = jest.fn();
-jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
-  ...jest.requireActual(&#39;react-router-dom&#39;),
-  useNavigate: () =&gt; mockedUsedNavigate,
+<pre><code language="language-ts" class="language-ts">const mockedNavigate = vi.fn();
+vi.mock(&#39;react-router-dom&#39;, async (importOriginal) =&gt; ({
+  ...((await importOriginal()) as object),
+  useNavigate: () =&gt; mockedNavigate,
 }));
 </code></pre>
 <ul>
 <li>Créer un test unitaire pour <code>PandaDetailsView</code>. On veut vérifier que pendant le chargement le spinner s&#39;affiche puis, dans le cas où la requête fonctionne, on affiche bien le détail du panda et lorsqu&#39;elle ne fonctionne pas on affiche un message d&#39;erreur. On aura besoin de mocker les hooks <code>useNavigate</code> et <code>useParams</code> de React Router comme ci-dessous.</li>
 </ul>
-<pre><code language="language-ts" class="language-ts">const mockedUsedNavigate = jest.fn();
-jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
-  ...jest.requireActual(&#39;react-router-dom&#39;),
+<pre><code language="language-ts" class="language-ts">const mockedNavigate = vi.fn();
+vi.mock(&#39;react-router-dom&#39;, async (importOriginal) =&gt; ({
+  ...((await importOriginal()) as object),
   useParams: () =&gt; ({ id: &#39;1&#39; }),
-  useNavigate: () =&gt; mockedUsedNavigate,
+  useNavigate: () =&gt; mockedNavigate,
 }));
 </code></pre>
 <aside class="special"><p> Une fois les routes mises en place, on peut vérifier que le cache React Query fonctionne en passant de liste aux pages de détails et en surveillant l&#39;onglet Network de Chrome. </p>
@@ -335,31 +411,8 @@ jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
 
       </google-codelab-step>
     
-      <google-codelab-step label="Utilisation de React i18next" duration="0">
-        <p>Utilisons maintenant la librairie React i18Next pour gérer l&#39;internationalisation de l&#39;application.</p>
-<h2 is-upgraded>Traduction des libellés</h2>
-<ul>
-<li>Installer React i18Next</li>
-</ul>
-<pre><code language="language-bash" class="language-bash">npm install i18next react-i18next
-</code></pre>
-<ul>
-<li>Créer un fichier <code>i18n/index.ts</code> pour configurer React i18Next et importer ce fichier dans <code>index.ts</code> pour initialiser l&#39;internationalisation dans l&#39;application. On gère deux langues : anglais et français (français par défaut).</li>
-<li>Utiliser le hook <code>useTranslation</code> pour remplacer les libellés en dur dans les différents composants.</li>
-<li>Pour que les stories et les tests unitaires continuent à fonctionner il faut également importer le fichier <code>i18n/index.ts</code> dans les fichiers <code>.storybook/preview.js</code> et <code>src/setupTest.ts</code>.</li>
-</ul>
-<h2 is-upgraded>Changement de la langue</h2>
-<p>Modifier le composant <code>Header</code> pour permettre le changement de la langue selon les règles suivantes :</p>
-<ul>
-<li>Deux libellés <code>FR</code> et <code>EN</code> pour passer en français ou en anglais.</li>
-<li>Le libellé associé à la langue courante est en gras.</li>
-</ul>
-
-
-      </google-codelab-step>
-    
       <google-codelab-step label="Utilisation de React Hook Form" duration="0">
-        <p>Nous allons créer des formulaires de création et de modification de pandas en se basant sur React Hook Form.</p>
+        <p>Nous allons créer des formulaires de création et de modification de pandas en se basant sur la librairie React Hook Form.</p>
 <h2 is-upgraded>Création du composant <code>TextInput</code></h2>
 <p>On va d&#39;abord créer un composant <code>TextInput</code> qui permet de définir un champ de saisie de texte avec son label, sa gestion d&#39;erreur et d&#39;autres comportements.</p>
 <p>Ce composant a les propriétés suivantes :</p>
@@ -387,8 +440,8 @@ jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
 <li>Le champ a une valeur initiale (on une valeur dans la propriété <code>value</code>)</li>
 </ul>
 <h2 is-upgraded>Création du composant <code>PandaForm</code> avec React Hook Form</h2>
-<p>Installer React Hook Form :</p>
-<pre><code language="language-bash" class="language-bash">npm install react-hook-form
+<p>Installer <code>react-hook-form</code> ainsi que <code>yup</code> et <code>@hookform/resolvers</code> qu&#39;on utilisera pour la validation du formulaire :</p>
+<pre><code language="language-bash" class="language-bash">npm install react-hook-form yup @hookform/resolvers
 </code></pre>
 <p>Créer un composant <code>PandaForm</code> qui s&#39;appuie sur React Hook Form et le composant <code>TextInput</code> créé précédemment pour définir un formulaire de création / modification d&#39;un panda.</p>
 <p>Le formulaire comprend les éléments suivants :</p>
@@ -413,6 +466,7 @@ jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
 <li>Le bouton <code>Valider</code> ne doit être actif que si tous les contrôles de surface sont respectés.</li>
 </ul>
 <p>Pour lier chaque champ d&#39;entrée à React Hook Form, il faut utiliser le composant <code>Controller</code> fourni par React Hook Form.</p>
+<p>Pour la validation des champs du formulaire s&#39;inspirer de la documentation de React Hook Form : https://react-hook-form.com/get-started#SchemaValidation</p>
 <p>On crée deux stories pour tester ce composant :</p>
 <ul>
 <li>L&#39;une avec le formulaire sans valeurs initiales</li>
@@ -430,7 +484,7 @@ jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
 <p>Ajouter un deuxième composant <code>EditPandaView</code> :</p>
 <ul>
 <li>Ce composant définit une page permettant de modifier un panda en intégrant le composant <code>PandaForm</code> et en lui fournissant les valeurs initiales.</li>
-<li>Les informations sur le panda sont chargées de la même manière que depuis la page de visualisation des détails d&#39;un panda</li>
+<li>Les informations sur le panda sont chargées de la même manière que depuis la page de visualisation des détails d&#39;un panda.</li>
 <li>Lors de la modification d&#39;un panda dans le formulaire on se contente pour l&#39;instant d&#39;afficher dans la console les nouvelles données sur le panda.</li>
 <li>Ce composant est associé à une nouvelle route <code>/pandas/:id/edit</code>. Un bouton &#34;Modifier le panda&#34; dans le composant <code>PandaDetailsView</code> permet d&#39;accéder à cette route.</li>
 </ul>
@@ -448,7 +502,7 @@ jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
 <li>Data : <code>{ name: "Nom du panda", interests: ["hobby1", "hobby2"], image: "http://url.image.fr" }</code></li>
 </ul>
 </li>
-<li>Pour définir le type en entrée de la méthode de mutation, on peut créer facilement un type identique à <code>Panda</code> mais en excluant la propriété <code>key</code> qui est positionnée automatiquement par json-server. On doit utiliser la notation <code>Omit</code> de Typescript.</li>
+<li>Pour définir le type en entrée de la méthode de mutation, on peut créer facilement un type identique à <code>Panda</code> mais en excluant la propriété <code>id</code> qui est positionnée automatiquement par json-server. On doit utiliser la notation <code>Omit</code> de Typescript.</li>
 <li>Utiliser ce hook dans le composant <code>CreatePandaView</code> en modifiant la méthode appelée au submit du formulaire. Afficher un spinner ou un message d&#39;erreur en fonction du hook <code>useCreatePanda</code>.</li>
 </ul>
 <aside class="special"><p> Lors d&#39;une mutation, React Query retourne des informations sur le déroulement de la requête. On peut les exploiter pour afficher un spinner ou un message d&#39;erreur dans l&#39;écran de création de panda. Si vous avez le temps, essayez de le faire ! </p>
@@ -458,7 +512,7 @@ jest.mock(&#39;react-router-dom&#39;, () =&gt; ({
 <li>Créer un hook <code>useUpdatePanda</code> qui permet d&#39;appeler le service REST de modification d&#39;un panda en s&#39;appuyant sur le hook <code>useMutation</code> de React Query :<ul>
 <li>URL : <code>http://localhost:3004/panda/:id</code></li>
 <li>Method : <code>PUT</code></li>
-<li>Data : <code>{ key: "zFR134", name: "Nom du panda", interests: ["hobby1", "hobby2"], image: "http://url.image.fr" }</code></li>
+<li>Data : <code>{ id: "zFR134", name: "Nom du panda", interests: ["hobby1", "hobby2"], image: "http://url.image.fr" }</code></li>
 </ul>
 </li>
 <li>Utiliser ce hook dans le composant <code>EditPandaView</code>.</li>
