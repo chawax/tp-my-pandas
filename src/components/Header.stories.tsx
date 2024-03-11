@@ -1,11 +1,18 @@
 import { Meta, StoryObj } from '@storybook/react';
+import { DisplayModeProvider } from '../context/DisplayModeProvider';
 import Header from './Header';
-import PandaDetails from './PandaDetails';
 
 const meta = {
   title: 'Components/Header',
   component: Header,
-} satisfies Meta<typeof PandaDetails>;
+  decorators: [
+    (Story) => (
+      <DisplayModeProvider>
+        <Story />
+      </DisplayModeProvider>
+    ),
+  ],
+} satisfies Meta<typeof Header>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
