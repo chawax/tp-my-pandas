@@ -498,7 +498,7 @@ Une fois les routes mises en place, on peut vérifier que le cache React Query f
 
 ## Utilisation de React Hook Form
 
-Nous allons créer des formulaires de création et de modification de pandas en se basant sur React Hook Form.
+Nous allons créer des formulaires de création et de modification de pandas en se basant sur la librairie React Hook Form.
 
 ### Création du composant `TextInput`
 
@@ -531,10 +531,10 @@ On peut créer des stories pour valider les cas suivants :
 
 ### Création du composant `PandaForm` avec React Hook Form
 
-Installer React Hook Form :
+Installer `react-hook-form` ainsi que `yup` et `@hookform/resolvers` qu'on utilisera pour la validation du formulaire :
 
 ```bash
-npm install react-hook-form
+npm install react-hook-form yup @hookform/resolvers
 ```
 
 Créer un composant `PandaForm` qui s'appuie sur React Hook Form et le composant `TextInput` créé précédemment pour définir un formulaire de création / modification d'un panda.
@@ -563,6 +563,8 @@ Quelques règles de gestion :
 
 Pour lier chaque champ d'entrée à React Hook Form, il faut utiliser le composant `Controller` fourni par React Hook Form.
 
+Pour la validation des champs du formulaire s'inspirer de la documentation de React Hook Form : https://react-hook-form.com/get-started#SchemaValidation
+
 On crée deux stories pour tester ce composant :
 
 - L'une avec le formulaire sans valeurs initiales
@@ -582,7 +584,7 @@ Ajouter un composant `CreatePandaView` :
 Ajouter un deuxième composant `EditPandaView` :
 
 - Ce composant définit une page permettant de modifier un panda en intégrant le composant `PandaForm` et en lui fournissant les valeurs initiales.
-- Les informations sur le panda sont chargées de la même manière que depuis la page de visualisation des détails d'un panda
+- Les informations sur le panda sont chargées de la même manière que depuis la page de visualisation des détails d'un panda.
 - Lors de la modification d'un panda dans le formulaire on se contente pour l'instant d'afficher dans la console les nouvelles données sur le panda.
 - Ce composant est associé à une nouvelle route `/pandas/:id/edit`. Un bouton "Modifier le panda" dans le composant `PandaDetailsView` permet d'accéder à cette route.
 
