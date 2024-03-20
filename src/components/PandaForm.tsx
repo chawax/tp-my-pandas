@@ -67,10 +67,6 @@ const PandaForm = ({ onCancel, onSubmit, initialValues }: PandaFormProps) => {
       <Controller
         name="image"
         control={control}
-        rules={{
-          required: { value: true, message: 'Image obligatoire' },
-          pattern: { value: /https?:\/\//, message: 'URL invalide' },
-        }}
         render={({ field }) => (
           <TextInput
             label="Image"
