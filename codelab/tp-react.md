@@ -318,6 +318,12 @@ npm install -D json-server
 "json-server": "./node_modules/.bin/json-server --watch ./json-server/db.json --port 3004"
 ```
 
+ou sous Windows si ça ne fonctionne pas avec la commande ci-dessus :
+
+```js
+"json-server": "npx json-server --watch ./json-server/db.json --port 3004"
+```
+
 - Créer un fichier `json-server/db.json`
 
 - Y créer une collection `pandas` et y recopier la liste des pandas
